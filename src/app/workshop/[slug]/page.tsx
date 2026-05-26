@@ -40,7 +40,7 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: `${post.title} | mindoff.work`,
+    title: `${post.title} | Mindoff`,
     description: post.summary,
     path: `/workshop/${post.slug}`,
     image: getPostOgImage(post.covers?.[0]),
@@ -155,28 +155,28 @@ export default async function WorkshopPostPage({
         className={`border-t-normal border-b-normal border-rule ${projectSurfaceClassName}`}
         data-color={post.color}
       >
-        <dl className="mx-auto grid w-full max-w-media gap-10 px-4 py-12 sm:grid-cols-3 sm:px-6 sm:py-12">
-          <div className="text-center">
+        <dl className="mx-auto flex w-full max-w-media flex-col gap-10 px-4 py-12 sm:flex-row sm:px-6 sm:py-12">
+          <div className="text-center sm:flex-1">
             <dt className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
               Built
             </dt>
-            <dd className="mt-3 font-heading text-size-base font-bold tracking-title text-ink">
+            <dd className="mt-1 text-size-base font-bold tracking-title text-ink">
               <time dateTime={post.date}>{projectDate}</time>
             </dd>
           </div>
-          <div className="text-center">
+          <div className="text-center sm:flex-1">
             <dt className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
               Form
             </dt>
-            <dd className="mt-3 font-heading text-size-base font-bold capitalize tracking-title text-ink">
+            <dd className="mt-1 text-size-base font-bold capitalize tracking-title text-ink">
               {post.type}
             </dd>
           </div>
-          <div className="text-center">
+          <div className="text-center sm:flex-1">
             <dt className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
               State
             </dt>
-            <dd className="mt-3 font-heading text-size-base font-bold capitalize tracking-title text-ink">
+            <dd className="mt-1 text-size-base font-bold capitalize tracking-title text-ink">
               {post.status}
             </dd>
           </div>

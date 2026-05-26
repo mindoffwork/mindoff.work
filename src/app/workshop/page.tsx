@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PostCard } from "@/components/ui/post-card";
+import { WorkshopFeatureCard } from "@/components/ui/workshop-feature-card";
 import { getAllWorkshops } from "@/lib/content";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -15,23 +15,20 @@ export default function WorkshopPage() {
   const posts = getAllWorkshops();
 
   return (
-    <div className="mx-auto flex w-full max-w-shell flex-col gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
-      <header className="flex max-w-reading flex-col gap-6">
-        <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
-          Workshop
-        </p>
-        <h1 className="font-heading text-size-4xl font-semibold tracking-title">
-          Projects and build notes.
+    <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+      <header className="mx-auto flex  w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
+        <h1 className="font-body text-size-3xl font-bold tracking-title text-ink lg:w-1/3 lg:shrink-0">
+          Projects
         </h1>
-        <p className="font-heading text-size-lg text-muted">
+        <p className="max-w-reading font-heading text-size-lg font-light text-ink sm:text-size-lg lg:flex-1">
           Software, hardware, experiments, and the decisions that shaped them.
         </p>
       </header>
-      <div className="divide-y-normal divide-rule border-t-normal border-rule">
+      <section aria-label="Projects" className="mx-auto flex flex-col gap-8 w-full max-w-5xl">
         {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
+          <WorkshopFeatureCard key={post.slug} post={post} />
         ))}
-      </div>
+      </section>
     </div>
   );
 }
