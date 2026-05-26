@@ -1,0 +1,160 @@
+---
+title: Why I Stopped Using Issue Trackers
+date: 2026-05-18
+tags:
+  - process
+  - writing
+  - software
+type: essay
+summary: For personal software projects, a long queue of possible work made me feel organized while quietly separating decisions from the code that needed them.
+---
+
+For a long time, every personal project began the same way. I would create a
+repository, open an issue tracker, and start turning hopeful thoughts into
+cards: add search, improve the empty state, rethink the navigation, write
+tests, maybe support themes. It felt responsible. Before anything had a shape,
+it had a backlog.
+
+The tracker was not useless. It was worse than that: it was plausible. It gave
+unfinished ideas a clean home and gave me the pleasant feeling that the work
+was accounted for. Months later, I would open the project and meet a list made
+by a former version of myself, full of requests detached from their original
+reason.
+
+I have not stopped believing in issue trackers. Teams need shared memory,
+ownership, discussion, and a way to receive work from outside the current
+attention of one person. I stopped using them by default for projects in which
+I am designer, developer, user, and maintainer. In that setting, the tracker
+was often not coordination. It was distance.
+
+## The queue became the project
+
+An issue is easy to create at the moment an idea feels sharp. The cost arrives
+later. Every item asks to be re-read, re-evaluated, renamed, closed, deferred,
+or quietly ignored. The more good ideas I saved, the less honest the list
+became about what I was actually going to do.
+
+On a small project, most possible features are not obligations. They are
+hypotheses. Search might matter once there are fifty entries. A filtering
+system might matter once readers cannot find a post. An elaborate component
+library might matter once the same visual problem occurs three times. Written
+as tickets, these hypotheses hardened too early into pending work.
+
+The result was a strange inversion: I would spend an evening tending the list
+instead of learning from the product. Tidying issue labels looked like
+maintenance. It was sometimes only a neater form of avoidance.
+
+> A backlog preserves what I once imagined. A working note helps me decide
+> what still matters now.
+
+## What an issue could not remember
+
+My old issues were good at stating outcomes and poor at holding context.
+"Improve post card" might have made perfect sense after I noticed an awkward
+line break on a narrow phone. Three weeks later it was an abstract task with
+no screenshot, no urgency, and no record of whether later changes had already
+solved the problem.
+
+The important part of small product work is frequently not the task but the
+reason it appeared:
+
+- What did I see while using the page?
+- Is it broken, merely inelegant, or an idea worth testing?
+- Which constraint makes the obvious solution a poor fit?
+- What is the smallest change that would teach me something?
+
+That information belongs close to the work. When it is reduced to a title in a
+queue, I preserve the demand and lose the judgment.
+
+## The smaller loop
+
+I replaced the tracker with one plain working note in the repository. It is
+not a roadmap. It is deliberately temporary, short enough to read before I
+start and easy to rewrite after I learn something.
+
+It has three sections.
+
+```md
+## Now
+- Make the project page readable on a phone.
+
+## Observed
+- The title wraps awkwardly below 420 px.
+
+## Decisions
+- Keep content in MDX because this site exports statically.
+```
+
+### Now
+
+This contains no more than one meaningful change and the verification required
+to finish it. "Improve workshop project page" becomes a concrete outcome:
+publish one detailed project entry, make it readable on a phone, and confirm
+the static export builds. If a session ends halfway through, the note tells me
+where the thread is.
+
+### Observed
+
+This is where friction goes while I am working: the image lacks a useful alt
+description; the title wraps badly at a certain width; adding a tag has exposed
+an empty listing state. These are observations, not commitments. When I next
+choose work, some earn promotion and others simply disappear because the
+problem was local or transient.
+
+### Decisions
+
+A decision is more valuable than an open task because it prevents repeated
+debate. I record short explanations such as: content stays in MDX because the
+site is static and personal; detail pages remain server components because
+there is no interaction to justify client JavaScript; a route remains stable
+even if its presentation changes.
+
+Once a decision becomes an established rule, it moves into the project
+documentation. Once an observation is fixed or irrelevant, it is deleted.
+The working note remains small because its purpose is orientation, not
+archaeology.
+
+## What changed in practice
+
+The largest change was not speed. It was the texture of beginning.
+
+With a backlog, opening a quiet project often started with guilt. There were
+always twelve unattended ideas insisting they had already been promised. With
+a working note, I start from the current artifact: read the page, use the
+feature, run the code, and ask what is true today. The next step gets chosen
+from evidence rather than inherited intention.
+
+This also made me more willing to finish small things. A typographic correction
+or a better error message no longer competes with an enormous fictional
+roadmap. If it improves the thing I am currently making and can be completed
+cleanly, it is legitimate work.
+
+There is a useful discipline in not saving every idea. Some ideas return. When
+they do, they arrive with new evidence and deserve attention. Ideas that never
+return may have been attractive only in the moment; the tracker used to keep
+them alive beyond their value.
+
+## Where a tracker still belongs
+
+None of this is an argument for running collaborative work from a loose text
+file. I still want an issue tracker when:
+
+- another person needs to report a problem or request a feature;
+- work must be assigned, reviewed, scheduled, or referenced in a release;
+- a defect matters even if my present attention moves elsewhere;
+- discussion and decisions need an accessible shared history.
+
+The test is not whether a project is "serious." It is whether the queue serves
+coordination and accountability, or merely stores every version of my
+ambition.
+
+## A lighter record
+
+Personal projects need memory, but they also need permission to remain small.
+My old backlogs treated every thought like a debt. The new note is closer to a
+workbench: it holds the one thing in progress, a few measurements from current
+use, and the decisions I would otherwise forget.
+
+I can still make a list when the work demands one. I simply no longer begin
+with a system built to manage obligations before I know which obligations are
+real.
