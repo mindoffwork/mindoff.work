@@ -3,10 +3,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXContent } from "@/components/ui/mdx-content";
 import { Tag } from "@/components/ui/tag";
-import { getAllWorkshops, getWorkshop } from "@/lib/content";
+import { getAllProjects, getProject } from "@/lib/content";
 import { createPageMetadata, getPostOgImage } from "@/lib/metadata";
 
-type WorkshopPostPageProps = {
+type ProjectPostPageProps = {
   params: Promise<{
     slug: string;
   }>;
@@ -15,7 +15,7 @@ type WorkshopPostPageProps = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllWorkshops().map((post) => ({
+  return getAllProjects().map((post) => ({
     slug: post.slug,
   }));
 }
@@ -31,9 +31,9 @@ function formatProjectDate(date: string) {
 
 export async function generateMetadata({
   params,
-}: WorkshopPostPageProps): Promise<Metadata> {
+}: ProjectPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getWorkshop(slug);
+  const post = getProject(slug);
 
   if (!post) {
     return {};
@@ -42,16 +42,16 @@ export async function generateMetadata({
   return createPageMetadata({
     title: `${post.title} | Mindoff`,
     description: post.summary,
-    path: `/workshop/${post.slug}`,
+    path: `/projects/${post.slug}`,
     image: getPostOgImage(post.covers?.[0]),
   });
 }
 
-export default async function WorkshopPostPage({
+export default async function ProjectPostPage({
   params,
-}: WorkshopPostPageProps) {
+}: ProjectPostPageProps) {
   const { slug } = await params;
-  const post = getWorkshop(slug);
+  const post = getProject(slug);
 
   if (!post) {
     notFound();
@@ -73,7 +73,6 @@ export default async function WorkshopPostPage({
             {post.title}
           </h1>
           <p className="font-heading text-size-lg font-light">{post.summary}</p>
-          
           {post.productUrl || post.github ? (
             <div className="flex flex-wrap justify-center gap-3" aria-label="Project links">
               {post.productUrl ? (
@@ -144,11 +143,11 @@ export default async function WorkshopPostPage({
         <p className="font-body text-size-base leading-relaxed text-ink">
           {post.purpose}
         </p>
-        <div className="flex flex-wrap gap-2" aria-label="Workshop tags">
-            {post.tags.map((tag) => (
-              <Tag key={tag} label={tag} />
-            ))}
-          </div>
+        <div className="flex flex-wrap gap-2" aria-label="Project tags">
+          {post.tags.map((tag) => (
+            <Tag key={tag} label={tag} />
+          ))}
+        </div>
       </section>
       <section
         aria-label="Project statistics"

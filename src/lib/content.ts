@@ -5,20 +5,20 @@ import matter from "gray-matter";
 import type {
   NotePost,
   NoteType,
-  WorkshopPost,
-  WorkshopStatus,
-  WorkshopType,
+  ProjectPost,
+  ProjectStatus,
+  ProjectType,
 } from "./types";
 
 const contentDirectory = path.join(process.cwd(), "src", "content");
-const workshopDirectory = path.join(contentDirectory, "workshop");
+const projectsDirectory = path.join(contentDirectory, "projects");
 const notesDirectory = path.join(contentDirectory, "notes");
 
-type ContentKind = "workshop" | "note";
-type ContentPost = WorkshopPost | NotePost;
+type ContentKind = "project" | "note";
+type ContentPost = ProjectPost | NotePost;
 
-const workshopTypes = new Set<WorkshopType>(["software", "hardware"]);
-const workshopStatuses = new Set<WorkshopStatus>(["active", "archived"]);
+const projectTypes = new Set<ProjectType>(["software", "hardware"]);
+const projectStatuses = new Set<ProjectStatus>(["active", "archived"]);
 const noteTypes = new Set<NoteType>(["essay", "snap"]);
 
 function getMdxFiles(directory: string) {
@@ -187,15 +187,15 @@ function readContentFile<T extends ContentPost>(
     content,
   };
 
-  if (kind === "workshop") {
+  if (kind === "project") {
     return {
       ...basePost,
-      type: requireUnion(frontmatter, "type", workshopTypes, filepath),
+      type: requireUnion(frontmatter, "type", projectTypes, filepath),
       purpose: requireString(frontmatter, "purpose", filepath),
       covers: optionalStringArray(frontmatter, "covers", 5, filepath),
       github: optionalString(frontmatter, "github", filepath),
       productUrl: optionalString(frontmatter, "productUrl", filepath),
-      status: requireUnion(frontmatter, "status", workshopStatuses, filepath),
+      status: requireUnion(frontmatter, "status", projectStatuses, filepath),
     } as T;
   }
 
@@ -219,16 +219,16 @@ function getAllFromDirectory<T extends ContentPost>(
   return sortByDateDesc(posts);
 }
 
-export function getAllWorkshops() {
-  return getAllFromDirectory<WorkshopPost>(workshopDirectory, "workshop");
+export function getAllProjects() {
+  return getAllFromDirectory<ProjectPost>(projectsDirectory, "project");
 }
 
 export function getAllNotes() {
   return getAllFromDirectory<NotePost>(notesDirectory, "note");
 }
 
-export function getWorkshop(slug: string) {
-  return readContentFile<WorkshopPost>(workshopDirectory, slug, "workshop");
+export function getProject(slug: string) {
+  return readContentFile<ProjectPost>(projectsDirectory, slug, "project");
 }
 
 export function getNote(slug: string) {
@@ -238,7 +238,7 @@ export function getNote(slug: string) {
 export function getAllTags() {
   const latestTags = new Map<string, number>();
 
-  for (const post of sortByDateDesc([...getAllWorkshops(), ...getAllNotes()])) {
+  for (const post of sortByDateDesc([...getAllProjects(), ...getAllNotes()])) {
     const timestamp = new Date(post.date).getTime();
 
     for (const tag of post.tags) {

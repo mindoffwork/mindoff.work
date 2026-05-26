@@ -1,19 +1,19 @@
-export type WorkshopType = "software" | "hardware";
-export type WorkshopStatus = "active" | "archived";
+export type ProjectType = "software" | "hardware";
+export type ProjectStatus = "active" | "archived";
 
-export type WorkshopPost = {
+export type ProjectPost = {
   slug: string;
   title: string;
   date: string;
   tags: string[];
-  type: WorkshopType;
+  type: ProjectType;
   summary: string;
   purpose: string;
   color?: string;
   covers?: string[];
   github?: string;
   productUrl?: string;
-  status: WorkshopStatus;
+  status: ProjectStatus;
   content: string;
 };
 

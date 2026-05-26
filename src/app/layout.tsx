@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   ...createPageMetadata({
     title: "mindoff.work",
-    description: "Workshop notes, essays, and snapshots from mindoff.work.",
+    description: "Projects, essays, and snapshots from mindoff.work.",
     path: "/",
   }),
 };

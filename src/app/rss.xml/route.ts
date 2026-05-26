@@ -1,4 +1,4 @@
-import { getAllNotes, getAllWorkshops } from "@/lib/content";
+import { getAllNotes, getAllProjects } from "@/lib/content";
 import { siteUrl } from "@/lib/metadata";
 
 export const dynamic = "force-static";
@@ -12,14 +12,14 @@ function escapeXml(value: string) {
     .replaceAll("'", "&apos;");
 }
 
-function getPostUrl(post: ReturnType<typeof getAllWorkshops>[number] | ReturnType<typeof getAllNotes>[number]) {
-  const collection = "status" in post ? "workshop" : "notes";
+function getPostUrl(post: ReturnType<typeof getAllProjects>[number] | ReturnType<typeof getAllNotes>[number]) {
+  const collection = "status" in post ? "projects" : "notes";
 
   return `${siteUrl}/${collection}/${post.slug}`;
 }
 
 export function GET() {
-  const posts = [...getAllWorkshops(), ...getAllNotes()].sort(
+  const posts = [...getAllProjects(), ...getAllNotes()].sort(
     (first, second) =>
       new Date(second.date).getTime() - new Date(first.date).getTime(),
   );
@@ -42,7 +42,7 @@ export function GET() {
       ].join("");
     })
     .join("");
-  const feed = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>mindoff.work</title><link>${siteUrl}</link><description>Workshop notes, essays, and snapshots from mindoff.work.</description><language>en</language>${items}</channel></rss>`;
+  const feed = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>mindoff.work</title><link>${siteUrl}</link><description>Projects, essays, and snapshots from mindoff.work.</description><language>en</language>${items}</channel></rss>`;
 
   return new Response(feed, {
     headers: {

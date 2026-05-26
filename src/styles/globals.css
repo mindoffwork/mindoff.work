@@ -74,6 +74,7 @@
   --duration-fast: 160ms;
   --motion-standard: ease;
   --media-aspect-cover: 16 / 9;
+  --media-aspect-note-cover: 1 / 1;
 }
 
 :root[data-theme="dark"] {
@@ -138,6 +139,7 @@
   --max-width-reading: var(--layout-reading-max);
   --max-width-media: var(--layout-media-max);
   --aspect-ratio-cover: var(--media-aspect-cover);
+  --aspect-ratio-note-cover: var(--media-aspect-note-cover);
   --transition-duration-fast: var(--duration-fast);
   --ease-standard: var(--motion-standard);
   --radius-nav-logo: var(--radius-navigation-logo);

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PostCard } from "@/components/ui/post-card";
+import { NoteFeatureCard } from "@/components/ui/note-feature-card";
 import { getAllNotes } from "@/lib/content";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -15,23 +15,24 @@ export default function NotesPage() {
   const posts = getAllNotes();
 
   return (
-    <div className="mx-auto flex w-full max-w-shell flex-col gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
-      <header className="flex max-w-reading flex-col gap-6">
-        <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
+    <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
+        <h1 className="font-body text-size-3xl font-bold tracking-title text-ink lg:w-1/3 lg:shrink-0">
           Notes
-        </p>
-        <h1 className="font-heading text-size-4xl font-semibold tracking-title">
-          Essays and snapshots.
         </h1>
-        <p className="font-heading text-size-lg text-muted">
-          Short records of process, place, attention, and useful friction.
+        <p className="max-w-reading font-heading text-size-lg font-light text-ink sm:text-size-lg lg:flex-1">
+          Knowledge and wisdom on craft, attention, and creative process.
+          Written for those who find meaning in focus and purpose.
         </p>
       </header>
-      <div className="divide-y-normal divide-rule border-t-normal border-rule">
+      <section
+        aria-label="Notes"
+        className="mx-auto grid w-full max-w-6xl auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
+          <NoteFeatureCard key={post.slug} post={post} />
         ))}
-      </div>
+      </section>
     </div>
   );
 }

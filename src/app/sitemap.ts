@@ -1,17 +1,17 @@
 import type { MetadataRoute } from "next";
-import { getAllNotes, getAllTags, getAllWorkshops } from "@/lib/content";
+import { getAllNotes, getAllProjects, getAllTags } from "@/lib/content";
 import { siteUrl } from "@/lib/metadata";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/workshop", "/notes", "/about", "/terms"].map(
+  const staticRoutes = ["", "/projects", "/notes", "/about", "/terms"].map(
     (route) => ({
       url: `${siteUrl}${route}`,
     }),
   );
-  const workshopRoutes = getAllWorkshops().map((post) => ({
-    url: `${siteUrl}/workshop/${post.slug}`,
+  const projectRoutes = getAllProjects().map((post) => ({
+    url: `${siteUrl}/projects/${post.slug}`,
     lastModified: post.date,
   }));
   const noteRoutes = getAllNotes().map((post) => ({
@@ -22,5 +22,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}/tags/${encodeURIComponent(tag)}`,
   }));
 
-  return [...staticRoutes, ...workshopRoutes, ...noteRoutes, ...tagRoutes];
+  return [...staticRoutes, ...projectRoutes, ...noteRoutes, ...tagRoutes];
 }

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
 const navItems = [
-  { href: "/workshop", icon: "handyman", label: "Workshop" },
+  { href: "/projects", icon: "handyman", label: "Projects" },
   { href: "/notes", icon: "description", label: "Notes" },
   { href: "/about", icon: "info", label: "About" },
 ];

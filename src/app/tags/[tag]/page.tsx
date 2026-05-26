@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PostCard } from "@/components/ui/post-card";
-import { getAllNotes, getAllTags, getAllWorkshops } from "@/lib/content";
+import { getAllNotes, getAllProjects, getAllTags } from "@/lib/content";
 import { createPageMetadata } from "@/lib/metadata";
 
 type TagPageProps = {
@@ -33,7 +33,7 @@ export async function generateMetadata({
 export default async function TagPage({ params }: TagPageProps) {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
-  const posts = [...getAllWorkshops(), ...getAllNotes()]
+  const posts = [...getAllProjects(), ...getAllNotes()]
     .filter((post) => post.tags.includes(decodedTag))
     .sort(
       (first, second) =>

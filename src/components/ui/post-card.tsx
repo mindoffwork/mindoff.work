@@ -1,24 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { NotePost, WorkshopPost } from "@/lib/types";
+import type { NotePost, ProjectPost } from "@/lib/types";
 import { Tag } from "./tag";
 
 type PostCardProps = {
-  post: WorkshopPost | NotePost;
+  post: ProjectPost | NotePost;
 };
 
-function isWorkshopPost(post: WorkshopPost | NotePost): post is WorkshopPost {
+function isProjectPost(post: ProjectPost | NotePost): post is ProjectPost {
   return "status" in post;
 }
 
-function getPostHref(post: WorkshopPost | NotePost) {
-  return isWorkshopPost(post)
-    ? `/workshop/${post.slug}`
+function getPostHref(post: ProjectPost | NotePost) {
+  return isProjectPost(post)
+    ? `/projects/${post.slug}`
     : `/notes/${post.slug}`;
 }
 
 export function PostCard({ post }: PostCardProps) {
-  const cover = isWorkshopPost(post) ? post.covers?.[0] : post.cover;
+  const cover = isProjectPost(post) ? post.covers?.[0] : post.cover;
 
   return (
     <Link

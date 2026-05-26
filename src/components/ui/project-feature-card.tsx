@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { WorkshopPost } from "@/lib/types";
+import type { ProjectPost } from "@/lib/types";
 
-type WorkshopFeatureCardProps = {
-  post: WorkshopPost;
+type ProjectFeatureCardProps = {
+  post: ProjectPost;
 };
 
-export function WorkshopFeatureCard({ post }: WorkshopFeatureCardProps) {
+export function ProjectFeatureCard({ post }: ProjectFeatureCardProps) {
   const cover = post.covers?.[0];
   const projectSurfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
@@ -16,7 +16,7 @@ export function WorkshopFeatureCard({ post }: WorkshopFeatureCardProps) {
     <Link
       aria-label={`View ${post.title}`}
       className="group relative block overflow-hidden rounded-2xl border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
-      href={`/workshop/${post.slug}`}
+      href={`/projects/${post.slug}`}
     >
       <article className="flex flex-col lg:flex-row">
         {cover ? (

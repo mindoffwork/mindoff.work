@@ -17,7 +17,7 @@ export default function AboutPage() {
           About
         </p>
         <h1 className="font-heading text-size-4xl font-semibold tracking-title">
-          A small personal workshop on the web.
+          A small personal collection of projects on the web.
         </h1>
       </header>
       <div className="max-w-reading">

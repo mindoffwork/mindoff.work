@@ -23,8 +23,8 @@ export function generateStaticParams() {
 
 function formatPublishedDate(date: string) {
   return new Intl.DateTimeFormat("en-US", {
-    day: "numeric",
-    month: "long",
+    day: "2-digit",
+    month: "short",
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${date}T00:00:00Z`));
@@ -64,51 +64,60 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   const publishedDate = formatPublishedDate(post.date);
   const readingMinutes = getReadingMinutes(post.content);
+  const noteSurfaceClassName = post.color
+    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    : "bg-panel";
 
   return (
-    <article className="mx-auto flex w-full max-w-shell flex-col gap-12 px-4 py-10 sm:px-6 sm:py-16 lg:gap-16 lg:py-20">
-      <header className="mx-auto flex w-full max-w-media flex-col gap-6 border-b-normal border-rule pb-10 sm:pb-12">
-        <Link
-          className="w-fit rounded-sm font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
-          href="/notes"
-        >
-          Notes / {post.type}
-        </Link>
-        <h1 className="max-w-reading font-heading text-size-4xl font-semibold tracking-title text-ink">
-          {post.title}
-        </h1>
-        <p className="max-w-reading font-heading text-size-lg text-muted">{post.summary}</p>
-        <div className="flex flex-wrap items-center gap-3 border-t-normal border-rule pt-5 text-size-sm text-subtle">
-          <time dateTime={post.date}>{publishedDate}</time>
-          <span aria-hidden="true">/</span>
-          <span>{readingMinutes} min read</span>
-          <span aria-hidden="true">/</span>
-          <span className="capitalize">{post.type}</span>
-        </div>
-        <div className="flex flex-wrap gap-2" aria-label="Note tags">
-          {post.tags.map((tag) => (
-            <Tag key={tag} label={tag} />
-          ))}
+    <article className="flex w-full flex-col">
+      <header className="flex justify-center px-4 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20">
+        <div className="flex w-full max-w-reading flex-col gap-8">
+          <div className="flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle">
+            <Link
+              className="rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
+              href="/notes"
+            >
+              Notes
+            </Link>
+            <span aria-hidden="true">/</span>
+            <time dateTime={post.date}>{publishedDate}</time>
+            <span aria-hidden="true">/</span>
+            <span>{readingMinutes} min read</span>
+          </div>
+          <h1 className="font-heading text-size-5xl font-black tracking-title text-ink">
+            {post.title}
+          </h1>
         </div>
       </header>
       {post.cover ? (
-        <figure className="mx-auto flex w-full max-w-media flex-col gap-3">
+        <figure
+          className={`flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 lg:py-20 ${noteSurfaceClassName}`}
+          data-color={post.color}
+        >
           <Image
-            alt={`${post.title} note cover`}
-            className="aspect-cover h-auto w-full rounded-lg border-normal border-rule object-cover"
-            height={675}
+            alt=""
+            className="h-auto w-full max-w-media object-contain"
+            height={1024}
             priority
+            sizes="(max-width: 639px) calc(100vw - 2rem), 52rem"
             src={post.cover}
             unoptimized
-            width={1200}
+            width={1536}
           />
-          <figcaption className="text-size-sm text-subtle">
-            {post.title} / field note.
-          </figcaption>
         </figure>
       ) : null}
-      <div className="mx-auto w-full max-w-reading">
+      <div className="mx-auto w-full max-w-reading px-4 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light">
         <MDXContent source={post.content} />
+        <footer className="mt-12 flex flex-col gap-4 border-t-normal border-rule pt-6">
+          <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
+            Filed under
+          </p>
+          <div className="flex flex-wrap gap-2" aria-label="Note tags">
+            {post.tags.map((tag) => (
+              <Tag key={tag} label={tag} />
+            ))}
+          </div>
+        </footer>
       </div>
     </article>
   );
