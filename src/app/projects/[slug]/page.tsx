@@ -120,8 +120,8 @@ export default async function ProjectPostPage({
                   imageClassName="h-full w-full rounded-lg object-cover"
                   height={675}
                   key={`${cover}-${index}`}
+                  loading={index === 0 ? "eager" : "lazy"}
                   placeholderClassName="rounded-lg"
-                  priority={index === 0}
                   sizes={isLeadImage ? "100vw" : "(max-width: 639px) 100vw, 50vw"}
                   src={cover}
                   unoptimized

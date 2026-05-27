@@ -26,7 +26,12 @@ export default function ProjectsPage() {
       </header>
       <section aria-label="Projects" className="mx-auto flex w-full max-w-5xl flex-col gap-6 sm:gap-8">
         {posts.map((post, index) => (
-          <ProjectCard imageFirst={index % 2 === 0} key={post.slug} post={post} />
+          <ProjectCard
+            eager={index === 0}
+            imageFirst={index % 2 === 0}
+            key={post.slug}
+            post={post}
+          />
         ))}
       </section>
     </div>

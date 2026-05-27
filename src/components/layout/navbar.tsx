@@ -64,7 +64,7 @@ export function Navbar() {
           alt=""
           className="size-brand-mark-mobile object-contain transition-opacity duration-fast ease-standard group-hover:opacity-80 lg:size-brand-mark"
           height={36}
-          priority
+          loading="eager"
           src="/images/brand/MindOff_Logo_Icon.png"
           width={36}
         />

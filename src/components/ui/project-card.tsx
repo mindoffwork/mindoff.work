@@ -3,11 +3,16 @@ import { SiteLink } from "@/components/ui/site-link";
 import type { ProjectPost } from "@/lib/types";
 
 type ProjectCardProps = {
+  eager?: boolean;
   imageFirst?: boolean;
   post: ProjectPost;
 };
 
-export function ProjectCard({ imageFirst = true, post }: ProjectCardProps) {
+export function ProjectCard({
+  eager = false,
+  imageFirst = true,
+  post,
+}: ProjectCardProps) {
   const cover = post.covers?.[0];
   const projectSurfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
@@ -24,13 +29,14 @@ export function ProjectCard({ imageFirst = true, post }: ProjectCardProps) {
         data-color={post.color}
       >
         {cover ? (
-          <div className="relative aspect-cover w-full overflow-hidden lg:w-2/3 lg:shrink-0">
+          <div className="relative aspect-cover w-full overflow-hidden lg:w-1/2 lg:shrink-0">
             <LoadingImage
               alt=""
               fill
               imageClassName="object-cover group-hover:opacity-90"
+              loading={eager ? "eager" : "lazy"}
               placeholderClassName="rounded-none"
-              sizes="(max-width: 1023px) calc(100vw - 2rem), 48rem"
+              sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 32rem"
               src={cover}
               unoptimized
               wrapperClassName="h-full w-full"
@@ -38,13 +44,13 @@ export function ProjectCard({ imageFirst = true, post }: ProjectCardProps) {
           </div>
         ) : null}
         <div
-          className={`flex min-h-full flex-col justify-between gap-6 p-6 sm:gap-10 sm:p-10 lg:gap-12 lg:p-14 ${cover ? "lg:flex-1" : "w-full"}`}
+          className={`flex min-h-full flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12 ${cover ? "lg:flex-1" : "w-full"}`}
         >
           <div className="flex flex-col gap-2">
-            <h2 className="font-heading text-size-xl font-black tracking-title text-ink sm:text-size-2xl">
+            <h2 className="font-heading text-size-lg font-black tracking-title text-ink sm:text-size-xl lg:text-size-2xl">
               {post.title}
             </h2>
-            <p className="font-body text-size-sm text-ink sm:text-size-base">
+            <p className="font-body text-size-sm text-ink lg:text-size-base">
               {post.tags.join(", ")}
             </p>
           </div>

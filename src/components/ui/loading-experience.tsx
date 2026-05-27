@@ -86,8 +86,8 @@ function ProjectsListSkeleton() {
             key={index}
           >
             <div className="flex flex-col lg:flex-row">
-              <ImagePlaceholder className="aspect-cover min-h-64 w-full rounded-none lg:w-2/3 lg:shrink-0" />
-              <div className="flex min-h-full flex-1 flex-col justify-between gap-6 p-6 sm:gap-10 sm:p-10 lg:gap-12 lg:p-14">
+              <ImagePlaceholder className="aspect-cover min-h-64 w-full rounded-none lg:w-1/2 lg:shrink-0" />
+              <div className="flex min-h-full flex-1 flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12">
                 <div className="flex flex-col gap-2">
                   <SkeletonBlock className="h-10 w-3/4 bg-loading-skeleton-strong" />
                   <SkeletonBlock className="h-6 w-1/2 bg-loading-skeleton-strong" />
@@ -466,7 +466,7 @@ export function LoadingExperience() {
             alt="MindOff logo"
             className="h-auto w-40 object-contain animate-heartbeat sm:w-44"
             height={73}
-            priority
+            loading="eager"
             src="/images/brand/MindOff_Logo_Full.png"
             width={192}
           />

@@ -98,7 +98,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
             alt=""
             height={1024}
             imageClassName="h-auto w-full max-w-media object-contain"
-            priority
+            loading="eager"
             placeholderClassName="mx-auto max-w-media"
             sizes="(max-width: 639px) calc(100vw - 2rem), 52rem"
             src={post.cover}
