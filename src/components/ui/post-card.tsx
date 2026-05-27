@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import { LoadingImage } from "@/components/ui/loading-image";
+import { SiteLink } from "@/components/ui/site-link";
 import type { NotePost, ProjectPost } from "@/lib/types";
 import { Tag } from "./tag";
 
@@ -21,7 +21,7 @@ export function PostCard({ post }: PostCardProps) {
   const cover = isProjectPost(post) ? post.covers?.[0] : post.cover;
 
   return (
-    <Link
+    <SiteLink
       aria-label={`Read ${post.title}`}
       className="group block rounded-sm py-6 transition-colors duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={getPostHref(post)}
@@ -45,17 +45,19 @@ export function PostCard({ post }: PostCardProps) {
         </div>
         {cover ? (
           <div className="relative aspect-cover w-full shrink-0 overflow-hidden rounded-md bg-panel sm:w-40">
-            <Image
+            <LoadingImage
               alt=""
-              className="object-cover transition duration-fast ease-standard group-hover:opacity-90"
               fill
+              imageClassName="object-cover group-hover:opacity-90"
+              placeholderClassName="rounded-md"
               sizes="(max-width: 639px) 100vw, 160px"
               src={cover}
               unoptimized
+              wrapperClassName="h-full w-full rounded-md"
             />
           </div>
         ) : null}
       </article>
-    </Link>
+    </SiteLink>
   );
 }

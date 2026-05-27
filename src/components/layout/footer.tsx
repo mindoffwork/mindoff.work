@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { SiteLink } from "@/components/ui/site-link";
 
 const footerLinkClassName =
   "rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule";
@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="border-t-normal border-rule font-heading text-muted">
       <div className="mx-auto flex w-full max-w-shell flex-col gap-8 px-4 py-10 sm:px-6 sm:py-12">
-        <Link
+        <SiteLink
           aria-label="mindoff.work home"
           className="mx-auto inline-flex rounded-sm opacity-50 transition-opacity duration-fast ease-standard hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
           href="/"
@@ -24,22 +24,22 @@ export function Footer() {
             unoptimized
             width={1921}
           />
-        </Link>
+        </SiteLink>
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-size-xs font-medium uppercase tracking-kicker">
           <p>&copy; {year} mindoff.work</p>
           <nav aria-label="Site information" className="contents">
-            <Link
+            <SiteLink
               className={footerLinkClassName}
               href="/terms"
             >
               Terms &amp; Privacy
-            </Link>
-            <Link
+            </SiteLink>
+            <SiteLink
               className={footerLinkClassName}
               href="/rss.xml"
             >
               RSS
-            </Link>
+            </SiteLink>
             <a
               className={footerLinkClassName}
               href="https://creativecommons.org/licenses/by-nc/4.0/"

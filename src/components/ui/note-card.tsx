@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
+import { LoadingImage } from "@/components/ui/loading-image";
+import { SiteLink } from "@/components/ui/site-link";
 import type { NotePost } from "@/lib/types";
 
-type NoteFeatureCardProps = {
+type NoteCardProps = {
   post: NotePost;
 };
 
@@ -15,14 +15,14 @@ function formatPublishedDate(date: string) {
   }).format(new Date(`${date}T00:00:00Z`));
 }
 
-export function NoteFeatureCard({ post }: NoteFeatureCardProps) {
+export function NoteCard({ post }: NoteCardProps) {
   const hasCover = Boolean(post.cover);
   const noteSurfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
 
   return (
-    <Link
+    <SiteLink
       aria-label={`Read ${post.title}`}
       className="group relative block h-full overflow-hidden rounded-2xl border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/notes/${post.slug}`}
@@ -30,14 +30,16 @@ export function NoteFeatureCard({ post }: NoteFeatureCardProps) {
       <article className={`flex h-full flex-col ${noteSurfaceClassName}`} data-color={post.color}>
         {post.cover ? (
           <div className="aspect-note-cover overflow-hidden px-4 pt-4 sm:px-6 sm:pt-6">
-            <Image
+            <LoadingImage
               alt=""
-              className="h-full w-full rounded-lg object-contain transition-opacity duration-fast ease-standard group-hover:opacity-90"
               height={1024}
+              imageClassName="h-full w-full rounded-lg object-contain group-hover:opacity-90"
+              placeholderClassName="rounded-lg"
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc((100vw - 3rem) / 2), calc((100vw - 7rem) / 3)"
               src={post.cover}
               unoptimized
               width={1536}
+              wrapperClassName="h-full w-full rounded-lg"
             />
           </div>
         ) : null}
@@ -68,6 +70,6 @@ export function NoteFeatureCard({ post }: NoteFeatureCardProps) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[color-mix(in_srgb,var(--color-ink)_6%,transparent)] opacity-0 transition-opacity duration-fast ease-standard group-hover:opacity-100"
       />
-    </Link>
+    </SiteLink>
   );
 }

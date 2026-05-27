@@ -3,6 +3,7 @@ import { Poltawski_Nowy, Poppins } from "next/font/google";
 import Script from "next/script";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { LoadingExperience } from "@/components/ui/loading-experience";
 import { createPageMetadata, siteUrl } from "@/lib/metadata";
 import "../styles/globals.css";
 
@@ -11,6 +12,7 @@ try {
   if (window.localStorage.getItem("mindoff-theme") === "dark") {
     document.documentElement.dataset.theme = "dark";
   }
+  document.documentElement.dataset.freshLoad = "true";
 } catch {}
 `;
 
@@ -41,7 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${poltawskiNowy.variable}`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${poltawskiNowy.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <Script
           dangerouslySetInnerHTML={{ __html: themeInitializer }}
@@ -55,9 +61,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="flex min-h-screen flex-col bg-canvas pl-nav font-body text-ink antialiased">
+      <body className="flex min-h-screen flex-col bg-canvas pb-nav font-body text-ink antialiased lg:pb-0 lg:pl-nav">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <LoadingExperience />
+        <main className="flex-1 pt-nav-logo-mobile lg:pt-nav-logo">{children}</main>
         <Footer />
       </body>
     </html>

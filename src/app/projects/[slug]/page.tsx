@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getActionButtonClassName } from "@/components/ui/action-button";
+import { LoadingImage } from "@/components/ui/loading-image";
 import { MDXContent } from "@/components/ui/mdx-content";
+import { SiteLink } from "@/components/ui/site-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllProjects, getProject } from "@/lib/content";
 import { createPageMetadata, getPostOgImage } from "@/lib/metadata";
@@ -71,12 +71,12 @@ export default async function ProjectPostPage({
     <article className="flex w-full flex-col">
       <header className="flex justify-center py-10 lg:pt-28 lg:pb-24">
         <div className="flex max-w-reading flex-col items-center gap-6 text-center">
-          <Link
+          <SiteLink
             className="rounded-sm font-heading text-size-sm text-subtle underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
             href="/projects"
           >
             Projects
-          </Link>
+          </SiteLink>
           <h1 className="font-heading text-size-5xl font-black tracking-title text-ink">
             {post.title}
           </h1>
@@ -115,20 +115,22 @@ export default async function ProjectPostPage({
                 index === 0 && (covers.length === 1 || covers.length % 2 === 1);
 
               return (
-                <Image
+                <LoadingImage
                   alt={`${post.title} project view ${index + 1}`}
-                  className={
-                    isLeadImage
-                      ? "aspect-cover h-auto w-full rounded-lg object-cover"
-                      : "aspect-cover h-auto w-full rounded-lg object-cover sm:w-[calc(50%-(var(--spacing)*1.5))]"
-                  }
+                  imageClassName="h-full w-full rounded-lg object-cover"
                   height={675}
                   key={`${cover}-${index}`}
+                  placeholderClassName="rounded-lg"
                   priority={index === 0}
                   sizes={isLeadImage ? "100vw" : "(max-width: 639px) 100vw, 50vw"}
                   src={cover}
                   unoptimized
                   width={1200}
+                  wrapperClassName={
+                    isLeadImage
+                      ? "aspect-cover w-full rounded-lg"
+                      : "aspect-cover w-full rounded-lg sm:w-[calc(50%-(var(--spacing)*1.5))]"
+                  }
                 />
               );
             })}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { LoadingImage } from "@/components/ui/loading-image";
 import { createPageMetadata } from "@/lib/metadata";
 
 export function generateMetadata(): Metadata {
@@ -25,14 +25,15 @@ export default function AboutPage() {
       </header>
 
       <figure className="flex justify-center border-y-normal border-rule bg-brand px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
-        <Image
+        <LoadingImage
           alt="mindoff"
-          className="h-auto w-full max-w-about-logo object-contain"
           height={731}
+          imageClassName="h-auto w-full max-w-about-logo object-contain"
           sizes="18rem"
           src="/images/brand/MindOff_Logo_Full.png"
           unoptimized
           width={1921}
+          wrapperClassName="w-full max-w-about-logo"
         />
       </figure>
 

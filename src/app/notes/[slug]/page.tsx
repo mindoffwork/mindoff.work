@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LoadingImage } from "@/components/ui/loading-image";
 import { MDXContent } from "@/components/ui/mdx-content";
+import { SiteLink } from "@/components/ui/site-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllNotes, getNote } from "@/lib/content";
 import { createPageMetadata, getPostOgImage } from "@/lib/metadata";
@@ -73,12 +73,12 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
       <header className="flex justify-center px-4 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20">
         <div className="flex w-full max-w-reading flex-col gap-8">
           <div className="flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle">
-            <Link
+            <SiteLink
               className="rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
               href="/notes"
             >
               Notes
-            </Link>
+            </SiteLink>
             <span aria-hidden="true">/</span>
             <time dateTime={post.date}>{publishedDate}</time>
             <span aria-hidden="true">/</span>
@@ -94,23 +94,25 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
           className={`flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 lg:py-20 ${noteSurfaceClassName}`}
           data-color={post.color}
         >
-          <Image
+          <LoadingImage
             alt=""
-            className="h-auto w-full max-w-media object-contain"
             height={1024}
+            imageClassName="h-auto w-full max-w-media object-contain"
             priority
+            placeholderClassName="mx-auto max-w-media"
             sizes="(max-width: 639px) calc(100vw - 2rem), 52rem"
             src={post.cover}
             unoptimized
             width={1536}
+            wrapperClassName="w-full max-w-media"
           />
         </figure>
       ) : null}
       <div className="mx-auto w-full max-w-reading px-4 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light">
         <MDXContent source={post.content} />
-        <footer className="mt-12 flex flex-col gap-4 border-t-normal border-rule pt-6">
+        <footer className="mt-12 flex flex-col gap-4 pt-6">
           <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
-            Filed under
+            Topics Covered
           </p>
           <div className="flex flex-wrap gap-2" aria-label="Note tags">
             {post.tags.map((tag) => (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { NoteFeatureCard } from "@/components/ui/note-feature-card";
+import { NoteCard } from "@/components/ui/note-card";
 import { getAllNotes } from "@/lib/content";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -30,7 +30,7 @@ export default function NotesPage() {
         className="mx-auto grid w-full max-w-6xl auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         {posts.map((post) => (
-          <NoteFeatureCard key={post.slug} post={post} />
+          <NoteCard key={post.slug} post={post} />
         ))}
       </section>
     </div>

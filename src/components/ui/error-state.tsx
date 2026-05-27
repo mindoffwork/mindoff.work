@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { getActionButtonClassName } from "@/components/ui/action-button";
+import { SiteLink } from "@/components/ui/site-link";
 
 type ErrorAction = {
   href: string;
@@ -59,7 +59,7 @@ export function ErrorState({
             </button>
           ) : null}
           {actions.map((action) => (
-            <Link
+            <SiteLink
               className={getActionButtonClassName(
                 action.primary ? "primary" : "secondary",
               )}
@@ -67,7 +67,7 @@ export function ErrorState({
               key={action.href}
             >
               {action.label}
-            </Link>
+            </SiteLink>
           ))}
         </nav>
       </section>

@@ -1,0 +1,102 @@
+---
+title: Margin Reading Journal
+date: 2026-05-24
+tags:
+  - software
+  - reading
+  - writing
+type: software
+summary: A local-first reading journal that keeps excerpts, reflections, and returning questions together without turning books into a dashboard.
+purpose: >-
+  Margin was built to preserve the small thoughts that arrive while reading:
+  one excerpt worth keeping, a question to revisit, or a connection to another
+  book. It keeps capture deliberately short and makes returning to a text feel
+  like re-entering a conversation rather than managing a library database.
+color: "#E9DFC9"
+covers:
+  - /images/projects/margin-reading-journal-hero.webp
+  - /images/projects/margin-reading-journal-detail.webp
+status: active
+---
+
+## Brief
+
+Margin is a small offline-capable journal for books and long articles. Each
+reading record contains a title, author, current place, and a stream of
+entries. An entry can be an excerpt, an observation, or a question. That is
+the whole vocabulary; no scores, reading streaks, or completion graphs are
+required before a book can matter.
+
+The project began after finding useful lines scattered across paper slips,
+phone screenshots, and unsearchable notebook pages. The aim was not to build
+a comprehensive reading manager. It was to make one modest habit dependable:
+capture a thought quickly, then find it again in the context that gave it
+meaning.
+
+## Product decisions
+
+### Capture without interruption
+
+The entry composer stays to one small panel. A keyboard shortcut opens it, the
+cursor begins in the text field, and the last-used entry kind remains selected.
+Page number and chapter are optional because stopping to retrieve precise
+metadata is often enough friction to lose the thought itself.
+
+An excerpt can be followed immediately by a reflection, but the interface
+does not require commentary. Sometimes saving the words accurately is the
+useful act; interpretation can arrive on a later reading.
+
+### A library arranged by return
+
+The home view favors books with recent unanswered questions and recently added
+notes rather than an artificial percentage complete. Finished books remain
+easy to reach but no longer occupy the same attention as the text currently
+being lived with.
+
+Search matches titles, authors, excerpts, and reflections. Results remain
+grouped beneath their source book so a phrase is never separated from where it
+was encountered.
+
+## Technical shape
+
+The application is intentionally local-first. A compact IndexedDB store holds
+the collection on the device, and every record can be exported as Markdown
+and JSON for ownership and portability. No account is required to start, and
+the export format is plain enough to remain readable without the app.
+
+```ts
+type JournalEntry = {
+  kind: "excerpt" | "reflection" | "question";
+  text: string;
+  location?: string;
+  createdAt: string;
+};
+```
+
+The first prototype used a separate table for highlights and notes. In use,
+the separation made a reading session feel fragmented, because an excerpt and
+its response appeared in different places. A single chronological entry
+stream proved simpler to understand and easier to export.
+
+## Accessibility and resilience
+
+Every entry kind is identified by text in addition to color. The complete
+capture flow works by keyboard, with visible focus and an announcement after
+an entry is saved. Offline operation is treated as the normal state rather
+than a degraded one; the journal opens and accepts writing without a network
+connection.
+
+Backups are intentionally visible. A quiet export reminder appears after the
+collection has changed substantially since its last download. Local-first is
+only trustworthy when local loss has been considered honestly.
+
+## Result
+
+Margin has remained useful because it avoids rewarding accumulation. It does
+not celebrate a tall stack of books or make unfinished reading appear as debt.
+It gives each text a calm place for marks in the margin, then makes those
+marks available when a later question sends me searching back through them.
+
+The next iteration will explore optional device-to-device import using an
+encrypted file transfer. It will remain an optional convenience, not a reason
+for the core journal to require an account or surrender readable exports.

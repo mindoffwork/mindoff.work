@@ -18,6 +18,10 @@
   --color-tooltip-border: color-mix(in srgb, var(--color-background) 24%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
   --color-action-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+  --color-loading-progress: var(--color-black);
+  --color-loading-skeleton: color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+  --color-loading-skeleton-strong: color-mix(in srgb, var(--color-text-primary) 14%, transparent);
+  --color-loading-skeleton-muted: color-mix(in srgb, var(--color-text-primary) 4%, var(--color-background));
   color-scheme: light;
 
   --font-size-xs: 0.75rem;
@@ -69,7 +73,9 @@
   --size-viewport-block: 100vh;
   --layout-navigation-width: 4rem;
   --layout-navigation-logo-size: 5rem;
+  --layout-navigation-mobile-logo-size: 3.5rem;
   --layout-brand-mark-size: 2.5rem;
+  --layout-brand-mark-mobile-size: 1.75rem;
   --layout-shell-max: 72rem;
   --layout-reading-max: 42rem;
   --layout-media-max: 52rem;
@@ -78,9 +84,15 @@
   --border-width-thin: 1px;
   --border-width-normal: 2px;
   --duration-fast: 160ms;
+  --duration-loading-splash: 220ms;
   --motion-standard: ease;
   --media-aspect-cover: 16 / 9;
   --media-aspect-note-cover: 1 / 1;
+  --loading-progress-height: 2px;
+  --z-nav: 35;
+  --z-loading-overlay: 30;
+  --z-loading-progress: 40;
+  --z-loading-splash: 50;
 }
 
 :root[data-theme="dark"] {
@@ -96,6 +108,9 @@
   --color-border: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   --color-action-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  --color-loading-skeleton: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+  --color-loading-skeleton-strong: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+  --color-loading-skeleton-muted: color-mix(in srgb, var(--color-text-primary) 6%, var(--color-background));
   color-scheme: dark;
 }
 
@@ -113,6 +128,10 @@
   --color-ink: var(--color-text-primary);
   --color-muted: var(--color-text-secondary);
   --color-subtle: var(--color-text-tertiary);
+  --color-loading-progress: var(--color-loading-progress);
+  --color-loading-skeleton: var(--color-loading-skeleton);
+  --color-loading-skeleton-strong: var(--color-loading-skeleton-strong);
+  --color-loading-skeleton-muted: var(--color-loading-skeleton-muted);
 
   --font-heading: var(--font-poppins);
   --font-body: var(--font-poltawski-nowy);
@@ -145,7 +164,9 @@
   --tracking-title: var(--letter-spacing-title);
   --spacing-nav: var(--layout-navigation-width);
   --spacing-nav-logo: var(--layout-navigation-logo-size);
+  --spacing-nav-logo-mobile: var(--layout-navigation-mobile-logo-size);
   --spacing-brand-mark: var(--layout-brand-mark-size);
+  --spacing-brand-mark-mobile: var(--layout-brand-mark-mobile-size);
   --max-width-shell: var(--layout-shell-max);
   --max-width-reading: var(--layout-reading-max);
   --max-width-media: var(--layout-media-max);
@@ -156,4 +177,29 @@
   --ease-standard: var(--motion-standard);
   --radius-nav-logo: var(--radius-navigation-logo);
   --border-width-normal: var(--border-width-normal);
+  --z-index-nav: var(--z-nav);
+  --z-index-loading-overlay: var(--z-loading-overlay);
+  --z-index-loading-progress: var(--z-loading-progress);
+  --z-index-loading-splash: var(--z-loading-splash);
+}
+
+@theme {
+  --animate-heartbeat: heartbeat 1.5s ease-in-out infinite;
+
+  @keyframes heartbeat {
+    0%,
+    32%,
+    70%,
+    100% {
+      transform: scale(1);
+    }
+
+    18% {
+      transform: scale(1.03);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+  }
 }

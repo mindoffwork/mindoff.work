@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink } from "@/components/ui/site-link";
 import { createPageMetadata } from "@/lib/metadata";
 import { getAllProjects, getAllNotes } from "@/lib/content";
 import type { ProjectPost, NotePost } from "@/lib/types";
@@ -19,13 +19,13 @@ function FeaturedProjectCard({ post }: { post: ProjectPost }) {
     : "bg-panel";
 
   return (
-    <Link
+    <SiteLink
       aria-label={`View project: ${post.title}`}
       className="group relative block overflow-hidden rounded-2xl border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/projects/${post.slug}`}
     >
       <div
-        className={`flex flex-col justify-between gap-20 p-10 sm:p-12 lg:p-16 ${surfaceClass}`}
+        className={`flex flex-col justify-between gap-12 p-6 sm:gap-16 sm:p-12 lg:gap-20 lg:p-16 ${surfaceClass}`}
         data-color={post.color}
       >
         <span className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-muted">
@@ -33,16 +33,16 @@ function FeaturedProjectCard({ post }: { post: ProjectPost }) {
         </span>
         <div className="flex items-end justify-between gap-8">
           <div className="flex flex-col gap-4">
-            <h2 className="font-heading text-size-4xl font-black tracking-title text-ink lg:text-size-5xl">
+            <h2 className="font-heading text-size-2xl font-black tracking-title text-ink sm:text-size-4xl lg:text-size-5xl">
               {post.title}
             </h2>
-            <p className="max-w-sm font-body text-size-base text-ink">
+            <p className="max-w-sm font-body text-size-sm text-ink sm:text-size-base">
               {post.summary}
             </p>
           </div>
           <span
             aria-hidden="true"
-            className="material-symbols-outlined shrink-0 text-size-2xl leading-none text-ink transition-transform duration-fast ease-standard group-hover:translate-x-2"
+            className="material-symbols-outlined shrink-0 text-size-xl leading-none text-ink transition-transform duration-fast ease-standard group-hover:translate-x-2 sm:text-size-2xl"
           >
             arrow_right_alt
           </span>
@@ -52,7 +52,7 @@ function FeaturedProjectCard({ post }: { post: ProjectPost }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[color-mix(in_srgb,var(--color-ink)_6%,transparent)] opacity-0 transition-opacity duration-fast ease-standard group-hover:opacity-100"
       />
-    </Link>
+    </SiteLink>
   );
 }
 
@@ -64,7 +64,7 @@ function NoteRow({ post }: { post: NotePost }) {
   }).format(new Date(`${post.date}T00:00:00Z`));
 
   return (
-    <Link
+    <SiteLink
       aria-label={`Read note: ${post.title}`}
       className="group flex items-baseline justify-between gap-6 border-b-normal border-rule py-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/notes/${post.slug}`}
@@ -82,7 +82,7 @@ function NoteRow({ post }: { post: NotePost }) {
           arrow_right_alt
         </span>
       </div>
-    </Link>
+    </SiteLink>
   );
 }
 
