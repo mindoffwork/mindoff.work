@@ -124,18 +124,25 @@ function NotesListSkeleton() {
             >
               <div className="flex h-full flex-col">
                 {hasImage ? (
-                  <div className="aspect-note-cover px-4 pt-4 sm:px-6 sm:pt-6">
-                    <ImagePlaceholder className="h-full w-full" />
+                  <div className="px-4 pt-4 sm:px-6 sm:pt-6">
+                    <ImagePlaceholder className="h-52 w-full overflow-hidden rounded-lg sm:h-56" />
                   </div>
                 ) : null}
                 <div
-                  className={`flex flex-1 flex-col gap-8 p-6 sm:p-8 ${
-                    hasImage ? "justify-end" : "min-h-80 justify-between"
+                  className={`flex flex-col gap-8 p-6 sm:p-8 ${
+                    hasImage ? "" : "flex-1 min-h-80 justify-between"
                   }`}
                 >
                   <div className="flex flex-col gap-4">
                     <SkeletonBlock className="h-8 w-5/6 bg-loading-skeleton-strong" />
                     <SkeletonBlock className="h-5 w-2/5 bg-loading-skeleton-strong" />
+                    {!hasImage ? (
+                      <div className="flex flex-col gap-3 pt-1">
+                        <SkeletonBlock className="h-6 w-full bg-loading-skeleton-strong" />
+                        <SkeletonBlock className="h-6 w-full bg-loading-skeleton-strong" />
+                        <SkeletonBlock className="h-6 w-4/5 bg-loading-skeleton-strong" />
+                      </div>
+                    ) : null}
                   </div>
                   {!hasImage ? (
                     <SkeletonBlock className="h-8 w-8 rounded-full bg-loading-skeleton-strong" />

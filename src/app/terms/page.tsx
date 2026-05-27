@@ -49,11 +49,11 @@ export default function TermsPage() {
   return (
     <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-reading flex-col items-start gap-8">
-        <h1 className="font-body text-size-3xl font-bold tracking-title text-ink">
+        <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl">
           Terms &amp; Privacy
         </h1>
         <div className="flex max-w-reading flex-col gap-5 lg:flex-1">
-          <p className="font-heading text-size-lg font-light text-ink">
+          <p className="font-heading text-size-base font-light text-ink sm:text-size-lg">
             A brief guide to using mindoff.work, privacy on the site, and the
             limits of the material shared here.
           </p>

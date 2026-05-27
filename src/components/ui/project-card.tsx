@@ -39,7 +39,7 @@ export function ProjectCard({
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 32rem"
               src={cover}
               unoptimized
-              wrapperClassName="h-full w-full"
+              wrapperClassName="absolute! inset-0"
             />
           </div>
         ) : null}
@@ -47,7 +47,7 @@ export function ProjectCard({
           className={`flex min-h-full flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12 ${cover ? "lg:flex-1" : "w-full"}`}
         >
           <div className="flex flex-col gap-2">
-            <h2 className="font-heading text-size-lg font-black tracking-title text-ink sm:text-size-xl lg:text-size-2xl">
+            <h2 className="font-heading text-size-lg font-extrabold leading-tight tracking-title text-ink sm:text-size-xl sm:font-black sm:leading-normal lg:text-size-2xl">
               {post.title}
             </h2>
             <p className="font-body text-size-sm text-ink lg:text-size-base">

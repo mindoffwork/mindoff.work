@@ -29,32 +29,37 @@ export function NoteCard({ post }: NoteCardProps) {
     >
       <article className={`flex h-full flex-col ${noteSurfaceClassName}`} data-color={post.color}>
         {post.cover ? (
-          <div className="aspect-note-cover overflow-hidden px-4 pt-4 sm:px-6 sm:pt-6">
+          <div className="px-4 pt-4 sm:px-6 sm:pt-6">
             <LoadingImage
               alt=""
               height={1024}
-              imageClassName="h-full w-full rounded-lg object-contain group-hover:opacity-90"
+              imageClassName="block h-auto w-full rounded-lg group-hover:opacity-90"
               placeholderClassName="rounded-lg"
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc((100vw - 3rem) / 2), calc((100vw - 7rem) / 3)"
               src={post.cover}
               unoptimized
               width={1536}
-              wrapperClassName="h-full w-full rounded-lg"
+              wrapperClassName="w-full rounded-lg"
             />
           </div>
         ) : null}
         <div
-          className={`flex flex-1 flex-col gap-8 p-6 sm:p-8 ${
-            hasCover ? "justify-end" : "min-h-80 justify-between"
+          className={`flex flex-col gap-8 p-6 sm:p-8 ${
+            hasCover ? "" : "flex-1 min-h-80 justify-between"
           }`}
         >
           <div className="flex flex-col gap-4">
-            <h2 className="font-heading text-size-lg font-extrabold leading-tight tracking-title text-ink">
+            <h2 className="font-heading text-size-base sm:text-size-lg font-bold sm:font-extrabold leading-tight tracking-title text-ink">
               {post.title}
             </h2>
             <time className="font-heading text-size-sm text-muted" dateTime={post.date}>
               {formatPublishedDate(post.date)}
             </time>
+            {!hasCover ? (
+              <p className="line-clamp-3 font-body text-size-base text-ink">
+                {post.summary}
+              </p>
+            ) : null}
           </div>
           {!hasCover ? (
             <span

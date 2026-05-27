@@ -13,12 +13,12 @@ export function generateMetadata(): Metadata {
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col gap-16 py-12 sm:py-16 lg:gap-24 lg:py-28">
-      <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
-        <h1 className="font-body text-size-3xl font-bold tracking-title text-ink lg:w-1/3 lg:shrink-0">
+    <div className="flex flex-col gap-16  py-12 sm:py-16 lg:gap-24 lg:py-28">
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row px-4 sm:px-6">
+        <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl lg:w-1/3 lg:shrink-0">
           About
         </h1>
-        <p className="max-w-reading font-heading text-size-lg font-light text-ink sm:text-size-lg lg:flex-1">
+        <p className="max-w-reading font-heading text-size-base font-light text-ink sm:text-size-lg lg:flex-1">
           Hi, I&apos;m Joel Samraj, a product engineer. MindOff is where I
           share the things I design, build, and learn along the way.
         </p>
@@ -41,7 +41,7 @@ export default function AboutPage() {
         aria-label="About mindoff"
         className="mx-auto w-full max-w-reading px-4 sm:px-6"
       >
-        <div className="flex max-w-reading flex-col gap-6 text-size-base text-ink">
+        <div className="flex max-w-reading flex-col gap-6 text-size-sm sm:text-size-base leading-relaxed text-ink">
           <p>
             I started this space to keep a record of my projects, discoveries,
             and the ways I approach making things. Much of my work is research

@@ -17,10 +17,10 @@ export default function NotesPage() {
   return (
     <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
-        <h1 className="font-body text-size-3xl font-bold tracking-title text-ink lg:w-1/3 lg:shrink-0">
+        <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl lg:w-1/3 lg:shrink-0">
           Notes
         </h1>
-        <p className="max-w-reading font-heading text-size-lg font-light text-ink sm:text-size-lg lg:flex-1">
+        <p className="max-w-reading font-heading text-size-base font-light text-ink sm:text-size-lg lg:flex-1">
           Knowledge and wisdom on craft, attention, and creative process.
           Written for those who find meaning in focus and purpose.
         </p>
