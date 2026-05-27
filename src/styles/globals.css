@@ -10,11 +10,14 @@
   --color-background: var(--color-fawn);
   --color-surface: var(--color-fawn);
   --color-navigation-selection: var(--color-green);
+  --color-brand-text: var(--color-black);
   --color-text-primary: var(--color-black);
   --color-text-secondary: color-mix(in srgb, var(--color-text-primary) 50%, transparent);
   --color-text-tertiary: var(--color-text-secondary);
   --color-border: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+  --color-tooltip-border: color-mix(in srgb, var(--color-background) 24%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+  --color-action-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
   color-scheme: light;
 
   --font-size-xs: 0.75rem;
@@ -27,6 +30,7 @@
   --font-size-4xl: 3rem;
   --font-size-5xl: 3.75rem;
   --font-size-6xl: 4.5rem;
+  --font-size-display: clamp(3rem, 12vw, 8rem);
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -69,6 +73,8 @@
   --layout-shell-max: 72rem;
   --layout-reading-max: 42rem;
   --layout-media-max: 52rem;
+  --layout-about-logo-max: 18rem;
+  --layout-home-hero-min-height: 40rem;
   --border-width-thin: 1px;
   --border-width-normal: 2px;
   --duration-fast: 160ms;
@@ -89,6 +95,7 @@
   --color-text-secondary: color-mix(in srgb, var(--color-text-primary) 68%, transparent);
   --color-border: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  --color-action-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   color-scheme: dark;
 }
 
@@ -98,7 +105,9 @@
   --color-canvas: var(--color-background);
   --color-panel: var(--color-surface);
   --color-brand: var(--color-yellow);
+  --color-brand-ink: var(--color-brand-text);
   --color-rule: var(--color-border);
+  --color-tooltip-rule: var(--color-tooltip-border);
   --color-code: var(--color-code-background);
   --color-nav-selection: var(--color-navigation-selection);
   --color-ink: var(--color-text-primary);
@@ -128,6 +137,8 @@
   --text-size-5xl--line-height: var(--line-height-tight);
   --text-size-6xl: var(--font-size-6xl);
   --text-size-6xl--line-height: var(--line-height-tight);
+  --text-size-display: var(--font-size-display);
+  --text-size-display--line-height: var(--line-height-tight);
   --leading-relaxed: var(--line-height-relaxed);
 
   --tracking-kicker: var(--letter-spacing-kicker);
@@ -138,6 +149,7 @@
   --max-width-shell: var(--layout-shell-max);
   --max-width-reading: var(--layout-reading-max);
   --max-width-media: var(--layout-media-max);
+  --max-width-about-logo: var(--layout-about-logo-max);
   --aspect-ratio-cover: var(--media-aspect-cover);
   --aspect-ratio-note-cover: var(--media-aspect-note-cover);
   --transition-duration-fast: var(--duration-fast);

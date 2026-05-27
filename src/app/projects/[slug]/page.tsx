@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getActionButtonClassName } from "@/components/ui/action-button";
 import { MDXContent } from "@/components/ui/mdx-content";
 import { Tag } from "@/components/ui/tag";
 import { getAllProjects, getProject } from "@/lib/content";
@@ -62,13 +64,19 @@ export default async function ProjectPostPage({
   const projectSurfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
-  const projectLinkClassName =
-    "rounded-full border-normal border-rule px-5 py-3 font-heading text-size-sm font-semibold text-ink transition-[box-shadow] duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule";
-
+  const primaryActionClassName = post.color
+    ? `${getActionButtonClassName("tinted-primary")} ${projectSurfaceClassName}`
+    : getActionButtonClassName("primary");
   return (
     <article className="flex w-full flex-col">
       <header className="flex justify-center py-10 lg:pt-28 lg:pb-24">
         <div className="flex max-w-reading flex-col items-center gap-6 text-center">
+          <Link
+            className="rounded-sm font-heading text-size-sm text-subtle underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
+            href="/projects"
+          >
+            Projects
+          </Link>
           <h1 className="font-heading text-size-5xl font-black tracking-title text-ink">
             {post.title}
           </h1>
@@ -77,16 +85,16 @@ export default async function ProjectPostPage({
             <div className="flex flex-wrap justify-center gap-3" aria-label="Project links">
               {post.productUrl ? (
                 <a
-                  className={`${projectLinkClassName} ${projectSurfaceClassName}`}
-                  href={post.productUrl}
+                  className={primaryActionClassName}
                   data-color={post.color}
+                  href={post.productUrl}
                 >
                   View product
                 </a>
               ) : null}
               {post.github ? (
                 <a
-                  className={`${projectLinkClassName} bg-panel`}
+                  className={getActionButtonClassName("secondary")}
                   href={post.github}
                 >
                   Source code
