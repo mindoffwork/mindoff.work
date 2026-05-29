@@ -6,7 +6,7 @@ export function generateMetadata(): Metadata {
   return createPageMetadata({
     title: "About | mindoff.work",
     description:
-      "Joel Samraj is a product engineer behind MindOff, sharing open source projects, research, notes, and ideas for simpler work and life.",
+      "About the product engineer behind MindOff, sharing open source projects, research, notes, and ideas for simpler work and life.",
     path: "/about",
   });
 }
@@ -14,7 +14,7 @@ export function generateMetadata(): Metadata {
 export default function AboutPage() {
   return (
     <div className="flex flex-col gap-16  py-12 sm:py-16 lg:gap-24 lg:py-28">
-      <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row px-4 sm:px-6">
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 px-8 sm:px-6 lg:flex-row">
         <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl lg:w-1/3 lg:shrink-0">
           About
         </h1>
@@ -39,7 +39,7 @@ export default function AboutPage() {
 
       <section
         aria-label="About mindoff"
-        className="mx-auto w-full max-w-reading px-4 sm:px-6"
+        className="mx-auto w-full max-w-reading px-8 sm:px-6"
       >
         <div className="flex max-w-reading flex-col gap-6 text-size-sm sm:text-size-base leading-relaxed text-ink">
           <p>

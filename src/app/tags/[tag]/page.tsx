@@ -41,7 +41,7 @@ export default async function TagPage({ params }: TagPageProps) {
   );
 
   return (
-    <div className="mx-auto flex w-full max-w-shell flex-col gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+    <div className="mx-auto flex w-full max-w-shell flex-col gap-12 px-8 py-12 sm:px-6 sm:py-16 lg:py-20">
       <header className="flex max-w-reading flex-col gap-6">
         <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
           Tag

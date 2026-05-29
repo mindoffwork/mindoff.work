@@ -24,7 +24,7 @@ function SkeletonBlock({ className }: { className: string }) {
 
 function HomeSkeleton() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-4 pt-16 pb-24 sm:px-6 sm:pt-20 lg:gap-32 lg:pt-28 lg:pb-32">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-8 pt-16 pb-24 sm:px-6 sm:pt-20 lg:gap-32 lg:pt-28 lg:pb-32">
       <section className="flex flex-col gap-10">
         <div className="flex flex-col gap-3">
           <SkeletonBlock className="h-12 w-48 sm:h-16 sm:w-64 lg:h-20 lg:w-80" />
@@ -71,7 +71,7 @@ function HomeSkeleton() {
 
 function ProjectsListSkeleton() {
   return (
-    <div className="flex flex-col gap-12 px-4 py-8 sm:gap-16 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+    <div className="flex flex-col gap-12 px-8 py-8 sm:gap-16 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
         <SkeletonBlock className="h-9 w-36 sm:h-11 sm:w-40 lg:w-1/3 lg:max-w-52 lg:shrink-0" />
         <div className="flex max-w-reading flex-1 flex-col gap-4">
@@ -86,8 +86,8 @@ function ProjectsListSkeleton() {
             key={index}
           >
             <div className="flex flex-col lg:flex-row">
-              <ImagePlaceholder className="aspect-cover min-h-64 w-full rounded-none lg:w-1/2 lg:shrink-0" />
-              <div className="flex min-h-full flex-1 flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12">
+              <ImagePlaceholder className="aspect-cover min-h-64 w-full rounded-none lg:w-7/10 lg:shrink-0" />
+              <div className="flex min-h-full flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:w-3/10 lg:shrink-0 lg:gap-10 lg:p-10 xl:p-12">
                 <div className="flex flex-col gap-2">
                   <SkeletonBlock className="h-10 w-3/4 bg-loading-skeleton-strong" />
                   <SkeletonBlock className="h-6 w-1/2 bg-loading-skeleton-strong" />
@@ -104,7 +104,7 @@ function ProjectsListSkeleton() {
 
 function NotesListSkeleton() {
   return (
-    <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+    <div className="flex flex-col gap-16 px-8 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
         <SkeletonBlock className="h-11 w-32 lg:w-1/3 lg:max-w-44 lg:shrink-0" />
         <div className="flex max-w-reading flex-1 flex-col gap-4">
@@ -159,7 +159,7 @@ function NotesListSkeleton() {
 
 function GenericPageSkeleton() {
   return (
-    <div className="mx-auto flex w-full max-w-reading flex-col gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+    <div className="mx-auto flex w-full max-w-reading flex-col gap-12 px-8 py-12 sm:px-6 sm:py-16 lg:py-20">
       <header className="flex flex-col gap-6">
         <SkeletonBlock className="h-4 w-16 rounded-full bg-loading-skeleton-strong" />
         <SkeletonBlock className="h-12 w-2/5 bg-loading-skeleton-strong" />
@@ -187,7 +187,7 @@ function GenericPageSkeleton() {
 function ProjectDetailSkeleton() {
   return (
     <div className="flex w-full flex-col">
-      <div className="flex justify-center px-4 py-10 sm:px-6 lg:pt-28 lg:pb-24">
+      <div className="flex justify-center px-8 py-10 sm:px-6 lg:pt-28 lg:pb-24">
         <div className="flex w-full max-w-reading flex-col items-center gap-6 text-center">
           <SkeletonBlock className="h-5 w-20 rounded-full bg-loading-skeleton-strong" />
           <SkeletonBlock className="h-14 w-full max-w-xl bg-loading-skeleton-strong sm:h-16" />
@@ -205,7 +205,7 @@ function ProjectDetailSkeleton() {
           <ImagePlaceholder className="aspect-cover min-h-48 w-full sm:w-[calc(50%-0.375rem)]" />
         </div>
       </section>
-      <section className="mx-auto flex w-full max-w-reading flex-col gap-8 px-4 py-16 sm:px-6 sm:py-20">
+      <section className="mx-auto flex w-full max-w-reading flex-col gap-8 px-8 py-16 sm:px-6 sm:py-20">
         <SkeletonBlock className="h-9 w-32 bg-loading-skeleton-strong" />
         <div className="flex flex-col gap-4">
           <SkeletonBlock className="h-7 w-full bg-loading-skeleton-strong" />
@@ -219,7 +219,7 @@ function ProjectDetailSkeleton() {
         </div>
       </section>
       <section className="border-y-normal border-rule bg-loading-skeleton-muted">
-        <div className="mx-auto flex w-full max-w-media flex-col gap-10 px-4 py-12 sm:flex-row sm:px-6">
+        <div className="mx-auto flex w-full max-w-media flex-col gap-10 px-8 py-12 sm:flex-row sm:px-6">
           {Array.from({ length: 3 }).map((_, index) => (
             <div className="flex flex-1 flex-col items-center gap-3" key={index}>
               <SkeletonBlock className="h-4 w-16 rounded-full bg-loading-skeleton-strong" />
@@ -228,7 +228,7 @@ function ProjectDetailSkeleton() {
           ))}
         </div>
       </section>
-      <div className="mx-auto flex w-full max-w-reading flex-col gap-5 px-4 py-12 sm:px-6">
+      <div className="mx-auto flex w-full max-w-reading flex-col gap-5 px-8 py-12 sm:px-6">
         <SkeletonBlock className="h-7 w-full bg-loading-skeleton-strong" />
         <SkeletonBlock className="h-7 w-full bg-loading-skeleton-strong" />
         <SkeletonBlock className="h-7 w-5/6 bg-loading-skeleton-strong" />
@@ -241,7 +241,7 @@ function ProjectDetailSkeleton() {
 function NoteDetailSkeleton() {
   return (
     <div className="flex w-full flex-col">
-      <header className="flex justify-center px-4 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20">
+      <header className="flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20">
         <div className="flex w-full max-w-reading flex-col gap-8">
           <div className="flex flex-wrap items-center gap-3">
             <SkeletonBlock className="h-5 w-16 rounded-full bg-loading-skeleton-strong" />
@@ -256,7 +256,7 @@ function NoteDetailSkeleton() {
           <ImagePlaceholder className="aspect-cover min-h-72 w-full" />
         </div>
       </section>
-      <div className="mx-auto flex w-full max-w-reading flex-col gap-5 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+      <div className="mx-auto flex w-full max-w-reading flex-col gap-5 px-8 py-12 sm:px-6 sm:py-16 lg:py-20">
         <SkeletonBlock className="h-8 w-full bg-loading-skeleton-strong" />
         <SkeletonBlock className="h-7 w-full bg-loading-skeleton-strong" />
         <SkeletonBlock className="h-7 w-full bg-loading-skeleton-strong" />
@@ -453,7 +453,7 @@ export function LoadingExperience() {
           showSkeleton ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="min-h-full pt-nav-logo-mobile lg:pt-nav-logo">
+        <div className="min-h-full pt-nav-logo-mobile sm:pt-0">
           <RouteSkeleton routeKey={showSkeleton ? routeKey : null} />
         </div>
       </div>

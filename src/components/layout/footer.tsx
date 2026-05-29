@@ -3,13 +3,14 @@ import { SiteLink } from "@/components/ui/site-link";
 
 const footerLinkClassName =
   "rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule";
+const githubUrl = "https://github.com/mindoffwork";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="border-t-normal border-rule font-heading text-muted">
-      <div className="mx-auto flex w-full max-w-shell flex-col gap-8 px-4 py-10 sm:px-6 sm:py-12">
+      <div className="mx-auto flex w-full max-w-shell flex-col gap-8 px-8 py-10 sm:px-6 sm:py-12">
         <SiteLink
           aria-label="mindoff.work home"
           className="mx-auto inline-flex rounded-sm opacity-50 transition-opacity duration-fast ease-standard hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
@@ -40,6 +41,14 @@ export function Footer() {
             >
               RSS
             </SiteLink>
+            <a
+              className={footerLinkClassName}
+              href={githubUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              GitHub
+            </a>
             <a
               className={footerLinkClassName}
               href="https://creativecommons.org/licenses/by-nc/4.0/"

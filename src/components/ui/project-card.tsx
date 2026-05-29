@@ -29,7 +29,7 @@ export function ProjectCard({
         data-color={post.color}
       >
         {cover ? (
-          <div className="relative aspect-cover w-full overflow-hidden lg:w-1/2 lg:shrink-0">
+          <div className="relative aspect-cover w-full overflow-hidden lg:w-7/10 lg:shrink-0">
             <LoadingImage
               alt=""
               fill
@@ -44,10 +44,10 @@ export function ProjectCard({
           </div>
         ) : null}
         <div
-          className={`flex min-h-full flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12 ${cover ? "lg:flex-1" : "w-full"}`}
+          className={`flex min-h-full flex-col justify-between gap-6 p-5 sm:gap-8 sm:p-8 lg:gap-10 lg:p-10 xl:p-12 ${cover ? "lg:w-3/10 lg:shrink-0" : "w-full"}`}
         >
           <div className="flex flex-col gap-2">
-            <h2 className="font-heading text-size-lg font-extrabold leading-tight tracking-title text-ink sm:text-size-xl sm:font-black sm:leading-normal lg:text-size-2xl">
+            <h2 className="font-heading text-size-lg font-extrabold leading-tight tracking-tight text-ink sm:text-size-xl sm:font-black sm:leading-tight lg:text-size-2xl">
               {post.title}
             </h2>
             <p className="font-body text-size-sm text-ink lg:text-size-base">

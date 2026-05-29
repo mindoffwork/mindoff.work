@@ -29,7 +29,7 @@ export function ErrorState({
       <title>{title}</title>
       <section
         aria-labelledby="error-title"
-        className="mx-auto flex w-full max-w-reading flex-col items-start gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:py-32"
+        className="mx-auto flex w-full max-w-reading flex-col items-start gap-10 px-8 py-16 sm:px-6 sm:py-24 lg:py-32"
       >
         <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-muted">
           {code}

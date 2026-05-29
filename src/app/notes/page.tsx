@@ -15,7 +15,7 @@ export default function NotesPage() {
   const posts = getAllNotes();
 
   return (
-    <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+    <div className="flex flex-col gap-16 px-8 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-4xl flex-col items-start gap-8 lg:flex-row">
         <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl lg:w-1/3 lg:shrink-0">
           Notes

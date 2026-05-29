@@ -69,7 +69,7 @@ export default async function ProjectPostPage({
     : getActionButtonClassName("primary");
   return (
     <article className="flex w-full flex-col">
-      <header className="flex justify-center py-10 lg:pt-28 lg:pb-24">
+      <header className="flex justify-center px-8 py-10 sm:px-6 lg:pt-28 lg:pb-24">
         <div className="flex max-w-reading flex-col items-center gap-6 text-center">
           <SiteLink
             className="rounded-sm font-heading text-size-sm text-subtle underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
@@ -142,7 +142,7 @@ export default async function ProjectPostPage({
       ) : null}
       <section
         aria-labelledby="project-purpose"
-        className="mx-auto flex w-full max-w-reading flex-col gap-8 px-4 py-16 sm:px-6 sm:py-20"
+        className="mx-auto flex w-full max-w-reading flex-col gap-8 px-8 py-16 sm:px-6 sm:py-20"
       >
         <h2
           className="font-heading text-size-xl font-bold tracking-title text-ink"
@@ -164,7 +164,7 @@ export default async function ProjectPostPage({
         className={`border-t-normal border-b-normal border-rule ${projectSurfaceClassName}`}
         data-color={post.color}
       >
-        <dl className="mx-auto flex w-full max-w-media flex-col gap-10 px-4 py-12 sm:flex-row sm:px-6 sm:py-12">
+        <dl className="mx-auto flex w-full max-w-media flex-col gap-10 px-8 py-12 sm:flex-row sm:px-6 sm:py-12">
           <div className="text-center sm:flex-1">
             <dt className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">
               Built
@@ -191,7 +191,7 @@ export default async function ProjectPostPage({
           </div>
         </dl>
       </section>
-      <div className="mx-auto w-full max-w-reading px-4 py-12 sm:px-6 sm:py-12">
+      <div className="mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-12">
         <MDXContent source={post.content} />
       </div>
     </article>

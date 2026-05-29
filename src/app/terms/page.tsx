@@ -47,7 +47,7 @@ export function generateMetadata(): Metadata {
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-col gap-16 px-4 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
+    <div className="flex flex-col gap-16 px-8 py-12 sm:px-6 sm:py-16 lg:gap-24 lg:py-28">
       <header className="mx-auto flex w-full max-w-reading flex-col items-start gap-8">
         <h1 className="font-body text-size-2xl font-bold tracking-title text-ink sm:text-size-3xl">
           Terms &amp; Privacy

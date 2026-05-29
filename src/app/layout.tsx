@@ -64,7 +64,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col bg-canvas pb-nav font-body text-ink antialiased lg:pb-0 lg:pl-nav">
         <Navbar />
         <LoadingExperience />
-        <main className="flex-1 pt-nav-logo-mobile lg:pt-nav-logo">{children}</main>
+        <main className="flex-1 pt-nav-logo-mobile sm:pt-0">{children}</main>
         <Footer />
       </body>
     </html>
