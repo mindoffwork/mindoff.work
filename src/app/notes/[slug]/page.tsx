@@ -91,13 +91,13 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
       </header>
       {post.cover ? (
         <figure
-          className={`flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 lg:py-20 ${noteSurfaceClassName}`}
+          className={`flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 ${noteSurfaceClassName}`}
           data-color={post.color}
         >
           <LoadingImage
             alt=""
             height={1024}
-            imageClassName="h-auto w-full max-w-media object-contain"
+            imageClassName="h-auto w-full max-w-media object-contain rounded-lg"
             loading="eager"
             placeholderClassName="mx-auto max-w-media"
             sizes="(max-width: 639px) calc(100vw - 2rem), 52rem"

@@ -1,8 +1,8 @@
-import Image from "next/image";
 import type { MDXComponents } from "mdx/types";
 import { Children, isValidElement } from "react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { CodeCopyButton } from "./code-copy-button";
+import { MDXImage } from "./mdx-image";
 
 type CodeFigureProps = ComponentPropsWithoutRef<"figure"> & {
   "data-rehype-pretty-code-figure"?: string;
@@ -140,20 +140,15 @@ export const mdxComponents: MDXComponents = {
   ),
   figure: CodeFigure,
   img: ({ alt, src, ...props }) => {
-    const imageProps = props as Omit<
-      ComponentPropsWithoutRef<typeof Image>,
-      "alt" | "src"
-    >;
+    const imageProps = props as Omit<ComponentPropsWithoutRef<typeof MDXImage>, "alt" | "src">;
 
     return (
-      <Image
+      <MDXImage
         {...imageProps}
         alt={alt ?? ""}
-        className="my-8 aspect-cover h-auto w-full rounded-md border-normal border-rule object-cover"
         height={675}
         sizes="100vw"
         src={typeof src === "string" ? src : ""}
-        unoptimized
         width={1200}
       />
     );

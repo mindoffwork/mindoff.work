@@ -117,19 +117,19 @@ export default async function ProjectPostPage({
               return (
                 <LoadingImage
                   alt={`${post.title} project view ${index + 1}`}
-                  imageClassName="h-full w-full rounded-lg object-cover"
+                  imageClassName="w-full h-auto rounded-lg"
                   height={675}
                   key={`${cover}-${index}`}
                   loading={index === 0 ? "eager" : "lazy"}
-                  placeholderClassName="rounded-lg"
+                  placeholderClassName="rounded-lg aspect-cover"
                   sizes={isLeadImage ? "100vw" : "(max-width: 639px) 100vw, 50vw"}
                   src={cover}
                   unoptimized
                   width={1200}
                   wrapperClassName={
                     isLeadImage
-                      ? "aspect-cover w-full rounded-lg"
-                      : "aspect-cover w-full rounded-lg sm:w-[calc(50%-(var(--spacing)*1.5))]"
+                      ? "w-full rounded-lg"
+                      : "w-full rounded-lg sm:w-[calc(50%-(var(--spacing)*1.5))]"
                   }
                 />
               );

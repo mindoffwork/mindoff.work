@@ -4,11 +4,9 @@ import matter from "gray-matter";
 
 import type {
   NotePost,
-  NoteType,
   ProjectPost,
-  ProjectStatus,
-  ProjectType,
 } from "./types";
+import { noteTypes, projectStatuses, projectTypes } from "./types";
 
 const contentDirectory = path.join(process.cwd(), "src", "content");
 const projectsDirectory = path.join(contentDirectory, "projects");
@@ -17,9 +15,9 @@ const notesDirectory = path.join(contentDirectory, "notes");
 type ContentKind = "project" | "note";
 type ContentPost = ProjectPost | NotePost;
 
-const projectTypes = new Set<ProjectType>(["software", "hardware"]);
-const projectStatuses = new Set<ProjectStatus>(["active", "archived"]);
-const noteTypes = new Set<NoteType>(["essay", "snap"]);
+const projectTypeSet = new Set(projectTypes);
+const projectStatusSet = new Set(projectStatuses);
+const noteTypeSet = new Set(noteTypes);
 
 function getMdxFiles(directory: string) {
   if (!fs.existsSync(directory)) {
@@ -190,18 +188,18 @@ function readContentFile<T extends ContentPost>(
   if (kind === "project") {
     return {
       ...basePost,
-      type: requireUnion(frontmatter, "type", projectTypes, filepath),
+      type: requireUnion(frontmatter, "type", projectTypeSet, filepath),
       purpose: requireString(frontmatter, "purpose", filepath),
       covers: optionalStringArray(frontmatter, "covers", 5, filepath),
       github: optionalString(frontmatter, "github", filepath),
       productUrl: optionalString(frontmatter, "productUrl", filepath),
-      status: requireUnion(frontmatter, "status", projectStatuses, filepath),
+      status: requireUnion(frontmatter, "status", projectStatusSet, filepath),
     } as T;
   }
 
   return {
     ...basePost,
-    type: requireUnion(frontmatter, "type", noteTypes, filepath),
+    type: requireUnion(frontmatter, "type", noteTypeSet, filepath),
     cover: optionalString(frontmatter, "cover", filepath),
   } as T;
 }

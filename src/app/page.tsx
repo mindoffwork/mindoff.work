@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getActionButtonClassName } from "@/components/ui/action-button";
+import { ExpandableImage } from "@/components/ui/expandable-image";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { SiteLink } from "@/components/ui/site-link";
 import { createPageMetadata } from "@/lib/metadata";
@@ -47,7 +48,7 @@ function ProjectTextCard({ post }: { post: ProjectPost }) {
   return (
     <SiteLink
       aria-label={`View project: ${post.title}`}
-      className="group relative flex overflow-hidden rounded-lg border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule sm:min-h-60"
+      className="group relative flex h-full overflow-hidden rounded-lg border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/projects/${post.slug}`}
     >
       <article
@@ -58,7 +59,7 @@ function ProjectTextCard({ post }: { post: ProjectPost }) {
           <p className="font-heading text-size-xs tracking-wide font-light italic text-muted">
             {post.tags.join(", ")}
           </p>
-          <p className="font-body text-size-base text-size leading-relaxed text-ink">
+          <p className="font-body text-size-sm text-size leading-relaxed text-ink">
             {post.summary}
           </p>
         </div>
@@ -95,32 +96,48 @@ function ProjectImageCard({
     return <ProjectTextCard post={post} />;
   }
 
+  const plateClassName = post.color
+    ? "bg-[attr(data-color_type(<color>))] in-data-[theme=dark]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    : "bg-canvas";
+
   return (
-    <a
-      aria-label={`Open full-size project image for ${post.title}`}
-      className="group relative block overflow-hidden rounded-lg border-normal border-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
-      href={cover}
-      rel="noreferrer"
-      target="_blank"
-    >
-      <div className="relative aspect-cover overflow-hidden rounded-lg sm:min-h-56">
-        <LoadingImage
-          alt=""
-          fill
-          imageClassName="object-cover transition-transform duration-fast ease-standard group-hover:scale-[1.015]"
-          loading={eager ? "eager" : "lazy"}
-          placeholderClassName="rounded-lg"
-          sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 34rem"
-          src={cover}
-          unoptimized
-          wrapperClassName="absolute! inset-0 rounded-lg"
-        />
-      </div>
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-lg bg-[color-mix(in_srgb,var(--color-ink)_6%,transparent)] opacity-0 transition-opacity duration-fast ease-standard group-hover:opacity-100"
+    <div className="relative h-full min-h-56 overflow-hidden rounded-lg border-normal border-transparent focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-rule">
+      <ExpandableImage
+        alt={`Project preview for ${post.title}`}
+        buttonLabel={`Expand project image for ${post.title}`}
+        dialogImageClassName="object-contain [[data-theme=dark]_&]:brightness-[0.88] [[data-theme=dark]_&]:saturate-[0.92]"
+        fill={false}
+        height={720}
+        loading={eager ? "eager" : "lazy"}
+        renderTrigger={
+          <div
+            className={`flex h-full items-center justify-center ${plateClassName}`}
+            data-color={post.color}
+          >
+            <LoadingImage
+              alt=""
+              height={720}
+              imageClassName="h-auto w-full transition-transform duration-fast ease-standard [[data-theme=dark]_&]:brightness-[0.88] [[data-theme=dark]_&]:saturate-[0.92] group-hover:scale-[1.015]"
+              loading={eager ? "eager" : "lazy"}
+              placeholderClassName="rounded-lg"
+              sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 34rem"
+              src={cover}
+              unoptimized
+              width={1280}
+              wrapperClassName="w-full"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[color-mix(in_srgb,var(--color-ink)_6%,transparent)] opacity-0 transition-opacity duration-fast ease-standard group-hover:opacity-100"
+            />
+          </div>
+        }
+        sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 34rem"
+        src={cover}
+        width={1280}
+        wrapperClassName="absolute! inset-0 my-0!"
       />
-    </a>
+    </div>
   );
 }
 
@@ -132,7 +149,9 @@ function ProjectFeatureRow({
   post: ProjectPost;
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-[1.2fr_1fr]">
+    <div
+      className={`grid gap-4 ${imageFirst ? "md:grid-cols-[7fr_3fr]" : "md:grid-cols-[3fr_7fr]"}`}
+    >
       <div className={imageFirst ? "" : "md:order-2"}>
         <ProjectImageCard eager={imageFirst} post={post} />
       </div>
@@ -221,9 +240,9 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <header className="relative border-b-normal border-rule px-8 py-12 sm:px-6 sm:py-20 lg:py-44">
-        <div className="mx-auto grid w-full max-w-shell gap-x-3 gap-y-1 md:grid-cols-[0.85fr_1.35fr] md:grid-rows-[auto_auto]">
+        <div className="mx-auto grid w-full max-w-media gap-x-3 gap-y-1 md:grid-cols-[0.85fr_1.35fr] md:grid-rows-[auto_auto]">
           <p className="max-w-sm self-end text-balance text-left font-body text-size-base sm:text-size-xl leading-snug text-ink md:justify-self-end md:pb-[0.32em] md:text-right">
-            Tools and writings to streamline and lighten up
+            Crafting tools and writings to streamline and lighten up work
           </p>
           <h1
             className="font-heading text-size-4xl sm:text-size-display font-black sm:leading-24 tracking-tighter text-ink md:row-span-2 md:col-start-2"

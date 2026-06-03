@@ -33,7 +33,7 @@ export function ProjectCard({
             <LoadingImage
               alt=""
               fill
-              imageClassName="object-cover group-hover:opacity-90"
+              imageClassName="object-cover [[data-theme=dark]_&]:brightness-[0.88] [[data-theme=dark]_&]:saturate-[0.92] group-hover:opacity-90"
               loading={eager ? "eager" : "lazy"}
               placeholderClassName="rounded-none"
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 32rem"

@@ -29,6 +29,7 @@ export default function AboutPage() {
           alt="mindoff"
           height={731}
           imageClassName="h-auto w-full max-w-about-logo object-contain"
+          loading="eager"
           sizes="18rem"
           src="/images/brand/MindOff_Logo_Full.png"
           unoptimized

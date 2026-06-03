@@ -345,6 +345,21 @@ export function LoadingExperience() {
   }, [pathname]);
 
   useEffect(() => {
+    const root = document.documentElement;
+
+    if (isNavigating) {
+      root.dataset.routeTransition = "active";
+      return;
+    }
+
+    delete root.dataset.routeTransition;
+
+    return () => {
+      delete root.dataset.routeTransition;
+    };
+  }, [isNavigating]);
+
+  useEffect(() => {
     if (isNavigating) {
       const startTimer = window.setTimeout(() => {
         setProgressVisible(true);
@@ -449,8 +464,8 @@ export function LoadingExperience() {
 
       <div
         aria-hidden="true"
-        className={`pointer-events-none fixed inset-y-0 left-0 right-0 z-loading-overlay overflow-y-auto overscroll-contain bg-canvas transition-opacity duration-fast ease-standard lg:left-nav ${
-          showSkeleton ? "opacity-100" : "opacity-0"
+        className={`pointer-events-none fixed inset-y-0 left-0 right-0 z-loading-overlay translate-y-3 overflow-y-auto overscroll-contain bg-canvas opacity-0 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:translate-y-0 motion-reduce:transition-none lg:left-nav ${
+          showSkeleton ? "translate-y-0 opacity-100" : ""
         }`}
       >
         <div className="min-h-full pt-nav-logo-mobile sm:pt-0">
@@ -460,6 +475,7 @@ export function LoadingExperience() {
 
       <div
         aria-hidden="true"
+        data-loading-splash=""
         className={`pointer-events-none fixed inset-0 z-loading-splash flex items-center justify-center bg-canvas px-6 opacity-0 transition-opacity duration-[220ms] ease-standard [[data-fresh-load=true]_&]:opacity-100 ${
           isSplashExiting ? "!opacity-0" : ""
         }`}
@@ -468,6 +484,7 @@ export function LoadingExperience() {
           className={`flex items-center justify-center transform transition-transform duration-300 ease-standard ${
             isSplashExiting ? "scale-0" : "scale-100"
           }`}
+          data-loading-splash-logo=""
         >
           <Image
             alt="MindOff logo"

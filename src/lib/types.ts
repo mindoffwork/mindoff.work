@@ -1,5 +1,9 @@
-export type ProjectType = "software" | "hardware";
-export type ProjectStatus = "active" | "archived";
+export const projectTypes = ["python package", "hardware"] as const;
+export const projectStatuses = ["active", "archived"] as const;
+export const noteTypes = ["essay", "snap"] as const;
+
+export type ProjectType = (typeof projectTypes)[number];
+export type ProjectStatus = (typeof projectStatuses)[number];
 
 export type ProjectPost = {
   slug: string;
@@ -17,7 +21,7 @@ export type ProjectPost = {
   content: string;
 };
 
-export type NoteType = "essay" | "snap";
+export type NoteType = (typeof noteTypes)[number];
 
 export type NotePost = {
   slug: string;
