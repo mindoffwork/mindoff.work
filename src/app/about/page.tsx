@@ -11,6 +11,32 @@ export function generateMetadata(): Metadata {
   });
 }
 
+function GitHubIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-5 shrink-0"
+      fill="currentColor"
+      viewBox="0 0 512 512"
+    >
+      <path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM252.8 8c-138.7 0-244.8 105.3-244.8 244 0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1 100-33.2 167.8-128.1 167.8-239 0-138.7-112.5-244-251.2-244zM105.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+    </svg>
+  );
+}
+
+function EmailIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-5 shrink-0"
+      fill="currentColor"
+      viewBox="0 0 512 512"
+    >
+      <path d="M48 64c-26.5 0-48 21.5-48 48 0 15.1 7.1 29.3 19.2 38.4l208 156c17.1 12.8 40.5 12.8 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48L48 64zM0 196 0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-188-198.4 148.8c-34.1 25.6-81.1 25.6-115.2 0L0 196z" />
+    </svg>
+  );
+}
+
 export default function AboutPage() {
   return (
     <div className="flex flex-col gap-16  py-12 sm:py-16 lg:gap-24 lg:py-28">
@@ -19,7 +45,7 @@ export default function AboutPage() {
           About
         </h1>
         <p className="max-w-reading font-heading text-size-base font-light text-ink sm:text-size-lg lg:flex-1">
-          Hi, I&apos;m Joel Samraj, a product engineer. MindOff is where I
+          Hi, I&apos;m Joe, a product engineer and researcher. MindOff is where I
           share the things I design, build, and learn along the way.
         </p>
       </header>
@@ -56,15 +82,21 @@ export default function AboutPage() {
           </p>
           <div className="mt-2 flex flex-col items-start gap-4 font-heading text-size-sm font-semibold text-ink sm:flex-row sm:gap-8">
             <a
-              className="rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
+              aria-label="GitHub profile mindoffwork"
+              className="inline-flex items-center gap-2 rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
               href="https://github.com/mindoffwork"
               rel="noreferrer"
               target="_blank"
             >
-              GitHub / mindoffwork
+              <GitHubIcon />
+              <span>mindoffwork</span>
             </a>
-            <p aria-label="Email person at mindoff dot work">
-              person [at] mindoff [dot] work
+            <p
+              aria-label="Email person at mindoff dot work"
+              className="inline-flex items-center gap-2"
+            >
+              <EmailIcon />
+              <span>joe [at] mindoff [dot] work</span>
             </p>
           </div>
         </div>

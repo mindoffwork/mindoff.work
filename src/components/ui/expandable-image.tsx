@@ -31,12 +31,7 @@ export function ExpandableImage({
   ...props
 }: ExpandableImageProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [portalRoot, setPortalRoot] = useState<Element | null>(null);
   const dialogTitleId = useId();
-
-  useEffect(() => {
-    setPortalRoot(document.body);
-  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -113,18 +108,12 @@ export function ExpandableImage({
         </>,
       )}
 
-      {portalRoot
+      {isOpen && typeof document !== "undefined"
         ? createPortal(
             <div
-              aria-hidden={!isOpen}
               aria-labelledby={dialogTitleId}
               aria-modal="true"
-              className={[
-                "fixed inset-0 z-[60] flex items-center justify-center bg-black/82 p-4 transition-opacity duration-300 ease-standard sm:p-6",
-                isOpen
-                  ? "pointer-events-auto opacity-100"
-                  : "pointer-events-none opacity-0",
-              ].join(" ")}
+              className="fixed inset-0 z-[60] flex items-center justify-center bg-black/82 p-4 opacity-100 transition-opacity duration-300 ease-standard sm:p-6"
               role="dialog"
               onClick={closeViewer}
             >
@@ -134,10 +123,7 @@ export function ExpandableImage({
               <button
                 type="button"
                 aria-label="Close image viewer"
-                className={[
-                  "absolute right-4 top-4 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-normal border-rule bg-canvas/92 text-ink shadow-sm backdrop-blur-sm transition-all duration-300 ease-standard hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule sm:right-6 sm:top-6",
-                  isOpen ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
-                ].join(" ")}
+                className="absolute right-4 top-4 inline-flex h-11 w-11 translate-y-0 cursor-pointer items-center justify-center rounded-full border-normal border-rule bg-canvas/92 text-ink opacity-100 shadow-sm backdrop-blur-sm transition-all duration-300 ease-standard hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule sm:right-6 sm:top-6"
                 onClick={(event) => {
                   event.stopPropagation();
                   closeViewer();
@@ -154,7 +140,7 @@ export function ExpandableImage({
               <div
                 className={[
                   "relative transition-all duration-300 ease-standard",
-                  isOpen ? "scale-100 opacity-100" : "scale-[0.97] opacity-0",
+                  "scale-100 opacity-100",
                 ].join(" ")}
                 onClick={(event) => event.stopPropagation()}
               >
@@ -177,7 +163,7 @@ export function ExpandableImage({
                 </div>
               </div>
             </div>,
-            portalRoot,
+            document.body,
           )
         : null}
     </>

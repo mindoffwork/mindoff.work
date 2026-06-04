@@ -1,0 +1,210 @@
+---
+title: The Four Types of Test Cases Every Python Developer Should Write
+date: 2026-06-03
+tags:
+  - test driven development
+  - python
+  - pytest
+type: guide
+summary: Most developers write valid-path tests and stop, unsure if they've covered enough. This four-category model gives you a repeatable system for test coverage you can actually reason about.
+color: "#E6D1F9"
+cover: /images/notes/the-four-types-of-test-cases-every-python-developer-should-write.png
+---
+
+I used to finish writing a test suite with a quiet sense that something was still missing. The tests were green. But were they the *right* tests? Had I actually covered the cases that would catch real bugs, or had I just convinced myself I was done?
+
+That uncertainty is what pushes most developers away from testing early on. It's not that people don't want to write tests — it's that nobody gives you a clear map of what to actually test. So you write the happy path, maybe a few error cases, and stop when you run out of obvious ideas. The result is a suite that looks complete but leaves you guessing.
+
+I came up with this model to fix that feeling. Four categories: Valid, Invalid, Boundary, and Anomaly. Work through all four for any function, and you move from guessing to knowing. New test cases have an obvious category to live in, and as your codebase grows, the suite grows with it in a predictable, structured way.
+
+Let's use a single function throughout. A ticket booking system for an Avengers screening. Simple enough to follow, complete enough to surface real testing decisions.
+
+```python
+def book_avengers_ticket(seat_count: int, member_name: str = "Guest") -> dict:
+    if not isinstance(seat_count, int):
+        raise TypeError("seat_count must be an integer")
+    if not isinstance(member_name, str):
+        raise TypeError("member_name must be a string")
+    if seat_count < 1 or seat_count > 4:
+        raise ValueError("Seat count must be between 1 and 4")
+    if not member_name.strip():
+        raise ValueError("member_name cannot be empty or whitespace")
+    return {"status": "confirmed", "seats": seat_count, "member": member_name}
+```
+
+**Rules: Four categories, one function.** 
+    - `seat_count` must be an integer between 1 and 4. 
+    - `member_name` is optional but if provided, must be a non-empty string. 
+
+
+
+## ✅ 1. Valid
+
+Valid tests confirm that correct inputs produce correct outputs. This is where every test suite starts — and where most stop.
+
+The goal isn't to test every possible valid combination. It's to cover representative cases across the accepted range: a typical middle value, use of an optional parameter, a clean happy path.
+
+```python
+def test_book_two_seats():
+    result = book_avengers_ticket(2)
+    assert result["status"] == "confirmed"
+    assert result["seats"] == 2
+
+def test_book_three_seats():
+    result = book_avengers_ticket(3)
+    assert result["status"] == "confirmed"
+
+def test_book_with_member_name():
+    result = book_avengers_ticket(2, "Tony Stark")
+    assert result["member"] == "Tony Stark"
+```
+
+These are your baseline. Red here means stop everything. Green here means the feature works — but it doesn't mean you're done.
+
+💡 You don't need a valid test for every possible input. Two or three representative cases are enough. The exact edges belong to Boundary — testing them here is just duplication.
+
+## ❌ 2. Invalid
+
+Invalid tests confirm that bad inputs are handled correctly. Not just that they fail — that they fail *in the right way*, with the right exception type and the right behavior.
+
+Most developers write some of these. What they miss are the type-wrong cases: a string where an int is expected, `None` where a value is required, a float where only integers make sense.
+
+```python
+import pytest
+
+def test_book_with_string_seat_count():
+    with pytest.raises(TypeError):
+        book_avengers_ticket("four")
+
+def test_book_with_none_seat_count():
+    with pytest.raises(TypeError):
+        book_avengers_ticket(None)
+
+def test_book_with_negative_seats():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(-3)
+
+def test_book_with_too_many_seats():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(10)
+```
+
+Assert on the specific exception type, not just that something was raised. `TypeError` and `ValueError` mean different things, and your tests should communicate that distinction.
+
+## 🎯 3. Boundary
+
+Off-by-one errors don't live at `seat_count=2`. They live at `1` and `4` and just outside them. Boundary tests exist specifically to catch these: they probe the exact edge of what your function accepts, and the value immediately beyond it.
+
+If someone writes `seat_count < 0` instead of `seat_count < 1`, a test for `-3` would still pass. Only a test for `0` — one step below the real boundary — would catch that mistake. That's the job of boundary testing.
+
+> Boundary tests always come in pairs: **acceptance cases** for the edge values that should work, and **rejection cases** for one step outside each edge. Writing only one side leaves real bugs uncaught.
+
+For this function, the range is 1 to 4. Four cases cover it completely.
+
+```python
+# Acceptance: the exact edges of the allowed range
+def test_boundary_minimum_accepted():
+    result = book_avengers_ticket(1)
+    assert result["status"] == "confirmed"
+
+def test_boundary_maximum_accepted():
+    result = book_avengers_ticket(4)
+    assert result["status"] == "confirmed"
+
+# Rejection: one step outside each edge
+def test_boundary_below_minimum():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(0)
+
+def test_boundary_above_maximum():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(5)
+```
+
+### When to write boundary tests
+
+Write boundary tests whenever there's an explicit numeric range or threshold in your logic. If the code contains `>= 1`, `<= 4`, `< 18`, `>= 50` — there's a boundary that needs testing. Other clear examples: age gates, page numbers in paginated APIs, rating scales (1 to 5 stars), minimum quantities for discount tiers.
+
+💡 A quick tip to spot boundary candidates: scan your function for `>`, `<`, `>=`, `<=` comparisons against literal numbers. Each one is a potential boundary.
+
+### When to skip them
+
+Skip them when no explicit boundary is defined in the logic.
+
+```python
+def get_avenger_profile(name: str) -> dict | None:
+    return avengers_db.get(name)
+```
+
+This function has no numeric constraint. Asking "does it behave differently for a 3-character name vs a 30-character name" is testing against a boundary you invented, not one that exists in the code. There's nothing to probe here.
+
+The rule: **if you can't point to an explicit numeric constraint in the logic, there's no boundary to test**.
+
+## 🔍 Anomaly
+
+Anomaly tests cover inputs that pass every type and format check but are contextually wrong. The type is correct. The value is syntactically valid. But it makes no real-world sense for this function.
+
+This is how Anomaly differs from Invalid. An invalid input fails a type or range check — caught at the door. An anomalous input walks right through those checks and either gets handled silently in a way you didn't intend, or exposes a validation gap you haven't added yet.
+
+Our function accepts any string for `member_name`. An empty string passes `isinstance(member_name, str)`. Three spaces pass it. A 5,000-character name passes it. All three are structurally valid but contextually wrong — and they represent different kinds of problems.
+
+> Like Boundary, Anomaly tests come in both forms: **rejection cases** for contextually-wrong inputs the system should refuse, and **acceptance cases** for unusual inputs the system handles gracefully. Both matter.
+
+```python
+# Rejection: contextually wrong inputs that should be caught
+def test_anomaly_empty_member_name():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(2, "")
+
+def test_anomaly_whitespace_only_member_name():
+    with pytest.raises(ValueError):
+        book_avengers_ticket(2, "   ")
+
+# Acceptance: unusual but handled gracefully — documents the behavior
+def test_anomaly_very_long_member_name():
+    # A 300-character name passes all checks. This test documents that the
+    # system currently accepts it, and flags the case for review if a
+    # length limit is ever added.
+    result = book_avengers_ticket(2, "T" * 300)
+    assert result["status"] == "confirmed"
+```
+
+Anomaly rejection tests often expose validation you haven't written yet. If `test_anomaly_empty_member_name` fails, that's not a test problem — it's a gap in your implementation. The test found it. Add the guard, rerun, move on.
+
+### When to write anomaly tests
+
+Write them when a valid type can hold values that make no semantic sense for this specific use case. String fields that shouldn't be blank. Integer fields with no hard upper bound but a clear real-world ceiling. Collections that could technically be empty but shouldn't be.
+
+The question to ask: "Is there a value that would pass all my current checks but still feel obviously wrong in this context?" If the answer is yes, that's an anomaly.
+
+### When to skip them
+
+Skip them when any value of the correct type can legitimately appear in real usage.
+
+```python
+def get_hero_by_id(hero_id: int) -> dict | None:
+    return heroes_db.get(hero_id)
+```
+
+`hero_id` is an integer. Any positive integer is a legitimate lookup — some will return data, some will return `None`, and that's expected behavior. There's no integer value that's "structurally valid but contextually absurd" for a primary-key lookup. The function handles all of them the same correct way. No anomaly tests needed.
+
+The rule: **if any valid value of the correct type can legitimately appear in real usage, there's no anomaly to test**.
+
+---
+
+## Putting It Together
+
+A complete test suite for `book_avengers_ticket` covers all four categories:
+
+| Category | What it covers |
+|----------|---------------|
+| ✅ Valid | Representative inputs that should succeed |
+| ❌ Invalid | Wrong types, wrong formats, clearly out-of-range values |
+| 🎯 Boundary | Exact edges of the allowed range, plus one step outside each |
+| 🔍 Anomaly | Structurally valid but contextually wrong inputs |
+
+Every test earns its place, and every new case that comes up — from a bug report, a code review, a production incident — has an obvious category to live in. The suite grows with predictability, not with accumulation.
+
+> 💡 When a bug surfaces in production, ask which of the four categories it falls under. That's where your coverage had a gap — and exactly where your next test belongs.
+
+That's the shift this model creates: from "I hope I covered enough" to "I know what I covered and what I haven't." That's the kind of confidence that makes testing worth doing.

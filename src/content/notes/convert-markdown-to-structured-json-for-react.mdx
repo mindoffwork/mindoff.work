@@ -1,0 +1,173 @@
+---
+title: Convert Markdown to Structured JSON for Cleaner React Rendering
+date: 2026-06-04
+tags:
+  - python
+  - react
+  - beautifulsoup
+  - github-gist
+type: guide
+summary: A Python pipeline that converts Markdown files into structured JSON, handling GitHub Gist embeds as first-class elements so React components can render text, images, and code separately.
+color: "#CAE0F7"
+cover: /images/notes/convert-markdown-to-structured-json-for-react.png
+---
+
+When you write a React blog and want to embed GitHub Gists, raw Markdown-to-HTML stops being enough. A Gist URL dropped in your Markdown becomes a plain paragraph. Dumping that into `dangerouslySetInnerHTML` won't execute the embed script, and there's no clean way to isolate it for its own component.
+
+The fix is to treat the HTML as structured data rather than a blob. Convert Markdown to HTML, detect Gist links and turn them into identifiable elements, then parse the result into JSON that a React frontend can work with directly.
+
+This guide walks through that pipeline in four steps using Python.
+
+## What You Need
+
+```bash
+pip install markdown beautifulsoup4 pandas
+```
+
+The `markdown` package handles the conversion. `BeautifulSoup` does the parsing. `pandas` powers the batch processor at the end.
+
+## Step 1: Convert Gist Links to Embed Scripts
+
+Before converting Markdown to HTML, scan the raw Markdown text for any standalone Gist URLs. When found, replace them with `<script>` tags that carry the Gist path as the `src` attribute.
+
+```python
+# markdown_processing.py
+
+import re
+
+def replace_gist_links(md_text):
+    return re.sub(
+        r"^\s*(https://gist\.github\.com/([a-zA-Z0-9\-]+/[a-zA-Z0-9]+))\s*$",
+        lambda m: f'<script id="gist" src="{m.group(2)}"></script>',
+        md_text,
+        flags=re.MULTILINE
+    )
+```
+
+The regex matches a Gist URL that occupies its own line, with optional surrounding whitespace. The `re.MULTILINE` flag makes `^` and `$` apply per line rather than to the entire string. A URL like `https://gist.github.com/user/abc123` becomes:
+
+```html
+<script id="gist" src="user/abc123"></script>
+```
+
+Gists embedded mid-paragraph are intentionally left untouched. Only standalone links are converted.
+
+## Step 2: Convert Markdown to HTML
+
+With Gist links replaced, pass the Markdown text through the `markdown` package:
+
+```python
+# markdown_processing.py
+
+import markdown
+
+html_output = markdown.markdown(replace_gist_links(md_text))
+```
+
+This handles standard formatting: headers, bold, italics, inline code, fenced code blocks, and lists. The `<script>` tags from Step 1 pass through the converter unchanged.
+
+## Step 3: Parse HTML into Structured JSON
+
+This is where the pipeline earns its value. Instead of one HTML string, you get a list of typed elements that a React component can map over directly.
+
+```python
+# json_generator.py
+
+from bs4 import BeautifulSoup
+import json
+
+def generate_json_from_html(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    elements = []
+    current_html_content = ""
+
+    for el in soup.contents:
+        if el.name == 'script':
+            if current_html_content:
+                elements.append({"name": "text", "content": current_html_content.strip()})
+                current_html_content = ""
+            elements.append({"name": "script", "content": "gist", "link": el.get('src', '')})
+
+        elif el.name == 'p' and len(el.contents) == 1 and el.img:
+            if current_html_content:
+                elements.append({"name": "text", "content": current_html_content.strip()})
+                current_html_content = ""
+            elements.append({"name": "img", "content": el.img.get('alt', ''), "link": el.img.get('src', '')})
+
+        else:
+            current_html_content += str(el).replace('\n', '').strip()
+
+    if current_html_content:
+        elements.append({"name": "text", "content": current_html_content.strip()})
+
+    return json.dumps(elements, indent=4)
+```
+
+The function walks each top-level HTML element. When it hits a `<script>` or a standalone image, it flushes any accumulated HTML into a `text` block, then appends the Gist or image as its own typed element. Everything else accumulates until the next boundary.
+
+The output for a post with a Gist embed looks like this:
+
+```json
+[
+  {
+    "name": "text",
+    "content": "<h2>How to do the thing</h2><p>This is important...</p>"
+  },
+  {
+    "name": "script",
+    "content": "gist",
+    "link": "username/gistid"
+  }
+]
+```
+
+On the React side, map over this array and render each `name` type with its own component: a `<div dangerouslySetInnerHTML>` for `text`, a Gist embed component for `script`, and a standard `<img>` for images.
+
+## Step 4: Automate for Multiple Posts
+
+With the helpers in place, a batch processor handles any number of Markdown files:
+
+```python
+# batch_processor.py
+
+import pandas as pd
+import os
+from helpers.markdown_processing import replace_gist_links
+from helpers.json_generator import generate_json_from_html
+import markdown
+
+def process_md_files(df):
+    for link in df['link']:
+        md_path = os.path.join("posts/" + link, 'post.md')
+        json_path = os.path.join("posts/" + link, 'post_body.json')
+        try:
+            with open(md_path, 'r', encoding='utf-8') as f:
+                md_text = f.read()
+
+            html_output = markdown.markdown(replace_gist_links(md_text))
+
+            with open(json_path, 'w', encoding='utf-8') as json_file:
+                json_file.write(generate_json_from_html(html_output))
+
+        except FileNotFoundError:
+            pass
+```
+
+Pass a DataFrame with a `link` column where each value is a post's folder name:
+
+```python
+# runner.py
+
+df = pd.DataFrame({
+    'link': ['quickly-integrate-tailwind-css-into-an-existing-next-js-app-in-just-4-steps']
+})
+process_md_files(df)
+```
+
+Each post gets its own `post_body.json` written next to the source `post.md`. The `FileNotFoundError` catch lets the loop continue if a post folder is missing its Markdown file.
+
+## What You End Up With
+
+Each Markdown post produces a JSON file the React frontend can consume without any HTML parsing at the page level. Text blocks render with `dangerouslySetInnerHTML`. Gists get their own component and their own lifecycle. Images sit in controlled `<img>` elements with proper alt text.
+
+The structure also makes content reusable. The same JSON works for a newsletter renderer, an RSS feed, or a content API without touching the source Markdown again.

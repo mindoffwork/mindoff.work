@@ -7,8 +7,6 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getAllProjects, getAllNotes } from "@/lib/content";
 import type { ProjectPost, NotePost } from "@/lib/types";
 
-const githubUrl = "https://github.com/mindoffwork";
-
 export function generateMetadata(): Metadata {
   return createPageMetadata({
     title: "Mind Off Work",
@@ -16,19 +14,6 @@ export function generateMetadata(): Metadata {
       "Tools, writings, and product experiments exploring quieter ways to design, build, automate, and think through work.",
     path: "/",
   });
-}
-
-function GitHubIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="size-6"
-      fill="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path d="M12 2C6.48 2 2 6.59 2 12.25c0 4.52 2.87 8.35 6.84 9.71.5.09.68-.22.68-.49v-1.9c-2.78.62-3.37-1.22-3.37-1.22-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.85.09-.67.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.35 9.35 0 0 1 12 6.94c.85 0 1.7.12 2.5.34 1.9-1.33 2.74-1.05 2.74-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9v2.83c0 .27.18.58.69.48A10.08 10.08 0 0 0 22 12.25C22 6.59 17.52 2 12 2Z" />
-    </svg>
-  );
 }
 
 function formatNoteDate(date: string) {
@@ -183,6 +168,7 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
   const surfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
+  const hasCover = Boolean(post.cover);
 
   return (
     <SiteLink
@@ -191,7 +177,9 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
       href={`/notes/${post.slug}`}
     >
       <article
-        className={`flex flex-col gap-4 p-5 sm:grid sm:min-h-32 sm:grid-cols-[7rem_1fr_auto] sm:items-center sm:gap-8 sm:p-6 ${surfaceClassName}`}
+        className={`flex flex-col gap-4 p-5 sm:grid sm:min-h-32 sm:items-center sm:gap-8 sm:p-6 ${
+          hasCover ? "sm:grid-cols-[7rem_1fr_auto]" : "sm:grid-cols-[1fr_auto]"
+        } ${surfaceClassName}`}
         data-color={post.color}
       >
         <div className="flex items-start gap-4 sm:contents">
@@ -207,9 +195,7 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
               width={112}
               wrapperClassName="size-16 shrink-0 rounded-lg sm:size-24"
             />
-          ) : (
-            <span aria-hidden="true" className="hidden sm:block" />
-          )}
+          ) : null}
           <h3 className="font-heading text-size-base sm:text-size-lg font-bold leading-tight tracking-title text-ink">
             {post.title}
           </h3>
