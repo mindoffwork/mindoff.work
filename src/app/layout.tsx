@@ -157,11 +157,13 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="flex min-h-screen flex-col border-y-normal border-rule bg-canvas pb-nav font-body text-ink antialiased lg:pb-0 lg:pl-nav">
+      <body className="flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav">
+        <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-frame h-[var(--border-width-normal)] bg-rule" />
+        <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 bottom-0 z-frame h-[var(--border-width-normal)] bg-rule" />
         <LoadingExperience />
-        <div className="flex min-h-screen flex-col pb-nav lg:pb-0" data-site-shell="">
+        <div className="flex min-h-screen flex-col pb-nav-mobile lg:pb-0" data-site-shell="">
           <Navbar />
-          <div className="flex h-nav-logo-mobile items-center justify-end lg:hidden">
+          <div className="flex h-nav-logo-mobile items-center justify-end lg:hidden pr-4">
             <ThemeToggle />
           </div>
           <main className="flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100">

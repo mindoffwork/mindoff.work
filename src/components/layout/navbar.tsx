@@ -18,7 +18,7 @@ export function Navbar() {
     <header className="pointer-events-none fixed inset-0 z-nav lg:inset-y-0 lg:right-auto lg:flex lg:w-nav lg:flex-col lg:border-r-normal lg:border-rule lg:bg-canvas">
       <SiteLink
         aria-label="mindoff.work home"
-        className="group pointer-events-auto relative z-10 flex h-nav-logo-mobile w-nav-logo-mobile shrink-0 items-center justify-center rounded-br-nav-logo border-r-normal border-b-normal border-rule bg-brand focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-ink lg:h-nav-logo lg:w-nav-logo"
+        className="group pointer-events-auto absolute bottom-0 left-0 z-10 flex h-nav-logo-mobile w-nav-logo-mobile items-center justify-center rounded-tr-nav-logo border-r-normal border-t-normal border-rule bg-brand focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-ink lg:relative lg:h-nav-logo lg:w-nav-logo lg:shrink-0 lg:rounded-tr-none lg:rounded-br-nav-logo lg:border-t-0 lg:border-b-normal"
         href="/"
       >
         <Image
@@ -31,14 +31,14 @@ export function Navbar() {
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute top-full left-0 z-10 mt-3 translate-y-1 rounded-lg border-normal border-tooltip-rule bg-ink px-3 py-2 font-heading text-size-sm font-medium text-canvas opacity-0 transition-all duration-fast ease-standard group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 lg:top-auto lg:left-full lg:mt-0 lg:ml-3 lg:translate-x-1 lg:translate-y-0 lg:group-hover:translate-x-0 lg:group-focus-visible:translate-x-0"
+          className="pointer-events-none absolute bottom-full left-0 z-10 mb-3 -translate-y-1 rounded-lg border-normal border-tooltip-rule bg-ink px-3 py-2 font-heading text-size-sm font-medium text-canvas opacity-0 transition-all duration-fast ease-standard group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 lg:bottom-auto lg:left-full lg:mb-0 lg:ml-3 lg:translate-x-1 lg:translate-y-0 lg:group-hover:translate-x-0 lg:group-focus-visible:translate-x-0"
         >
           Home
         </span>
       </SiteLink>
       <nav
         aria-label="Primary navigation"
-        className="pointer-events-auto fixed inset-x-0 bottom-0 flex h-nav items-center justify-evenly border-t-normal bottom-b-normal border-rule bg-canvas/50 backdrop-blur-3xl lg:static lg:flex-1 lg:flex-col lg:justify-center lg:gap-6 lg:border-t-0 lg:border-b-0 lg:bg-transparent lg:pb-nav"
+        className="pointer-events-auto fixed inset-x-0 bottom-0 flex h-nav-mobile items-center justify-evenly overflow-x-auto border-t-normal bottom-b-normal border-rule bg-canvas/50 pl-nav-logo-mobile backdrop-blur-3xl lg:static lg:h-auto lg:flex-1 lg:flex-col lg:justify-center lg:gap-6 lg:overflow-x-visible lg:border-t-0 lg:border-b-0 lg:bg-transparent lg:pl-0 lg:pb-nav"
       >
         {navItems.map((item) => {
           const isActive =

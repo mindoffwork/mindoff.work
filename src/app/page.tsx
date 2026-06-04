@@ -224,13 +224,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <header className="relative border-b-normal border-rule px-8 py-20 sm:px-6 lg:py-44">
+      <header className="relative border-b-normal border-rule px-8 pt-20 pb-32 sm:px-6 lg:py-44">
         <div className="mx-auto grid w-full max-w-media gap-x-3 gap-y-1 md:grid-cols-[0.85fr_1.35fr] md:grid-rows-[auto_auto]">
-          <p className="max-w-sm self-end text-balance text-left font-body text-size-xl sm:text-size-xl leading-snug text-ink md:justify-self-end md:pb-[0.32em] md:text-right">
+          <p className="max-w-sm self-end text-balance text-left font-body text-size-2xl leading-snug text-ink md:justify-self-end md:pb-[0.32em] md:text-right">
             Crafting tools and writings to streamline and lighten up work
           </p>
           <h1
-            className="font-heading text-size-display font-black leading-15 sm:leading-24 tracking-tighter text-ink md:row-span-2 md:col-start-2"
+            className="font-heading text-size-display font-black leading-18 sm:leading-24 tracking-tighter text-ink md:row-span-2 md:col-start-2"
             id="home-title"
           >
             <span className="block">mind</span>

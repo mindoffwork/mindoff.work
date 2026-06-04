@@ -35,7 +35,7 @@
   --font-size-4xl: 3rem;
   --font-size-5xl: 3.75rem;
   --font-size-6xl: 4.5rem;
-  --font-size-display: clamp(3rem, 12vw, 6rem);
+  --font-size-display: clamp(4rem, 12vw, 6rem);
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -67,16 +67,17 @@
   --radius-sm: 0.2rem;
   --radius-md: 0.4rem;
   --radius-lg: 0.6rem;
-  --radius-navigation-logo: 1.8rem;
+  --radius-navigation-logo: 1.5rem;
   --radius-full: 9999px;
 
   --size-full: 100%;
   --size-viewport-block: 100vh;
-  --layout-navigation-width: 4rem;
-  --layout-navigation-logo-size: 5rem;
-  --layout-navigation-mobile-logo-size: 3.5rem;
+  --layout-navigation-width: 3.5rem;
+  --layout-navigation-logo-size: 4.5rem;
+  --layout-navigation-mobile-width: 3.5rem;
+  --layout-navigation-mobile-logo-size: 4.5rem;
   --layout-brand-mark-size: 2.5rem;
-  --layout-brand-mark-mobile-size: 1.9rem;
+  --layout-brand-mark-mobile-size: 2rem;
   --layout-shell-max: 72rem;
   --layout-reading-max: 42rem;
   --layout-media-max: 52rem;
@@ -93,6 +94,7 @@
   --z-loading-overlay: 30;
   --z-loading-progress: 40;
   --z-loading-splash: 50;
+  --z-frame: 60;
 }
 
 :root[data-theme="dark"] {
@@ -169,6 +171,7 @@
   --tracking-kicker: var(--letter-spacing-kicker);
   --tracking-title: var(--letter-spacing-title);
   --spacing-nav: var(--layout-navigation-width);
+  --spacing-nav-mobile: var(--layout-navigation-mobile-width);
   --spacing-nav-logo: var(--layout-navigation-logo-size);
   --spacing-nav-logo-mobile: var(--layout-navigation-mobile-logo-size);
   --spacing-brand-mark: var(--layout-brand-mark-size);
@@ -186,6 +189,7 @@
   --z-index-loading-overlay: var(--z-loading-overlay);
   --z-index-loading-progress: var(--z-loading-progress);
   --z-index-loading-splash: var(--z-loading-splash);
+  --z-index-frame: var(--z-frame);
 }
 
 @theme {
