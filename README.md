@@ -29,6 +29,6 @@ _A personal website and weblog for projects, notes, and build records._
 This repository uses split licensing:
 
 - Source code is licensed under the [MIT License](./LICENSE).
-- Original writing and creator-made open images are licensed under [CC BY 4.0](./LICENSE-content.md), unless stated otherwise.
+- Original writing and creator-made open images follow the [content usage terms](./CONTENT.md), unless stated otherwise.
 
 Third-party assets, trademarks, brand materials, product names, and externally credited work remain excluded unless explicitly licensed.

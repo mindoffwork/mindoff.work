@@ -1,4 +1,4 @@
-# Content License
+# Content Usage
 
 Unless a page, file, repository, image credit, or embedded third-party source says otherwise, the original writing and creator-made open images published for `mindoff.work` are licensed under the Creative Commons Attribution 4.0 International License (`CC BY 4.0`).
 
