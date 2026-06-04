@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { SiteLink } from "@/components/ui/site-link";
 import type { NotePost } from "@/lib/types";
@@ -19,7 +20,7 @@ function formatPublishedDate(date: string) {
 export function NoteCard({ eager = false, post }: NoteCardProps) {
   const hasCover = Boolean(post.cover);
   const noteSurfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
 
   return (
@@ -28,7 +29,7 @@ export function NoteCard({ eager = false, post }: NoteCardProps) {
       className="group relative block h-full overflow-hidden rounded-2xl border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/notes/${post.slug}`}
     >
-      <article className={`flex h-full flex-col ${noteSurfaceClassName}`} data-color={post.color}>
+      <article className={`flex h-full flex-col ${noteSurfaceClassName}`} style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}>
         {post.cover ? (
           <div className="px-4 pt-4 sm:px-6 sm:pt-6">
             <LoadingImage

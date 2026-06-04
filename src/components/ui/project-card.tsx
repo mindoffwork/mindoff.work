@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { SiteLink } from "@/components/ui/site-link";
 import type { ProjectPost } from "@/lib/types";
@@ -15,7 +16,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const cover = post.covers?.[0];
   const projectSurfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
 
   return (
@@ -26,7 +27,7 @@ export function ProjectCard({
     >
       <article
         className={`flex flex-col lg:flex-row ${imageFirst ? "" : "lg:flex-row-reverse"} ${projectSurfaceClassName}`}
-        data-color={post.color}
+        style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         {cover ? (
           <div className="relative aspect-cover w-full overflow-hidden lg:w-7/10 lg:shrink-0">

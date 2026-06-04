@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LoadingImage } from "@/components/ui/loading-image";
@@ -65,7 +66,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
   const publishedDate = formatPublishedDate(post.date);
   const readingMinutes = getReadingMinutes(post.content);
   const noteSurfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
 
   return (
@@ -78,7 +79,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
               ? `lg:pb-16 border-b-normal border-rule ${noteSurfaceClassName}`
               : "lg:pb-4"
         }`}
-        data-color={post.cover ? undefined : post.color}
+        style={!post.cover && post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         <div className="flex w-full max-w-reading flex-col gap-8">
           <div className="flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle">
@@ -101,7 +102,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
       {post.cover ? (
         <figure
           className={`flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 ${noteSurfaceClassName}`}
-          data-color={post.color}
+          style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
         >
           <LoadingImage
             alt=""

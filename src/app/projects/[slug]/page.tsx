@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getActionButtonClassName } from "@/components/ui/action-button";
@@ -62,7 +63,7 @@ export default async function ProjectPostPage({
   const projectDate = formatProjectDate(post.date);
   const covers = post.covers ?? [];
   const projectSurfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
   const primaryActionClassName = post.color
     ? `${getActionButtonClassName("tinted-primary")} ${projectSurfaceClassName}`
@@ -86,7 +87,7 @@ export default async function ProjectPostPage({
               {post.productUrl ? (
                 <a
                   className={primaryActionClassName}
-                  data-color={post.color}
+                  style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
                   href={post.productUrl}
                 >
                   View product
@@ -107,7 +108,7 @@ export default async function ProjectPostPage({
       {covers.length ? (
         <figure
           className={`flex flex-col gap-3 border-t-normal border-b-normal border-rule ${projectSurfaceClassName}`}
-          data-color={post.color}
+          style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
         >
           <div className="flex flex-wrap gap-3 p-3">
             {covers.map((cover, index) => {
@@ -162,7 +163,7 @@ export default async function ProjectPostPage({
       <section
         aria-label="Project statistics"
         className={`border-t-normal border-b-normal border-rule ${projectSurfaceClassName}`}
-        data-color={post.color}
+        style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         <dl className="mx-auto flex w-full max-w-media flex-col gap-10 px-8 py-12 sm:flex-row sm:px-6 sm:py-12">
           <div className="text-center sm:flex-1">

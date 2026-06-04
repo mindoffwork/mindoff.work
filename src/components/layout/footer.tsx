@@ -50,13 +50,6 @@ export function Footer() {
             >
               GitHub
             </a>
-            <a
-              className={footerLinkClassName}
-              href="https://creativecommons.org/licenses/by/4.0/"
-              rel="license"
-            >
-              CC BY 4.0
-            </a>
           </nav>
         </div>
       </div>

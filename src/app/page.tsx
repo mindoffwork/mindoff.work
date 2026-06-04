@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { getActionButtonClassName } from "@/components/ui/action-button";
 import { ExpandableImage } from "@/components/ui/expandable-image";
@@ -27,7 +28,7 @@ function formatNoteDate(date: string) {
 
 function ProjectTextCard({ post }: { post: ProjectPost }) {
   const surfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
 
   return (
@@ -38,7 +39,7 @@ function ProjectTextCard({ post }: { post: ProjectPost }) {
     >
       <article
         className={`flex w-full flex-col justify-between gap-8 p-6 sm:p-8 ${surfaceClassName}`}
-        data-color={post.color}
+        style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         <div className="flex w-full flex-col gap-4">
           <p className="font-heading text-size-xs tracking-wide font-light italic text-muted">
@@ -82,7 +83,7 @@ function ProjectImageCard({
   }
 
   const plateClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] in-data-[theme=dark]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] in-data-[theme=dark]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-canvas";
 
   return (
@@ -97,7 +98,7 @@ function ProjectImageCard({
         renderTrigger={
           <div
             className={`flex h-full items-center justify-center ${plateClassName}`}
-            data-color={post.color}
+            style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
           >
             <LoadingImage
               alt=""
@@ -166,7 +167,7 @@ function IndexLink({ href, label }: { href: string; label: string }) {
 
 function NoteFeatureRow({ post }: { post: NotePost }) {
   const surfaceClassName = post.color
-    ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
+    ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
   const hasCover = Boolean(post.cover);
 
@@ -180,7 +181,7 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
         className={`flex flex-col gap-4 p-5 sm:grid sm:min-h-32 sm:items-center sm:gap-8 sm:p-6 ${
           hasCover ? "sm:grid-cols-[7rem_1fr_auto]" : "sm:grid-cols-[1fr_auto]"
         } ${surfaceClassName}`}
-        data-color={post.color}
+        style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         <div className="flex items-start gap-4 sm:contents">
           {post.cover ? (
