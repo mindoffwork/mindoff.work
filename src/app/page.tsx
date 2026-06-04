@@ -42,15 +42,13 @@ function ProjectTextCard({ post }: { post: ProjectPost }) {
         style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
         <div className="flex w-full flex-col gap-4">
-          <p className="font-heading text-size-xs tracking-wide font-light italic text-muted">
-            {post.tags.join(", ")}
-          </p>
+
           <p className="font-body text-size-sm text-size leading-relaxed text-ink">
             {post.summary}
           </p>
         </div>
         <div className="flex items-center justify-between gap-6">
-          <h3 className="font-heading text-size-base font-extrabold tracking-title text-ink">
+          <h3 className="font-heading text-size-base font-extrabold leading-tight tracking-title text-ink">
             {post.title}
           </h3>
           <span
@@ -183,18 +181,18 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
         } ${surfaceClassName}`}
         style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
-        <div className="flex items-start gap-4 sm:contents">
+        <div className="flex flex-col gap-3 sm:contents">
           {post.cover ? (
             <LoadingImage
               alt=""
               height={112}
-              imageClassName="size-16 rounded-lg object-cover sm:size-24"
+              imageClassName="w-full rounded-lg object-cover sm:size-24"
               placeholderClassName="rounded-lg"
-              sizes="(max-width: 639px) 4rem, 6rem"
+              sizes="(max-width: 639px) calc(100vw - 2.5rem), 6rem"
               src={post.cover}
               unoptimized
               width={112}
-              wrapperClassName="size-16 shrink-0 rounded-lg sm:size-24"
+              wrapperClassName="w-full rounded-lg sm:size-24 sm:shrink-0"
             />
           ) : null}
           <h3 className="font-heading text-size-base sm:text-size-lg font-bold leading-tight tracking-title text-ink">
@@ -226,13 +224,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <header className="relative border-b-normal border-rule px-8 py-12 sm:px-6 sm:py-20 lg:py-44">
+      <header className="relative border-b-normal border-rule px-8 py-20 sm:px-6 lg:py-44">
         <div className="mx-auto grid w-full max-w-media gap-x-3 gap-y-1 md:grid-cols-[0.85fr_1.35fr] md:grid-rows-[auto_auto]">
-          <p className="max-w-sm self-end text-balance text-left font-body text-size-base sm:text-size-xl leading-snug text-ink md:justify-self-end md:pb-[0.32em] md:text-right">
+          <p className="max-w-sm self-end text-balance text-left font-body text-size-xl sm:text-size-xl leading-snug text-ink md:justify-self-end md:pb-[0.32em] md:text-right">
             Crafting tools and writings to streamline and lighten up work
           </p>
           <h1
-            className="font-heading text-size-4xl sm:text-size-display font-black sm:leading-24 tracking-tighter text-ink md:row-span-2 md:col-start-2"
+            className="font-heading text-size-display font-black leading-15 sm:leading-24 tracking-tighter text-ink md:row-span-2 md:col-start-2"
             id="home-title"
           >
             <span className="block">mind</span>

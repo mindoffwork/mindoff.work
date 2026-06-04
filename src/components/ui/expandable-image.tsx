@@ -95,7 +95,7 @@ export function ExpandableImage({
           <button
             type="button"
             aria-label={buttonLabel}
-            className="absolute right-3 top-3 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-normal border-rule bg-canvas/90 text-ink opacity-0 shadow-sm backdrop-blur-sm transition-all duration-300 ease-standard group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-canvas focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule [@media(hover:none)]:opacity-100"
+            className="absolute right-3 top-3 hidden sm:inline-flex sm:h-10 sm:w-10 cursor-pointer items-center justify-center rounded-full border-normal border-rule bg-canvas/50 text-ink opacity-0 backdrop-blur-3xl transition-all duration-300 ease-standard group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-canvas/70 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule [@media(hover:none)]:opacity-100"
             onClick={openViewer}
           >
             <span

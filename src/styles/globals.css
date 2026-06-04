@@ -26,7 +26,7 @@
   color-scheme: light;
 
   --font-size-xs: 0.85rem;
-  --font-size-sm: 1rem;
+  --font-size-sm: 1.1rem;
   --font-size-base: 1.25rem;
   --font-size-lg: 1.5rem;
   --font-size-xl: 1.75rem;
@@ -76,7 +76,7 @@
   --layout-navigation-logo-size: 5rem;
   --layout-navigation-mobile-logo-size: 3.5rem;
   --layout-brand-mark-size: 2.5rem;
-  --layout-brand-mark-mobile-size: 2rem;
+  --layout-brand-mark-mobile-size: 1.9rem;
   --layout-shell-max: 72rem;
   --layout-reading-max: 42rem;
   --layout-media-max: 52rem;

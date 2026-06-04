@@ -3,6 +3,7 @@ import { Poltawski_Nowy, Poppins } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { LoadingExperience } from "@/components/ui/loading-experience";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { createPageMetadata, siteUrl } from "@/lib/metadata";
 import "../styles/globals.css";
 
@@ -156,11 +157,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="flex min-h-screen flex-col bg-canvas pb-nav font-body text-ink antialiased lg:pb-0 lg:pl-nav">
+      <body className="flex min-h-screen flex-col border-y-normal border-rule bg-canvas pb-nav font-body text-ink antialiased lg:pb-0 lg:pl-nav">
         <LoadingExperience />
         <div className="flex min-h-screen flex-col pb-nav lg:pb-0" data-site-shell="">
           <Navbar />
-          <main className="flex-1 pt-nav-logo-mobile transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none sm:pt-0 [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100">
+          <div className="flex h-nav-logo-mobile items-center justify-end lg:hidden">
+            <ThemeToggle />
+          </div>
+          <main className="flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100">
             {children}
           </main>
           <Footer />
