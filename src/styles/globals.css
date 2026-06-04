@@ -18,6 +18,7 @@
   --color-tooltip-border: color-mix(in srgb, var(--color-background) 24%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
   --color-action-background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+  --color-policy-note-background: var(--color-brown);
   --color-loading-progress: var(--color-black);
   --color-loading-skeleton: color-mix(in srgb, var(--color-text-primary) 7%, transparent);
   --color-loading-skeleton-strong: color-mix(in srgb, var(--color-text-primary) 14%, transparent);
@@ -107,6 +108,11 @@
   --color-border: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
   --color-code-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   --color-action-background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  --color-policy-note-background: color-mix(
+    in oklch,
+    var(--color-brown) var(--surface-tint-dark-weight),
+    var(--color-background)
+  );
   --color-loading-skeleton: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
   --color-loading-skeleton-strong: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
   --color-loading-skeleton-muted: color-mix(in srgb, var(--color-text-primary) 6%, var(--color-background));
@@ -123,6 +129,7 @@
   --color-rule: var(--color-border);
   --color-tooltip-rule: var(--color-tooltip-border);
   --color-code: var(--color-code-background);
+  --color-policy-note: var(--color-policy-note-background);
   --color-nav-selection: var(--color-navigation-selection);
   --color-ink: var(--color-text-primary);
   --color-muted: var(--color-text-secondary);

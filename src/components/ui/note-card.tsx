@@ -3,6 +3,7 @@ import { SiteLink } from "@/components/ui/site-link";
 import type { NotePost } from "@/lib/types";
 
 type NoteCardProps = {
+  eager?: boolean;
   post: NotePost;
 };
 
@@ -15,7 +16,7 @@ function formatPublishedDate(date: string) {
   }).format(new Date(`${date}T00:00:00Z`));
 }
 
-export function NoteCard({ post }: NoteCardProps) {
+export function NoteCard({ eager = false, post }: NoteCardProps) {
   const hasCover = Boolean(post.cover);
   const noteSurfaceClassName = post.color
     ? "bg-[attr(data-color_type(<color>))] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,attr(data-color_type(<color>))_var(--surface-tint-dark-weight),var(--color-background))]"
@@ -34,6 +35,7 @@ export function NoteCard({ post }: NoteCardProps) {
               alt=""
               height={1024}
               imageClassName="block h-auto w-full rounded-lg group-hover:opacity-90"
+              loading={eager ? "eager" : "lazy"}
               placeholderClassName="rounded-lg"
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc((100vw - 3rem) / 2), calc((100vw - 7rem) / 3)"
               src={post.cover}
@@ -56,7 +58,7 @@ export function NoteCard({ post }: NoteCardProps) {
               {formatPublishedDate(post.date)}
             </time>
             {!hasCover ? (
-              <p className="line-clamp-3 font-body text-size-base text-ink">
+              <p className="line-clamp-5 font-body text-size-base text-ink">
                 {post.summary}
               </p>
             ) : null}

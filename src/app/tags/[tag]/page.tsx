@@ -52,8 +52,12 @@ export default async function TagPage({ params }: TagPageProps) {
         <p className="font-heading text-size-lg text-muted">Posts collected under this tag.</p>
       </header>
       <div className="divide-y-normal divide-rule border-t-normal border-rule">
-        {posts.map((post) => (
-          <PostCard key={`${post.slug}-${post.type}`} post={post} />
+        {posts.map((post, index) => (
+          <PostCard
+            eager={index === 0}
+            key={`${post.slug}-${post.type}`}
+            post={post}
+          />
         ))}
       </div>
     </div>

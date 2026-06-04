@@ -20,6 +20,7 @@ export function Footer() {
             alt=""
             className="h-auto w-28 object-contain grayscale [[data-theme=dark]_&]:invert sm:w-32"
             height={731}
+            loading="eager"
             sizes="(min-width: 640px) 8rem, 7rem"
             src="/images/brand/MindOff_Logo_Full.png"
             unoptimized
@@ -31,16 +32,16 @@ export function Footer() {
           <nav aria-label="Site information" className="contents">
             <SiteLink
               className={footerLinkClassName}
-              href="/terms"
+              href="/policy"
             >
               Terms &amp; Privacy
             </SiteLink>
-            <SiteLink
+            <a
               className={footerLinkClassName}
               href="/rss.xml"
             >
               RSS
-            </SiteLink>
+            </a>
             <a
               className={footerLinkClassName}
               href={githubUrl}
@@ -51,10 +52,10 @@ export function Footer() {
             </a>
             <a
               className={footerLinkClassName}
-              href="https://creativecommons.org/licenses/by-nc/4.0/"
+              href="https://creativecommons.org/licenses/by/4.0/"
               rel="license"
             >
-              CC BY-NC 4.0
+              CC BY 4.0
             </a>
           </nav>
         </div>

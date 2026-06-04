@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type ImageProps } from "next/image";
-import { useCallback, useEffect, useRef, useState, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 
 type LoadingImageProps = ImageProps & {
   imageClassName?: string;
@@ -76,14 +76,6 @@ export function LoadingImage({
 }: LoadingImageProps) {
   const [loadedSrc, setLoadedSrc] = useState<ImageProps["src"] | null>(null);
   const isLoaded = loadedSrc === props.src;
-  const handleImageRef = useCallback(
-    (image: HTMLImageElement | null) => {
-      if (image?.complete && image.naturalWidth > 0) {
-        setLoadedSrc(props.src);
-      }
-    },
-    [props.src],
-  );
 
   function handleLoad(event: SyntheticEvent<HTMLImageElement>) {
     setLoadedSrc(props.src);
@@ -102,11 +94,10 @@ export function LoadingImage({
       <Image
         {...props}
         alt={alt}
-        className={`${className ?? ""} ${imageClassName ?? ""} transition-opacity duration-fast ease-standard ${
-          isLoaded ? "opacity-100" : "opacity-0"
+        className={`opacity-100 ${className ?? ""} ${imageClassName ?? ""} transition-opacity duration-fast ease-standard ${
+          isLoaded ? "" : "!opacity-0"
         }`.trim()}
         onLoad={handleLoad}
-        ref={handleImageRef}
       />
     </div>
   );

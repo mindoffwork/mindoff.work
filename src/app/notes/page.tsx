@@ -29,8 +29,8 @@ export default function NotesPage() {
         aria-label="Notes"
         className="mx-auto grid w-full max-w-6xl auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {posts.map((post) => (
-          <NoteCard key={post.slug} post={post} />
+        {posts.map((post, index) => (
+          <NoteCard eager={index < 3} key={post.slug} post={post} />
         ))}
       </section>
     </div>

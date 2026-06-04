@@ -4,6 +4,7 @@ import type { NotePost, ProjectPost } from "@/lib/types";
 import { Tag } from "./tag";
 
 type PostCardProps = {
+  eager?: boolean;
   post: ProjectPost | NotePost;
 };
 
@@ -17,7 +18,7 @@ function getPostHref(post: ProjectPost | NotePost) {
     : `/notes/${post.slug}`;
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ eager = false, post }: PostCardProps) {
   const cover = isProjectPost(post) ? post.covers?.[0] : post.cover;
 
   return (
@@ -49,6 +50,7 @@ export function PostCard({ post }: PostCardProps) {
               alt=""
               fill
               imageClassName="object-cover group-hover:opacity-90"
+              loading={eager ? "eager" : "lazy"}
               placeholderClassName="rounded-md"
               sizes="(max-width: 639px) 100vw, 160px"
               src={cover}

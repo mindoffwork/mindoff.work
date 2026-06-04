@@ -1,16 +1,29 @@
 import type { Metadata } from "next";
 import { Poltawski_Nowy, Poppins } from "next/font/google";
-import Script from "next/script";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { LoadingExperience } from "@/components/ui/loading-experience";
 import { createPageMetadata, siteUrl } from "@/lib/metadata";
 import "../styles/globals.css";
 
-const themeInitializer = `
+const firstPaintInitializer = `
 try {
   var root = document.documentElement;
   var storedTheme = window.localStorage.getItem("mindoff-theme");
+  var navigationEntry = window.performance
+    ? window.performance.getEntriesByType("navigation")[0]
+    : null;
+
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  if (navigationEntry && navigationEntry.type === "back_forward") {
+    window.location.reload();
+  }
+
   if (storedTheme === "dark") {
     root.dataset.theme = "dark";
     root.style.backgroundColor = "#080808";
@@ -123,12 +136,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: firstPaintInitializer }} />
         <style dangerouslySetInnerHTML={{ __html: initialSplashStyles }} />
-        <Script
-          id="theme-initializer"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeInitializer }}
-        />
         <noscript>
           <style>{`
             html[data-fresh-load="true"] [data-site-shell] {

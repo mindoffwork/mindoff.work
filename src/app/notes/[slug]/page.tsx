@@ -70,7 +70,16 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   return (
     <article className="flex w-full flex-col">
-      <header className="flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20">
+      <header
+        className={`flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 ${
+          post.cover
+            ? "lg:pb-20"
+            : post.color
+              ? `lg:pb-16 border-b-normal border-rule ${noteSurfaceClassName}`
+              : "lg:pb-4"
+        }`}
+        data-color={post.cover ? undefined : post.color}
+      >
         <div className="flex w-full max-w-reading flex-col gap-8">
           <div className="flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle">
             <SiteLink
@@ -108,7 +117,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
           />
         </figure>
       ) : null}
-      <div className="mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light">
+      <div className={`mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-16 ${post.cover || post.color ? "lg:py-20" : "lg:pt-12 lg:pb-20"} [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light`}>
         <MDXContent source={post.content} />
         <footer className="mt-12 flex flex-col gap-4 pt-6">
           <p className="font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle">

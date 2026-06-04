@@ -32,7 +32,7 @@ function resolveHref(href: SiteLinkProps["href"]) {
 
 export const SiteLink = forwardRef<HTMLAnchorElement, SiteLinkProps>(
   function SiteLink(
-    { href, onClick, target, download, rel, ...props },
+    { href, onClick, prefetch, target, download, rel, ...props },
     ref,
   ) {
     const pathname = usePathname();
@@ -74,6 +74,7 @@ export const SiteLink = forwardRef<HTMLAnchorElement, SiteLinkProps>(
         download={download}
         href={href}
         onClick={handleClick}
+        prefetch={prefetch ?? false}
         ref={ref}
         rel={rel}
         target={target}

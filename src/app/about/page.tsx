@@ -80,7 +80,11 @@ export default function AboutPage() {
             can learn from them and take them further. If something here helps
             you build something of your own, that is enough for me.
           </p>
-          <div className="mt-2 flex flex-col items-start gap-4 font-heading text-size-sm font-semibold text-ink sm:flex-row sm:gap-8">
+          <div
+            aria-label="Contact details"
+            className="mt-2 flex flex-col items-start gap-4 font-heading text-size-sm font-semibold text-ink sm:flex-row sm:gap-8"
+            id="contact"
+          >
             <a
               aria-label="GitHub profile mindoffwork"
               className="inline-flex items-center gap-2 rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
