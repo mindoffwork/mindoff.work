@@ -8,6 +8,10 @@ type CodeFigureProps = ComponentPropsWithoutRef<"figure"> & {
   "data-rehype-pretty-code-figure"?: string;
 };
 
+type CodePreProps = ComponentPropsWithoutRef<"pre"> & {
+  "data-language"?: string;
+};
+
 type HighlightedElementProps = {
   "data-language"?: string;
 };
@@ -73,6 +77,29 @@ function CodeFigure({
   );
 }
 
+function CodePre({ children, "data-language": language, ...props }: CodePreProps) {
+  if (language) {
+    return (
+      <pre
+        {...props}
+        data-language={language}
+        className="overflow-x-auto bg-panel p-4 text-size-sm text-ink [&_span]:text-[var(--shiki-light)] [[data-theme=dark]_&_span]:text-[var(--shiki-dark)]"
+      >
+        {children}
+      </pre>
+    );
+  }
+
+  return (
+    <pre
+      {...props}
+      className="my-8 overflow-x-auto rounded-md border-normal border-rule bg-code p-4 text-size-sm text-ink [&_code]:block [&_code]:rounded-none [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-inherit"
+    >
+      {children}
+    </pre>
+  );
+}
+
 export const mdxComponents: MDXComponents = {
   h1: (props) => (
     <h1
@@ -132,12 +159,7 @@ export const mdxComponents: MDXComponents = {
         className="rounded-sm bg-code px-1 py-0.5 text-size-sm text-ink"
       />
     ),
-  pre: (props) => (
-    <pre
-      {...props}
-      className="overflow-x-auto bg-panel p-4 text-size-sm text-ink [&_span]:text-[var(--shiki-light)] [[data-theme=dark]_&_span]:text-[var(--shiki-dark)]"
-    />
-  ),
+  pre: CodePre,
   figure: CodeFigure,
   img: ({ alt, src, ...props }) => {
     const imageProps = props as Omit<ComponentPropsWithoutRef<typeof MDXImage>, "alt" | "src">;

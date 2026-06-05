@@ -464,11 +464,15 @@ export function LoadingExperience() {
 
       <div
         aria-hidden="true"
-        className={`pointer-events-none fixed inset-y-0 left-0 right-0 z-loading-overlay translate-y-3 overflow-y-auto overscroll-contain bg-canvas opacity-0 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:translate-y-0 motion-reduce:transition-none lg:left-nav ${
-          showSkeleton ? "translate-y-0 opacity-100" : ""
+        className={`pointer-events-none fixed inset-y-0 left-0 right-0 z-loading-overlay overflow-y-auto overscroll-contain bg-canvas lg:left-nav ${
+          showSkeleton ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="min-h-full pt-nav-logo-mobile sm:pt-0">
+        <div
+          className={`min-h-full pt-nav-logo-mobile opacity-0 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:translate-y-0 motion-reduce:transition-none sm:pt-0 ${
+            showSkeleton ? "translate-y-0 opacity-100" : "translate-y-3"
+          }`}
+        >
           <RouteSkeleton routeKey={showSkeleton ? routeKey : null} />
         </div>
       </div>
