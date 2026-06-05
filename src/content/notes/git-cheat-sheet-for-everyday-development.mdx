@@ -1,0 +1,316 @@
+---
+title: Git Cheat Sheet for Everyday Development
+date: 2026-06-05
+tags:
+  - cheat-sheet
+  - git
+  - workflow
+  - developer-tools
+type: guide
+summary: The Git commands that actually come up in real development work, explained for people in a hurry. Covers everyday workflow, merge conflicts, pull vs fetch vs rebase, undoing commits, branch cleanup, and the gitignore cache fix you'll need sooner or later.
+color: "#E8F0EB"
+---
+
+I've walked a lot of good developers through Git. Most of them weren't struggling because they couldn't code. They were struggling because nobody had explained *how Git thinks*, so the commands felt random and recovery felt like gambling.
+
+This guide fixes that. It's not exhaustive. It covers the 20% of Git you'll use 80% of the time, the things that reliably trip people up, and a handful of commands you only need once a month but will be glad you can find quickly.
+
+## How Git thinks
+
+Git doesn't store file differences. It stores snapshots. Each commit is a complete picture of your project at a moment in time, plus a pointer to the previous snapshot.
+
+`HEAD` is a bookmark that follows you. It always points to the commit you're currently on:
+
+```
+a1b2c3  init project
+d4e5f6  add homepage
+g7h8i9  fix nav bug   ← HEAD
+```
+
+Make a new commit and it moves forward. Run `git reset HEAD~1` and it steps back one. Switch branches and it jumps to that branch's latest commit. `HEAD~1` means "one commit behind where I am" and `HEAD~3` means three behind. You'll see this notation throughout Git commands like `reset`, `rebase -i`, and `log`.
+
+Once that clicks, most commands start making sense.
+
+## Starting a repo
+
+Clone something that already exists:
+
+```bash
+git clone https://github.com/username/repo.git
+```
+
+Or start fresh in an existing folder:
+
+```bash
+git init
+git remote add origin https://github.com/username/repo.git
+```
+
+The second command connects your local repo to a remote. `origin` is a convention, not a rule. You could call it anything, but everyone expects `origin` so just use it.
+
+## The everyday loop
+
+This is what most of your Git time looks like:
+
+```bash
+git status                     # see what's changed
+git add .                      # stage everything
+git add src/specific-file.js   # or stage one file
+git commit -m "feat: add login form validation"
+git push origin main           # push to remote
+```
+
+Staging (`git add`) is a deliberate step between editing and committing. It lets you group related changes into a single commit even if you edited multiple files. Think of it as packing a box before sending a shipment: you choose exactly what goes in.
+
+`git status` is your best friend. Run it constantly. It tells you what's staged, what's changed, and what's untracked.
+
+A note on commit messages: use a short imperative phrase that describes what the commit does. "feat: add login form validation" not "added login form" or "I added some validation". Conventional commit prefixes like `feat`, `fix`, `docs`, `refactor`, and `chore` make history easy to scan when you're trying to find when something changed.
+
+## Branching the right way
+
+Use `git switch` instead of `git checkout` for moving between branches. It's cleaner and harder to misuse.
+
+```bash
+git switch main                      # switch to an existing branch
+git switch -c feature/user-profile   # create and switch in one step
+git switch -                         # go back to the previous branch
+```
+
+A good branch name includes context: `feature/`, `fix/`, `chore/`. It makes the history readable when 20 branches have piled up.
+
+When your work is done, merge it back:
+
+```bash
+git switch main
+git merge feature/user-profile
+```
+
+## Working with remotes
+
+Your remote (usually `origin`) is the shared copy of the repo, typically on GitHub or GitLab.
+
+```bash
+git remote -v                              # see your configured remotes
+git push origin feature/user-profile       # push a branch
+git push -u origin feature/user-profile    # push and set upstream tracking
+```
+
+After `push -u`, you can just run `git push` from that branch and Git knows where to send it. You only need the `-u` flag once per branch.
+
+## Pull, fetch, and rebase
+
+These three cause more confusion than anything else in Git. Here's the plain version.
+
+**`git fetch`** downloads changes from the remote but doesn't touch your working files. It's safe. It's information-gathering.
+
+```bash
+git fetch origin
+```
+
+After fetching, you can inspect what came in before deciding what to do with it:
+
+```bash
+git log origin/main..HEAD
+```
+
+**`git pull`** is fetch plus a merge. It downloads the changes and immediately merges them into your current branch. Fast, but it creates a merge commit when your history has diverged from the remote.
+
+```bash
+git pull origin main
+```
+
+**`git pull --rebase`** is fetch plus rebase. Think of it this way: plain `pull` merges two timelines and leaves a visible junction commit where they joined. Rebase picks up your local commits and replays them after the incoming changes, as if you'd written them from the latest version of the branch. One clean line, no junction.
+
+```bash
+git pull --rebase origin main
+```
+
+Prefer `pull --rebase` in day-to-day work. Use plain `pull` only when you specifically want to preserve the record of where two lines of work converged.
+
+## When things collide: merge conflicts
+
+A conflict happens when two people edited the same lines in a file. Git doesn't know which version wins, so it asks you.
+
+```bash
+git merge feature/user-profile
+# CONFLICT (content): Merge conflict in src/auth.js
+```
+
+Open the conflicted file. You'll see:
+
+```
+<<<<<<< HEAD
+const timeout = 30000;
+=======
+const timeout = 60000;
+>>>>>>> feature/user-profile
+```
+
+Everything between `<<<<<<< HEAD` and `=======` is your current branch's version. Everything between `=======` and `>>>>>>>` is what's coming in. Edit the file to look exactly how you want it, removing all the conflict markers. Then stage and commit:
+
+```bash
+git add src/auth.js
+git commit
+```
+
+If you want to abort the merge entirely and go back to where you were before:
+
+```bash
+git merge --abort
+```
+
+A good editor like VS Code will highlight conflicts visually and give you one-click options to accept one side or both. Use that when you can. It reduces the chance of accidentally leaving a stray `>>>>>>>` in your code.
+
+## Undoing things without panicking
+
+**Undo the last commit but keep the changes staged:**
+
+```bash
+git reset --soft HEAD~1
+```
+
+The commit disappears, but everything is still staged and ready to recommit. Useful when you committed too early.
+
+**Undo the last commit and unstage everything:**
+
+```bash
+git reset HEAD~1
+```
+
+Changes stay in your files, just unstaged. Good when you want to rethink what goes into the next commit.
+
+**Unstage a file (keep changes in the working directory):**
+
+```bash
+git restore --staged src/auth.js
+```
+
+**Discard changes in a file entirely (this is destructive, no undo):**
+
+```bash
+git restore src/auth.js
+```
+
+**Revert a commit that's already been pushed:**
+
+When a commit has already been pushed to a shared branch, don't reset it. That rewrites history others have already pulled. Use revert instead:
+
+```bash
+git revert abc1234
+```
+
+This creates a new commit that undoes the changes from `abc1234`. Safe for shared branches because it adds history rather than changing it.
+
+## Fixing commit messages
+
+**Amend the last commit message (before pushing):**
+
+```bash
+git commit --amend -m "fix: correct timeout value for auth sessions"
+```
+
+This rewrites the last commit. Only do it before pushing. Once it's on a shared branch, amending rewrites history and causes problems for anyone who already pulled.
+
+**Add a file you forgot to include in the last commit:**
+
+```bash
+git add forgotten-file.js
+git commit --amend --no-edit   # keeps the existing message
+```
+
+**Rewrite older commit messages with interactive rebase:**
+
+```bash
+git rebase -i HEAD~3   # open the last 3 commits for editing
+```
+
+An editor opens listing the commits. Change `pick` to `reword` on any commit you want to rename, then save. Git will pause on each one and ask for the new message. Only do this on commits that haven't been pushed to a shared branch.
+
+## Tags: marking what matters
+
+Tags are bookmarks, most commonly used to mark releases.
+
+```bash
+git tag v1.0.0                         # lightweight tag
+git tag -a v1.0.0 -m "First release"   # annotated tag (preferred)
+git push origin v1.0.0                 # push a specific tag
+git push origin --tags                 # push all tags at once
+```
+
+Annotated tags store extra metadata (who tagged it, when, and the message). Prefer them for anything meaningful like a release.
+
+To list and filter:
+
+```bash
+git tag
+git tag -l "v1.*"   # filter by pattern
+```
+
+To delete a tag:
+
+```bash
+git tag -d v1.0.0                # delete locally
+git push origin --delete v1.0.0  # delete from remote
+```
+
+## Cleaning up branches
+
+Local branches pile up. Clean them regularly or they become noise.
+
+```bash
+git branch                      # list local branches
+git branch -d feature/done      # delete a merged branch
+git branch -D feature/done      # force delete (even if not merged)
+```
+
+After deleting branches on GitHub, your local Git still keeps the stale remote references. Clean those up with:
+
+```bash
+git fetch --prune
+```
+
+To see which local branches no longer have a remote counterpart:
+
+```bash
+git branch -vv | grep ': gone]'
+```
+
+## Gitignore didn't catch it in time
+
+You added a `.gitignore` rule after already committing the file. Git is still tracking it. The fix is to remove the file from Git's index without deleting it from disk:
+
+```bash
+git rm -r --cached .
+git add .
+git commit -m "chore: apply gitignore and untrack files"
+```
+
+`--cached` means "stop tracking this, but leave the file alone on disk." The `-r` handles directories. After the commit, Git will respect the `.gitignore` rules going forward.
+
+To untrack just one specific file:
+
+```bash
+git rm --cached path/to/secret-config.env
+git commit -m "chore: untrack config file"
+```
+
+This comes up constantly when someone commits `.env` files or build artifacts before setting up `.gitignore` properly. Fix it once, commit it, done.
+
+## A word on cherry-pick
+
+Cherry-pick lets you grab a specific commit from one branch and apply it to another without merging the whole branch. Reach for it when you need to backport a hotfix or pull in one isolated change, not as a substitute for a proper merge.
+
+[Cherry-pick: when to reach for it and when to leave it alone](#) goes into the detail.
+
+## A few rules worth keeping
+
+Most of these I learned the hard way, or watched someone else learn them the hard way. They're small habits but they compound over time.
+
+- Commit small and often. A commit is a save point, and more save points means more precise recovery.
+- Never force-push to a shared branch (`main`, `develop`). Only force-push to branches you own alone.
+- Write commit messages for your future self at 11pm trying to understand what broke.
+- Pull before you start work. Start every session with `git pull --rebase origin main`.
+- One branch, one purpose. Branch per feature or fix, not per day.
+- Delete branches after merging. Keep the list short.
+
+Git's complexity comes from its power, not from poor design. Once you trust the mental model, the commands stop feeling like memorization and start feeling like intuition.
