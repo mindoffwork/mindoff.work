@@ -2,13 +2,15 @@
 title: Git Cheat Sheet for Everyday Development
 date: 2026-06-05
 tags:
-  - cheat-sheet
   - git
+  - version-control
   - workflow
   - developer-tools
+  - cheat-sheet
 type: guide
 summary: The Git commands that actually come up in real development work, explained for people in a hurry. Covers everyday workflow, merge conflicts, pull vs fetch vs rebase, undoing commits, branch cleanup, and the gitignore cache fix you'll need sooner or later.
-color: "#E8F0EB"
+color: "#FDE1B8"
+cover: /images/notes/git-cheat-sheet-for-everyday-development.png
 ---
 
 I've walked a lot of good developers through Git. Most of them weren't struggling because they couldn't code. They were struggling because nobody had explained *how Git thinks*, so the commands felt random and recovery felt like gambling.
@@ -21,7 +23,7 @@ Git doesn't store file differences. It stores snapshots. Each commit is a comple
 
 `HEAD` is a bookmark that follows you. It always points to the commit you're currently on:
 
-```
+```bash
 a1b2c3  init project
 d4e5f6  add homepage
 g7h8i9  fix nav bug   ← HEAD
@@ -74,6 +76,14 @@ Use `git switch` instead of `git checkout` for moving between branches. It's cle
 git switch main                      # switch to an existing branch
 git switch -c feature/user-profile   # create and switch in one step
 git switch -                         # go back to the previous branch
+```
+
+To see what branches exist:
+
+```bash
+git branch                  # local branches
+git branch -r               # remote branches
+git branch -a               # all branches, local and remote
 ```
 
 A good branch name includes context: `feature/`, `fix/`, `chore/`. It makes the history readable when 20 branches have piled up.
@@ -138,7 +148,7 @@ git merge feature/user-profile
 
 Open the conflicted file. You'll see:
 
-```
+```js
 <<<<<<< HEAD
 const timeout = 30000;
 =======
@@ -160,6 +170,32 @@ git merge --abort
 ```
 
 A good editor like VS Code will highlight conflicts visually and give you one-click options to accept one side or both. Use that when you can. It reduces the chance of accidentally leaving a stray `>>>>>>>` in your code.
+
+**Picked the wrong side of a conflict and the merge is already done — not pushed yet:**
+
+Git quietly saves your pre-merge state in `ORIG_HEAD` before every merge. Run this immediately:
+
+```bash
+git reset --hard ORIG_HEAD
+```
+
+You're back to exactly where you were before the merge. No trace of it.
+
+**Already pushed the bad merge:**
+
+You can't rewrite shared history, so you revert it instead. First find the merge commit:
+
+```bash
+git log --oneline
+```
+
+Then revert it, telling Git which parent to treat as the mainline — `1` is almost always the branch you merged into:
+
+```bash
+git revert -m 1 <merge-commit-hash>
+```
+
+This creates a new commit that undoes the merge cleanly without touching anyone else's history.
 
 ## Undoing things without panicking
 
@@ -200,6 +236,15 @@ git revert abc1234
 ```
 
 This creates a new commit that undoes the changes from `abc1234`. Safe for shared branches because it adds history rather than changing it.
+
+**Reset your branch to a specific commit or branch:**
+
+```bash
+git reset --hard abc1234        # go back to a specific commit
+git reset --hard origin/main    # reset to match the remote exactly
+```
+
+`--hard` wipes all local changes and uncommitted work back to that point. If you want to keep your changes but just move HEAD back, use `--soft` instead. Only use `--hard` on branches you own — never on shared branches others have pulled.
 
 ## Fixing commit messages
 

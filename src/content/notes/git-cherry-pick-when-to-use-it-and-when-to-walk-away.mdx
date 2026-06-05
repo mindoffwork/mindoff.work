@@ -1,0 +1,85 @@
+---
+title: Git Cherry-Pick: When to Use It and When to Walk Away
+date: 2026-06-05
+tags:
+  - git
+  - version-control
+  - workflow
+  - cheat-sheet
+type: guide
+summary: Git cherry-pick lets you move individual commits between branches surgically. Here's when that precision saves you and when it quietly turns into a merge problem later.
+color: "#E2EBD3"
+cover: /images/notes/git-cherry-pick-when-to-use-it-and-when-to-walk-away.png
+---
+
+Cherry-picking in git means taking a single commit from one branch and applying it to another. One commit, moved over, surgically.
+
+It sounds useful. And it is, in a narrow set of cases. The trouble is that "narrow" part.
+
+## The command
+
+```bash
+git cherry-pick <commit-hash>
+```
+
+To apply a range of commits (`A` exclusive, `B` inclusive):
+
+```bash
+git cherry-pick A..B
+```
+
+Want both ends included:
+
+```bash
+git cherry-pick A^..B
+```
+
+## When cherry-pick is the right call
+
+**A hotfix needs to reach production before the rest of the feature is ready.**
+
+You fixed a critical bug on `feature/payments`. The fix is one clean commit. Main needs it now and can't take the rest of the unfinished branch.
+
+```
+main ──●──────────────────●── (needs the fix, not the WIP)
+        \                /
+feature  ●──●──[fix]──●──●──
+```
+
+```bash
+git checkout main
+git cherry-pick abc1234   # just the fix commit
+```
+
+**A commit landed on the wrong branch.**
+
+You committed to `main` instead of `feature/ui`. Cherry-pick it over, then reset or revert the original.
+
+**Backporting a fix to an older release.**
+
+Your product has `v2` and `v3`. A security patch goes into `v3`. You need it on `v2` too, but `v2` can't absorb everything that changed since the split.
+
+These are the cases where cherry-pick earns its place: targeted, intentional, bounded.
+
+## When to leave it alone
+
+**The commit isn't isolated.**
+
+If the commit you want relies on three other commits to make sense, cherry-picking it alone will either break things or silently produce wrong behavior. You'll have the code, but not the context it needs.
+
+**The branches will eventually merge.**
+
+This is the one that trips people up. If `feature` is going to merge into `main` eventually, cherry-picking a commit now means git sees it as a conflict or duplicate when the full merge happens later. Present convenience, future pain.
+
+**You're trying to keep two long-running branches in sync.**
+
+Cherry-picking five commits a day to sync branches is a sign the branching strategy needs fixing, not more cherry-picks. Rebasing or rethinking the branch structure is the honest answer.
+
+## The two-question test
+
+Before reaching for cherry-pick:
+
+1. **Will these branches ever merge?** If yes, be very careful.
+2. **Is the commit self-contained?** If no, stop and think.
+
+Cherry-pick is a scalpel. Most people reach for it when they actually need a different operation entirely.

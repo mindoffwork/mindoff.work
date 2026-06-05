@@ -29,7 +29,7 @@ export function NoteCard({ eager = false, post }: NoteCardProps) {
       className="group relative block h-full overflow-hidden rounded-2xl border-normal border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
       href={`/notes/${post.slug}`}
     >
-      <article className={`flex h-full flex-col ${noteSurfaceClassName}`} style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}>
+      <article className={`flex h-full flex-col ${noteSurfaceClassName}`} style={post.color ? { '--post-color': post.color } as React.CSSProperties : undefined}>
         {post.cover ? (
           <div className="px-4 pt-4 sm:px-6 sm:pt-6">
             <LoadingImage
