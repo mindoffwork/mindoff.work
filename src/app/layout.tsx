@@ -186,7 +186,7 @@ export default function RootLayout({
         <LoadingExperience />
         <div className="flex min-h-screen flex-col pb-nav-mobile lg:pb-0" data-site-shell="">
           <Navbar />
-          <div className="flex h-nav-logo-mobile items-center justify-end lg:hidden pr-4">
+          <div className="flex h-nav-logo-mobile items-center justify-end bg-[var(--mobile-theme-control-background,var(--color-canvas))] pr-4 [[data-theme=dark]_&]:bg-[var(--mobile-theme-control-background-dark,var(--color-canvas))] lg:hidden">
             <ThemeToggle />
           </div>
           <main className="flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100">

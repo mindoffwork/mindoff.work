@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { MDXContent } from "@/components/ui/mdx-content";
+import { MobileThemeControlSurface } from "@/components/ui/mobile-theme-control-surface";
 import { SiteLink } from "@/components/ui/site-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllNotes, getNote } from "@/lib/content";
@@ -71,6 +72,9 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   return (
     <article className="flex w-full flex-col">
+      {!post.cover && post.color ? (
+        <MobileThemeControlSurface color={post.color} />
+      ) : null}
       <header
         className={`flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 ${
           post.cover
