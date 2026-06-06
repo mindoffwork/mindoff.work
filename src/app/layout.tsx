@@ -1,16 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poltawski_Nowy, Poppins } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { LoadingExperience } from "@/components/ui/loading-experience";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { createPageMetadata, siteUrl } from "@/lib/metadata";
+import { browserThemeColors } from "@/lib/theme";
 import "../styles/globals.css";
 
 const firstPaintInitializer = `
 try {
   var root = document.documentElement;
   var storedTheme = window.localStorage.getItem("mindoff-theme");
+  var selectedThemeColor = storedTheme === "dark" ? "${browserThemeColors.dark}" : "${browserThemeColors.light}";
   var navigationEntry = window.performance
     ? window.performance.getEntriesByType("navigation")[0]
     : null;
@@ -27,19 +29,32 @@ try {
 
   if (storedTheme === "dark") {
     root.dataset.theme = "dark";
-    root.style.backgroundColor = "#080808";
+    root.style.backgroundColor = "${browserThemeColors.dark}";
     root.style.colorScheme = "dark";
   } else if (storedTheme === "light") {
     delete root.dataset.theme;
-    root.style.backgroundColor = "#faf5ee";
+    root.style.backgroundColor = "${browserThemeColors.light}";
     root.style.colorScheme = "light";
   }
+
+  var themeColorElements = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (!themeColorElements.length) {
+    var themeColorElement = document.createElement("meta");
+    themeColorElement.name = "theme-color";
+    document.head.appendChild(themeColorElement);
+    themeColorElements = [themeColorElement];
+  }
+
+  themeColorElements.forEach(function (themeColorElement) {
+    themeColorElement.setAttribute("content", selectedThemeColor);
+  });
 } catch {}
 `;
 
 const initialSplashStyles = `
 html {
-  background: #faf5ee;
+  background: ${browserThemeColors.light};
   color-scheme: light;
 }
 
@@ -48,7 +63,7 @@ html[data-fresh-load="true"] body {
 }
 
 html[data-theme="dark"] {
-  background: #080808;
+  background: ${browserThemeColors.dark};
   color-scheme: dark;
 }
 
@@ -122,6 +137,14 @@ export const metadata: Metadata = {
     description: "Projects, essays, and snapshots from mindoff.work.",
     path: "/",
   }),
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: browserThemeColors.light },
+    { media: "(prefers-color-scheme: dark)", color: browserThemeColors.dark },
+  ],
 };
 
 export default function RootLayout({

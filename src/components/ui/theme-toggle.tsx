@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { browserThemeColors } from "@/lib/theme";
 
 const themeStorageKey = "mindoff-theme";
 const themeChangeEvent = "mindoff-theme-change";
@@ -12,6 +13,17 @@ function subscribeToTheme(onStoreChange: () => void) {
 
 function isDarkThemeSelected() {
   return document.documentElement.dataset.theme === "dark";
+}
+
+function updateBrowserThemeColor(isDarkMode: boolean) {
+  const selectedThemeColor = isDarkMode
+    ? browserThemeColors.dark
+    : browserThemeColors.light;
+  const themeColorElements = document.querySelectorAll('meta[name="theme-color"]');
+
+  themeColorElements.forEach((themeColorElement) => {
+    themeColorElement.setAttribute("content", selectedThemeColor);
+  });
 }
 
 export function ThemeToggle() {
@@ -29,6 +41,8 @@ export function ThemeToggle() {
     } else {
       delete document.documentElement.dataset.theme;
     }
+
+    updateBrowserThemeColor(nextIsDarkMode);
 
     try {
       window.localStorage.setItem(
