@@ -1,0 +1,188 @@
+1:"$Sreact.fragment"
+d:I[63491,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js","/_next/static/chunks/15mtlc7f8l0kb.js"],"default"]
+:HL["/_next/static/chunks/046co3xzof773.css","style"]
+:HL["/_next/static/chunks/0inib_pndqyd4.css","style"]
+:HL["/_next/static/media/0072ffd3d40bb4ad-s.p.0reyfjuhygv9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/47fe1b7cd6e6ed85-s.p.0~mcdl10zdfb3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/4b766aa38fdaaae3-s.p.0cbnlo4n.czwi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/829ba4228c966254-s.p.0ub.k0om~_-xi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/8e6fa89aa22d24ec-s.p.0uvzar8hswo3p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/a218039a3287bcfd-s.p.17-1enzs_j91b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/c875c6f5d3e977ac-s.p.0g_ng0t~d_b9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/e2334d715941921e-s.p.12skym0rqknxy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+2:T51a,
+try {
+  var root = document.documentElement;
+  var storedTheme = window.localStorage.getItem("mindoff-theme");
+  var selectedThemeColor = storedTheme === "dark" ? "#080808" : "#faf5ee";
+  var navigationEntry = window.performance
+    ? window.performance.getEntriesByType("navigation")[0]
+    : null;
+
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  if (navigationEntry && navigationEntry.type === "back_forward") {
+    window.location.reload();
+  }
+
+  if (storedTheme === "dark") {
+    root.dataset.theme = "dark";
+    root.style.backgroundColor = "#080808";
+    root.style.colorScheme = "dark";
+  } else if (storedTheme === "light") {
+    delete root.dataset.theme;
+    root.style.backgroundColor = "#faf5ee";
+    root.style.colorScheme = "light";
+  }
+
+  var themeColorElements = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (!themeColorElements.length) {
+    var themeColorElement = document.createElement("meta");
+    themeColorElement.name = "theme-color";
+    document.head.appendChild(themeColorElement);
+    themeColorElements = [themeColorElement];
+  }
+
+  themeColorElements.forEach(function (themeColorElement) {
+    themeColorElement.setAttribute("content", selectedThemeColor);
+  });
+} catch {}
+3:T487,
+html {
+  background: #faf5ee;
+  color-scheme: light;
+}
+
+html[data-fresh-load="true"] body {
+  overflow: hidden;
+}
+
+html[data-theme="dark"] {
+  background: #080808;
+  color-scheme: dark;
+}
+
+html[data-fresh-load="true"] [data-site-shell] {
+  visibility: hidden;
+}
+
+[data-loading-splash] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--color-background, #faf5ee);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash] {
+  background: var(--color-background, #080808);
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash-logo] {
+  background: var(--color-yellow, #f7ec87);
+  border-radius: 2rem;
+}
+
+html[data-fresh-load="true"] [data-loading-splash] {
+  opacity: 1;
+}
+
+[data-loading-splash-logo] {
+  padding: 0.75rem 1rem;
+}
+
+[data-loading-splash] img {
+  width: min(11rem, 45vw);
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  [data-loading-splash-logo] {
+    padding: 1rem 1.25rem;
+  }
+
+  [data-loading-splash] img {
+    width: 12rem;
+  }
+}
+0:{"P":null,"c":["","notes","minimalists-guide-to-engineered-wood"],"q":"","i":false,"f":[[["",{"children":["notes",{"children":[["slug","minimalists-guide-to-engineered-wood","d",null],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0inib_pndqyd4.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0.a7yu7~3gd-z.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0d3shmwh5_nmn.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/06517.8gjxz2r.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"data-fresh-load":"true","lang":"en","className":"poppins_fbdf13a6-module__mgWXbG__variable poltawski_nowy_e84063e9-module__bTqKbW__variable","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","style",null,{"dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}]]}],{"children":["$L8",{"children":["$L9",{"children":["$La",{},null,false,null]},null,false,"$@b"]},null,false,"$@b"]},null,false,null],"$Lc",false]],"m":"$undefined","G":["$d",["$Le","$Lf"]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"edH5uvnv9rix4EcErHZt1"}
+11:I[79520,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],""]
+12:I[26234,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"LoadingExperience"]
+13:I[91976,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"Navbar"]
+14:I[69414,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"ThemeToggle"]
+15:I[39756,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"default"]
+16:I[58298,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js","/_next/static/chunks/0kd4-rtbvyksz.js"],"default"]
+17:I[37457,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"default"]
+18:I[85053,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"SiteLink"]
+1c:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"OutletBoundary"]
+1d:"$Sreact.suspense"
+20:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"ViewportBoundary"]
+22:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"MetadataBoundary"]
+:HL["https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","style"]
+10:["$","style",null,{"children":"\n            html[data-fresh-load=\"true\"] [data-site-shell] {\n              visibility: visible;\n            }\n\n            html[data-fresh-load=\"true\"] [data-loading-splash] {\n              display: none;\n            }\n          "}]
+4:["$","noscript",null,{"children":"$10"}]
+5:["$","link",null,{"href":"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","rel":"stylesheet"}]
+6:["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebSite\",\"@id\":\"https://mindoff.work#website\",\"url\":\"https://mindoff.work\",\"name\":\"mindoff.work\",\"description\":\"Open-source tools, research notes, and product experiments for designing quieter, lighter, more useful ways to work.\",\"inLanguage\":\"en\",\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}},{\"@type\":\"Organization\",\"@id\":\"https://mindoff.work#organization\",\"name\":\"mindoff.work\",\"url\":\"https://mindoff.work\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://mindoff.work/images/brand/MindOff_Logo_Full.png\"},\"sameAs\":[\"https://github.com/mindoffwork\"]}]}"}}]
+7:["$","body",null,{"className":"flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav","children":[[["$","$L11",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-BV9NBRVCEH","strategy":"afterInteractive"}],["$","$L11",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n          window.dataLayer = window.dataLayer || [];\n          function gtag(){dataLayer.push(arguments);}\n          gtag('js', new Date());\n          gtag('config', 'G-BV9NBRVCEH');\n        "}]],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 top-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 bottom-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","$L12",null,{}],["$","div",null,{"className":"flex min-h-screen flex-col pb-nav-mobile lg:pb-0","data-site-shell":"","children":[["$","$L13",null,{}],["$","div",null,{"className":"flex h-nav-logo-mobile items-center justify-end bg-[var(--mobile-theme-control-background,var(--color-canvas))] pr-4 [[data-theme=dark]_&]:bg-[var(--mobile-theme-control-background-dark,var(--color-canvas))] lg:hidden","children":["$","$L14",null,{}]}],["$","main",null,{"className":"flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100","children":["$","$L15",null,{"parallelRouterKey":"children","error":"$16","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/0kd4-rtbvyksz.js","async":true}]],"template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"Page Not Found | mindoff.work"}],["$","section",null,{"aria-labelledby":"error-title","className":"mx-auto flex w-full max-w-reading flex-col items-start gap-10 px-8 py-16 sm:px-6 sm:py-24 lg:py-32","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-muted","children":"404 / Not found"}],["$","div",null,{"className":"flex flex-col gap-5","children":[["$","h1",null,{"className":"font-heading text-size-4xl font-black tracking-title text-ink sm:text-size-5xl","id":"error-title","children":"Page not found."}],["$","p",null,{"className":"max-w-reading font-body text-size-base text-ink","children":"The page you were looking for does not exist or may have moved."}]]}],["$","nav",null,{"aria-label":"Recovery options","className":"flex flex-wrap gap-4 font-heading text-size-sm font-semibold","children":[null,[["$","$L18","/",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-brand text-brand-ink","href":"/","children":"Return home"}],["$","$L18","/projects",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-[var(--color-action-background)] text-ink","href":"/projects","children":"Browse projects"}]]]}]]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"border-t-normal border-rule font-heading text-muted","children":["$","div",null,{"className":"mx-auto flex w-full max-w-shell flex-col gap-8 px-8 py-10 sm:px-6 sm:py-12","children":["$L19","$L1a"]}]}]]}]]}]
+8:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+9:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+a:["$","$1","c",{"children":["$L1b",[["$","script","script-0",{"src":"/_next/static/chunks/0jvrmm.0~joq6.js","async":true,"nonce":"$undefined"}]],["$","$L1c",null,{"children":["$","$1d",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]]}]
+1f:[]
+b:"$W1f"
+c:["$","$1","h",{"children":[null,["$","$L20",null,{"children":"$L21"}],["$","div",null,{"hidden":true,"children":["$","$L22",null,{"children":["$","$1d",null,{"name":"Next.Metadata","children":"$L23"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]
+e:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+f:["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0inib_pndqyd4.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+24:I[5500,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"Image"]
+19:["$","$L18",null,{"aria-label":"mindoff.work home","className":"mx-auto inline-flex rounded-sm opacity-50 transition-opacity duration-fast ease-standard hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/","children":["$","$L24",null,{"alt":"","className":"h-auto w-28 object-contain grayscale [[data-theme=dark]_&]:invert sm:w-32","height":731,"loading":"eager","sizes":"(min-width: 640px) 8rem, 7rem","src":"/images/brand/MindOff_Logo_Full.png","unoptimized":true,"width":1921}]}]
+1a:["$","div",null,{"className":"flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-size-xs font-medium uppercase tracking-kicker","children":[["$","p",null,{"children":["© ",2026," mindoff.work"]}],["$","nav",null,{"aria-label":"Site information","className":"contents","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/policy","children":"Terms & Privacy"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/rss.xml","children":"RSS"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"https://github.com/mindoffwork","rel":"noreferrer","target":"_blank","children":"GitHub"}]]}]]}]
+25:I[79282,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"LoadingImage"]
+1b:["$","article",null,{"className":"flex w-full flex-col","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"A Minimalist's Guide to Engineered Wood\",\"description\":\"Eight engineered wood types distilled into intentional choices. A guide for builders who want to pick the right material once, avoid the common mistakes, and get on with the work.\",\"datePublished\":\"2025-04-06\",\"dateModified\":\"2025-04-06\",\"url\":\"https://mindoff.work/notes/minimalists-guide-to-engineered-wood\",\"mainEntityOfPage\":\"https://mindoff.work/notes/minimalists-guide-to-engineered-wood\",\"image\":\"https://mindoff.work/images/notes/minimalists-guide-to-engineered-wood.webp\",\"keywords\":\"woodworking, materials, DIY, furniture, making, minimalism\",\"articleSection\":\"guide\",\"timeRequired\":\"PT6M\",\"author\":{\"@id\":\"https://mindoff.work#organization\"},\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}}"}}],null,["$","header",null,{"className":"flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20","style":"$undefined","children":["$","div",null,{"className":"flex w-full max-w-reading flex-col gap-8","children":[["$","div",null,{"className":"flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/notes","children":"Notes"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","time",null,{"dateTime":"2025-04-06","children":"Apr 06, 2025"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","span",null,{"children":[6," min read"]}]]}],["$","h1",null,{"className":"font-heading text-size-5xl font-black tracking-title text-ink","children":"A Minimalist's Guide to Engineered Wood"}]]}]}],["$","figure",null,{"className":"flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]","style":{"--post-color":"#B3C681"},"children":["$","$L25",null,{"alt":"","height":1024,"imageClassName":"h-auto w-full max-w-media object-contain rounded-lg","loading":"eager","placeholderClassName":"mx-auto w-1/2 lg:w-1/4","sizes":"(max-width: 1023px) 50vw, 25vw","src":"/images/notes/minimalists-guide-to-engineered-wood.webp","unoptimized":true,"width":1536,"wrapperClassName":"mx-auto w-1/2 lg:w-1/4"}]}],["$","div",null,{"className":"mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light","children":["$L26",["$","footer",null,{"className":"mt-12 flex flex-col gap-4 pt-6","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle","children":"Topics Covered"}],["$","div",null,{"className":"flex flex-wrap gap-2","aria-label":"Note tags","children":[["$","span","woodworking",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"woodworking"}],["$","span","materials",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"materials"}],["$","span","DIY",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"DIY"}],["$","span","furniture",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"furniture"}],"$L27","$L28"]}]]}]]}]]}]
+27:["$","span","making",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"making"}]
+28:["$","span","minimalism",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"minimalism"}]
+26:[["$","p",null,{"children":"I used plywood for everything. Cabinets, shelves, tabletops, prototypes. It's strong, widely available, and it works. The problem is that \"it works\" is not the same as \"it's the right choice.\"","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The moment that changed my thinking was a prototyping run. I needed flat boards I could paint quickly and move around the workshop. I bought plywood, like always. It did the job, but it was heavy, the edges needed sealing before paint would take, and I spent more time prepping than building. MDF would have been lighter, smoother straight off the sheet, and cheaper for that specific use. I'd been ignoring the better tool because I hadn't thought about the material as a variable.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"This guide is the thing I wish I'd read before buying another sheet by default.","className":"my-4 text-size-base text-ink"}],"\n",["$","h2",null,{"children":"1. Plywood: the structural default","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}],"\n",["$","p",null,{"children":"Plywood is made from thin wood veneers glued in alternating grain directions. That cross-grain structure is what gives it strength: it resists warping, holds screws tightly, and handles weight without flexing.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," you're building something that needs to last: cabinets, tables, wall panels, or anything structural. Higher grades (BWP, marine-grade) add moisture resistance for bathrooms or semi-outdoor spaces."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," internal voids in cheaper sheets. Always check the cross-section before buying. Raw edges need sealing or edge-banding before paint will take cleanly. Low-quality plywood can look fine on the surface and fail at the cuts."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"This is still my first pick for anything structural. I just stopped using it for everything else.","className":"my-4 text-size-base text-ink"}],"\n",["$","h2",null,{"children":"2. MDF: for paint and precision","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}],"\n",["$","p",null,{"children":"MDF (Medium-Density Fiberboard) is made from fine wood fibers compressed into smooth, dense boards. No grain, no knots, no variation. What you get is a perfectly consistent surface throughout.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," the finish is what matters: painted cabinet doors, wall paneling, trims, decorative molding, or CNC-routed work. MDF takes paint beautifully once you seal the edges with primer or PVA glue first."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," moisture. Any real exposure causes swelling, and it's not reversible. It's also not structural, so don't use it for load-bearing builds. Cutting it produces a lot of fine dust, so mask up and clean your workspace."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"This is the material I should have used on that prototyping run. Lighter, smoother right out of the sheet, and far easier to work with for anything that's getting painted anyway. The switch would have saved me an hour of prep.","className":"my-4 text-size-base text-ink"}],"\n","$L29","\n","$L2a","\n","$L2b","\n","$L2c","\n","$L2d","\n","$L2e","\n","$L2f","\n","$L30","\n","$L31","\n","$L32","\n","$L33","\n","$L34","\n","$L35","\n","$L36","\n","$L37","\n","$L38","\n","$L39","\n","$L3a","\n","$L3b","\n","$L3c","\n","$L3d","\n","$L3e","\n","$L3f","\n","$L40","\n","$L41","\n","$L42","\n","$L43","\n","$L44","\n","$L45","\n","$L46","\n","$L47"]
+29:["$","h2",null,{"children":"3. HDF: MDF's tougher sibling","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+2a:["$","p",null,{"children":"HDF (High-Density Fiberboard) is made the same way as MDF but compressed more tightly. The result is denser, harder, and more resistant to daily wear.","className":"my-4 text-size-base text-ink"}]
+2b:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," you need the smooth finish of MDF in a high-traffic area: drawer bottoms, cabinet backs, flooring underlayment, or wall panels that will take knocks. It holds screws better than MDF if you pre-drill."],"className":"my-4 text-size-base text-ink"}]
+2c:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," the weight. HDF is heavier than MDF and wears down blades faster. Use sharp bits, pre-drill every screw hole, and expect it to be more tool-intensive than it looks."],"className":"my-4 text-size-base text-ink"}]
+2d:["$","h2",null,{"children":"4. Particle board: cheap, temporary, and honest about it","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+2e:["$","p",null,{"children":"Particle board is made from sawdust and resin pressed together. You'll find it hiding inside most flat-pack furniture, usually behind a laminate or veneer surface that makes it look more capable than it is.","className":"my-4 text-size-base text-ink"}]
+2f:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," you need something affordable and non-load-bearing for a short time: temporary shelving, budget wardrobes, low-stakes builds where cost is the only constraint."],"className":"my-4 text-size-base text-ink"}]
+30:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," everything else. It chips, absorbs moisture, and doesn't hold screws reliably. Once it starts to fail, it's not fixable. If you're building something you want to keep, particle board will cost you more in time and replacements than you saved at the store."],"className":"my-4 text-size-base text-ink"}]
+31:["$","p",null,{"children":"A common mistake is buying pre-laminated particle board and assuming the surface coating makes it durable. It protects the look, not the material underneath.","className":"my-4 text-size-base text-ink"}]
+32:["$","h2",null,{"children":"5. Blockboard: for wide spans","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+33:["$","p",null,{"children":"Blockboard has a core of softwood strips sandwiched between veneer sheets. That construction gives it stiffness across wide spans without the weight of solid wood or thick plywood.","className":"my-4 text-size-base text-ink"}]
+34:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," you're building something wide that needs to stay flat: long tabletops, large shelves, interior doors. It resists sagging better than MDF and is lighter than equivalent plywood for the same span."],"className":"my-4 text-size-base text-ink"}]
+35:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," screw grip. It's not as reliable as plywood for fastenings, and internal gaps are possible in lower-quality sheets. Edges need sealing before they're finished."],"className":"my-4 text-size-base text-ink"}]
+36:["$","h2",null,{"children":"6. Veneered boards: the look of hardwood, not the price","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+37:["$","p",null,{"children":"Veneered boards are engineered sheet material (MDF, plywood, or particle board) with a thin real-wood face. You get authentic grain from teak, walnut, or oak without paying for solid hardwood.","className":"my-4 text-size-base text-ink"}]
+38:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," the surface is the point: drawer fronts, visible cabinet faces, furniture where grain and warmth matter. The substrate underneath handles structure; the veneer handles aesthetics."],"className":"my-4 text-size-base text-ink"}]
+39:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," the veneer being thin. Over-sanding cuts right through to the substrate. Cuts need scoring or a sharp blade to avoid chipping at the edges. Use matching edge-banding by species or the joints will show."],"className":"my-4 text-size-base text-ink"}]
+3a:["$","h2",null,{"children":"7. Laminated boards: pre-finished and low-maintenance","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+3b:["$","p",null,{"children":"Laminated boards are engineered panels with a hard, plastic-like laminate bonded to the surface. Modular kitchens, office furniture, and wardrobes are full of them.","className":"my-4 text-size-base text-ink"}]
+3c:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," you want a surface that's ready to use with no finishing work: kitchen cabinets, wardrobes, surfaces that get wiped down. The laminate resists surface moisture and comes in a wide range of colors and textures."],"className":"my-4 text-size-base text-ink"}]
+3d:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," cut edges. The laminate chips without scoring, and once it's damaged it can't be refinished. Edge-banding at every cut edge is not optional."],"className":"my-4 text-size-base text-ink"}]
+3e:["$","h2",null,{"children":"8. OSB: for structure, not show","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+3f:["$","p",null,{"children":"OSB (Oriented Strand Board) is made from large wood chips compressed with adhesive. It's a construction material: strong, affordable, and completely unpretentious about what it is.","className":"my-4 text-size-base text-ink"}]
+40:["$","p",null,{"children":[["$","strong",null,{"children":"Pick this when","className":"font-bold text-ink"}]," looks don't matter and strength does. Subfloors, wall sheathing, workbenches, garage shelving, utility builds. It's stronger than particle board and handles moisture better than MDF, which makes it genuinely useful for rough or hidden work."],"className":"my-4 text-size-base text-ink"}]
+41:["$","p",null,{"children":[["$","strong",null,{"children":"Watch out for","className":"font-bold text-ink"}]," the surface. It splinters, doesn't take paint well without prep, and isn't something you'd use anywhere it will be seen."],"className":"my-4 text-size-base text-ink"}]
+42:["$","h2",null,{"children":"The two questions that cut through most of this","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+43:["$","p",null,{"children":"Before you buy anything, answer these:","className":"my-4 text-size-base text-ink"}]
+44:["$","ol",null,{"children":["\n",["$","li",null,{"children":"What will this actually do, and for how long?","className":"pl-1"}],"\n",["$","li",null,{"children":"Will it ever see moisture?","className":"pl-1"}],"\n"],"className":"my-5 flex list-decimal flex-col gap-2 pl-5 text-size-base text-ink"}]
+45:["$","p",null,{"children":"The first question rules out particle board for anything structural. The second eliminates MDF and particle board from kitchens, bathrooms, and anything near a window.","className":"my-4 text-size-base text-ink"}]
+46:["$","blockquote",null,{"children":["\n",["$","p",null,{"children":"Defaulting to whatever is available feels efficient in the moment. It rarely is. The wrong material costs time before it ever costs money.","className":"my-4 text-size-base text-ink"}],"\n"],"className":"my-8 border-l-normal border-rule pl-5 text-size-lg text-ink [&_p]:my-0 [&_p]:text-ink"}]
+47:["$","p",null,{"children":"Pick the material for the job. It takes two minutes of thinking upfront and saves hours of working around a choice you made on autopilot.","className":"my-4 text-size-base text-ink"}]
+21:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#faf5ee","media":"(prefers-color-scheme: light)"}],["$","meta","3",{"name":"theme-color","content":"#080808","media":"(prefers-color-scheme: dark)"}],["$","meta","4",{"name":"color-scheme","content":"light dark"}]]
+48:I[27201,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/06517.8gjxz2r.js"],"IconMark"]
+1e:null
+23:[["$","title","0",{"children":"A Minimalist's Guide to Engineered Wood | mindoff.work"}],["$","meta","1",{"name":"description","content":"Eight engineered wood types distilled into intentional choices. A guide for builders who want to pick the right material once, avoid the common mistakes, and get on with the work."}],["$","link","2",{"rel":"canonical","href":"https://mindoff.work/notes/minimalists-guide-to-engineered-wood"}],["$","link","3",{"rel":"alternate","type":"application/rss+xml","href":"https://mindoff.work/rss.xml"}],["$","meta","4",{"property":"og:title","content":"A Minimalist's Guide to Engineered Wood | mindoff.work"}],["$","meta","5",{"property":"og:description","content":"Eight engineered wood types distilled into intentional choices. A guide for builders who want to pick the right material once, avoid the common mistakes, and get on with the work."}],["$","meta","6",{"property":"og:url","content":"https://mindoff.work/notes/minimalists-guide-to-engineered-wood"}],["$","meta","7",{"property":"og:site_name","content":"mindoff.work"}],["$","meta","8",{"property":"og:image","content":"https://mindoff.work/images/notes/minimalists-guide-to-engineered-wood.webp"}],["$","meta","9",{"property":"og:image:width","content":"1200"}],["$","meta","10",{"property":"og:image:height","content":"630"}],["$","meta","11",{"property":"og:image:alt","content":"A Minimalist's Guide to Engineered Wood | mindoff.work"}],["$","meta","12",{"property":"og:type","content":"website"}],["$","meta","13",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","14",{"name":"twitter:title","content":"A Minimalist's Guide to Engineered Wood | mindoff.work"}],["$","meta","15",{"name":"twitter:description","content":"Eight engineered wood types distilled into intentional choices. A guide for builders who want to pick the right material once, avoid the common mistakes, and get on with the work."}],["$","meta","16",{"name":"twitter:image","content":"https://mindoff.work/images/notes/minimalists-guide-to-engineered-wood.webp"}],["$","meta","17",{"name":"twitter:image:alt","content":"A Minimalist's Guide to Engineered Wood | mindoff.work"}],["$","meta","18",{"name":"twitter:image:width","content":"1200"}],["$","meta","19",{"name":"twitter:image:height","content":"630"}],["$","link","20",{"rel":"icon","href":"/favicon.ico?favicon.0qhvdkgcp4.wg.ico","sizes":"48x48","type":"image/x-icon"}],["$","link","21",{"rel":"icon","href":"/icon1.png?icon1.0v.ehyl630u0g.png","sizes":"16x16","type":"image/png"}],["$","link","22",{"rel":"icon","href":"/icon2.png?icon2.0cxqlcr-zwdpc.png","sizes":"32x32","type":"image/png"}],["$","link","23",{"rel":"apple-touch-icon","href":"/apple-icon.png?apple-icon.0q6h-ppk9zc7p.png","sizes":"180x180","type":"image/png"}],["$","$L48","24",{}]]
