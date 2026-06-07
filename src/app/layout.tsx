@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { Poltawski_Nowy, Poppins } from "next/font/google";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { JsonLd } from "@/components/analytics/json-ld";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { LoadingExperience } from "@/components/ui/loading-experience";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { createPageMetadata, siteUrl } from "@/lib/metadata";
+import {
+  absoluteUrl,
+  createPageMetadata,
+  organizationId,
+  siteUrl,
+  websiteId,
+} from "@/lib/metadata";
 import { browserThemeColors } from "@/lib/theme";
 import "../styles/globals.css";
 
@@ -132,6 +139,33 @@ const poltawskiNowy = Poltawski_Nowy({
 });
 
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: siteUrl,
+      name: "mindoff.work",
+      description: "Projects, essays, and snapshots from mindoff.work.",
+      inLanguage: "en",
+      publisher: {
+        "@id": organizationId,
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: "mindoff.work",
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/images/brand/MindOff_Logo_Full.png"),
+      },
+      sameAs: ["https://github.com/mindoffwork"],
+    },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -182,6 +216,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&amp;display=block"
           rel="stylesheet"
         />
+        <JsonLd data={websiteJsonLd} />
       </head>
       <body className="flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav">
         <GoogleAnalytics measurementId={gaMeasurementId} />

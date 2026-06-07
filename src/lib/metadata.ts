@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://mindoff.work";
 export const defaultOgImage = "/images/og-default.png";
+export const organizationId = `${siteUrl}#organization`;
+export const websiteId = `${siteUrl}#website`;
 
 type PageMetadataInput = {
   title: string;
@@ -10,7 +12,7 @@ type PageMetadataInput = {
   image?: string;
 };
 
-function absoluteUrl(pathname: string) {
+export function absoluteUrl(pathname: string) {
   return new URL(pathname, siteUrl).toString();
 }
 

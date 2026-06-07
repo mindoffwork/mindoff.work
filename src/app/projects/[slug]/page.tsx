@@ -2,12 +2,19 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getActionButtonClassName } from "@/components/ui/action-button";
+import { JsonLd } from "@/components/analytics/json-ld";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { MDXContent } from "@/components/ui/mdx-content";
 import { SiteLink } from "@/components/ui/site-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllProjects, getProject } from "@/lib/content";
-import { createPageMetadata, getPostOgImage } from "@/lib/metadata";
+import {
+  absoluteUrl,
+  createPageMetadata,
+  getPostOgImage,
+  organizationId,
+  siteUrl,
+} from "@/lib/metadata";
 
 type ProjectPostPageProps = {
   params: Promise<{
@@ -30,6 +37,52 @@ function formatProjectDate(date: string) {
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${date}T00:00:00Z`));
+}
+
+function getProjectJsonLd(post: NonNullable<ReturnType<typeof getProject>>) {
+  const projectUrl = `${siteUrl}/projects/${post.slug}`;
+  const projectImage = absoluteUrl(getPostOgImage(post.covers?.[0]));
+  const baseSchema = {
+    "@context": "https://schema.org",
+    name: post.title,
+    description: post.summary,
+    url: projectUrl,
+    datePublished: post.date,
+    dateModified: post.date,
+    image: projectImage,
+    keywords: post.tags.join(", "),
+    creator: {
+      "@id": organizationId,
+    },
+    publisher: {
+      "@id": organizationId,
+    },
+  };
+
+  if (post.type === "python package" && post.github) {
+    return {
+      ...baseSchema,
+      "@type": "SoftwareSourceCode",
+      codeRepository: post.github,
+      downloadUrl: post.productUrl,
+      programmingLanguage: "Python",
+      runtimePlatform: "Python",
+    };
+  }
+
+  if (post.type === "python package" && post.productUrl) {
+    return {
+      ...baseSchema,
+      "@type": "SoftwareApplication",
+      applicationCategory: "DeveloperApplication",
+      downloadUrl: post.productUrl,
+    };
+  }
+
+  return {
+    ...baseSchema,
+    "@type": "CreativeWork",
+  };
 }
 
 export async function generateMetadata({
@@ -62,6 +115,7 @@ export default async function ProjectPostPage({
 
   const projectDate = formatProjectDate(post.date);
   const covers = post.covers ?? [];
+  const projectJsonLd = getProjectJsonLd(post);
   const projectSurfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
@@ -70,6 +124,7 @@ export default async function ProjectPostPage({
     : getActionButtonClassName("primary");
   return (
     <article className="flex w-full flex-col">
+      <JsonLd data={projectJsonLd} />
       <header className="flex justify-center px-8 py-10 sm:px-6 lg:pt-28 lg:pb-24">
         <div className="flex max-w-reading flex-col items-center gap-6 text-center">
           <SiteLink

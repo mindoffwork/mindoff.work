@@ -1,13 +1,20 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/analytics/json-ld";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { MDXContent } from "@/components/ui/mdx-content";
 import { MobileThemeControlSurface } from "@/components/ui/mobile-theme-control-surface";
 import { SiteLink } from "@/components/ui/site-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllNotes, getNote } from "@/lib/content";
-import { createPageMetadata, getPostOgImage } from "@/lib/metadata";
+import {
+  absoluteUrl,
+  createPageMetadata,
+  getPostOgImage,
+  organizationId,
+  siteUrl,
+} from "@/lib/metadata";
 
 type NotePostPageProps = {
   params: Promise<{
@@ -66,12 +73,35 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   const publishedDate = formatPublishedDate(post.date);
   const readingMinutes = getReadingMinutes(post.content);
+  const noteUrl = `${siteUrl}/notes/${post.slug}`;
+  const noteImage = absoluteUrl(getPostOgImage(post.cover));
   const noteSurfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
+  const noteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.date,
+    dateModified: post.date,
+    url: noteUrl,
+    mainEntityOfPage: noteUrl,
+    image: noteImage,
+    keywords: post.tags.join(", "),
+    articleSection: post.type,
+    timeRequired: `PT${readingMinutes}M`,
+    author: {
+      "@id": organizationId,
+    },
+    publisher: {
+      "@id": organizationId,
+    },
+  };
 
   return (
     <article className="flex w-full flex-col">
+      <JsonLd data={noteJsonLd} />
       {!post.cover && post.color ? (
         <MobileThemeControlSurface color={post.color} />
       ) : null}
