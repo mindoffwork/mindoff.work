@@ -1,0 +1,216 @@
+---
+title: Writing Python Docstrings for MkDocs
+date: 2026-06-07
+tags:
+  - mkdocs
+  - python
+  - docstrings
+  - documentation
+type: guide
+summary: "A compact, Markdown-first docstring style for Python projects that auto-generate API reference pages with MkDocs, keeping exact API facts close to code without duplicating them in guide pages."
+color: "#FCCBDA"
+cover: /images/notes/python-docstrings-mkdocs-markdown-style.png
+---
+
+The easiest documentation to maintain is the kind that doesn't repeat itself.
+
+That sounds obvious. In practice, most projects end up with the same parameter described in three places: the function signature, the docstring, and the relevant guide page. Change one and the others drift. Two releases later, a reader is following instructions that no longer match the actual API.
+
+This is the docstring style I use across my Python projects to prevent that. It's not an entirely new style. It's a specific adaptation of Google-style docstrings for projects that generate API reference pages with MkDocs. The goal is one place per fact, and rendered output that looks clean in the docs site.
+
+## The Established Styles and Why I Adapted
+
+Google style, NumPy style, and reStructuredText field-list style all have strong communities and good tooling. This format is closest in spirit to Google style because it values a short plain-English summary, readable structure, practical usage focus, and consistency across public APIs.
+
+The difference is the rendering target.
+
+Google style uses `Args:` and `Returns:` blocks in plain text. That reads well in a code editor or a raw docstring viewer. In a rendered MkDocs page, getting it to display as anything other than indented plain text requires additional plugin configuration.
+
+NumPy style is detailed and systematic. It's the right choice for scientific libraries with complex type signatures and extensive parameter documentation. For a focused public API, it carries more structure than the job needs.
+
+The adaptation here uses a Markdown parameter table instead of `Args:` blocks, and optimizes the whole format for how it will look when rendered into a MkDocs-generated API reference page. Everything else follows the same goals as Google style: short, readable, and practical.
+
+The name for this internally: compact Markdown docstrings for API-reference generation.
+
+## The Core Idea
+
+The docstring owns the exact API contract. Everything tightly coupled to one public function belongs there: parameter names, types, defaults, return type, key exceptions, and one usage example.
+
+The guide page owns everything that spans more than one function: workflows, trade-offs, sequencing, troubleshooting.
+
+Those two layers should link to each other, not duplicate each other. A guide page that needs to reference a parameter links to the API reference. A docstring that needs to explain a workflow points to the guide. The duplication problem largely dissolves once each layer has one clear job.
+
+## The Template
+
+Every public API docstring in these projects follows this shape:
+
+````python
+def some_public_function(arg1: str, arg2: int = 10) -> bool:
+    """
+    Do one clear thing.
+
+    Add one short paragraph that explains what the function actually does,
+    what kind of object it expects, or what practical role it plays.
+
+    **Usage**
+
+    ```python
+    result = some_public_function("value", arg2=20)
+    ```
+
+    | Parameter | Type  | Required | Default | Description |
+    |-----------|-------|----------|---------|-------------|
+    | `arg1`    | `str` | Yes      | —       | Meaning of arg1 |
+    | `arg2`    | `int` | No       | `10`    | Meaning of arg2 |
+
+    **Returns:** `bool` if the operation succeeds.
+
+    **Raises:** `ValueError` if the input is invalid.
+    """
+````
+
+That's the complete structure. One summary line, one paragraph, one usage block, one table, one or two closing lines. Nothing more.
+
+## Writing Each Part Well
+
+### The summary line
+
+One sentence. Says what the function does, plainly.
+
+Good:
+- `Read an .xlsx template and return a WorkbookSchema.`
+- `Bind runtime data to a template and produce a ReportBundle.`
+
+Not good:
+- `Utility for template handling.`
+- `Main function for processing data.`
+
+The summary should be specific enough that a reader can tell functions apart at a glance in the generated API index.
+
+### The explanation paragraph
+
+One short paragraph. Use it for practical context: what stage of the workflow this function belongs to, what major behavior it performs, what important constraint or trade-off exists.
+
+Keep it short. If the explanation is getting long, some of it belongs in a guide page instead. The docstring is not the place for multi-paragraph prose.
+
+### The usage block
+
+Show the most normal call path. One example, real parameter names, the recommended import path for the project. Keep it short. This is not a tutorial.
+
+### The parameter table
+
+A Markdown table instead of a Google-style `Args:` block. Keep descriptions to one sentence. Focus on meaning, not type repetition.
+
+Good:
+- `Path to the .xlsx template file`
+- `Sheet-scoped payload (see the Data Contract guide)`
+
+Not good:
+- Long tutorials inside table cells
+- `Controls behavior` with no further detail
+- Restating the type as the description
+
+One thing that matters for MkDocs rendering: do not use escaped pipes (`\|`) inside table cells. If a value contains a pipe character, wrap it in backticks instead.
+
+### Returns and Raises
+
+Keep both brief. Document the exceptions a user of the public API actually needs to know, not every theoretical failure mode.
+
+Good:
+- `**Returns:** ReportBundle; the compiled, exportable bundle.`
+- `**Raises:** KeyError if a required placeholder key is missing from the payload.`
+
+## How It Connects to the Docs Build
+
+The point of this format is that docstrings are not just code comments. They're the source of truth for the API reference page.
+
+In practice, this means a hook or plugin reads the public-facing docstrings at build time and injects them into a generated API reference page that MkDocs picks up. In [Mindoff Dataport](/projects/mindoff-dataport), for example, a hook reads the docstrings from the package's public `__init__.py` and writes them into an `api-reference.md` file before the site is built. The same pattern applies to any project with a defined public API surface.
+
+The chain is simple:
+
+- change the docstring
+- rebuild docs
+- the API reference page updates automatically
+
+This is the main reason the format is Markdown-first. The docstrings are meant to render cleanly in MkDocs, not just be readable in a source file.
+
+## Hard Rules
+
+These come from the way the docstrings render into the docs site:
+
+- No multi-paragraph docstring essays. One short description, one usage block, one table, then returns and raises.
+- No `\|` inside Markdown tables. Use plain `|` inside backticks if needed.
+- No marketing language. State what the function does and what it limits.
+- No em dashes.
+- Keep the whole docstring compact. If it's getting long, something that belongs in a guide page has leaked in.
+
+## When This Style Is a Good Fit
+
+This approach works well when:
+
+- you have a small or medium public API
+- you publish docs with MkDocs or another Markdown-first generator
+- you want API reference content to stay close to the code that defines it
+- you want guide pages and API reference to share one coherent docs site
+
+It's probably not the right fit when:
+
+- you rely on Sphinx cross-reference roles and field directives that expect a specific docstring format
+- you're building scientific docs where NumPy style's detailed structure earns its weight
+- your API surface is large enough to need heavier auto-documentation tooling like `sphinx-autodoc` or `mkdocstrings` with a richer config
+
+## Comparison With Google Style
+
+If you already know Google-style docstrings, the easiest way to understand this format is: same goals, different rendering target.
+
+Google style:
+
+```python
+def f(x: int) -> int:
+    """Do something.
+
+    Args:
+        x: Input value.
+
+    Returns:
+        Output value.
+    """
+```
+
+This project's style:
+
+````python
+def f(x: int) -> int:
+    """
+    Do something.
+
+    **Usage**
+
+    ```python
+    result = f(3)
+    ```
+
+    | Parameter | Type  | Required | Description |
+    |-----------|-------|----------|-------------|
+    | `x`       | `int` | Yes      | Input value |
+
+    **Returns:** `int` output value.
+    """
+````
+
+The difference is not philosophical. It's about what renders best in the published docs.
+
+## The Short Version
+
+If I had to reduce this to a checklist:
+
+1. Keep public API facts in docstrings
+2. Keep workflows and tutorials in `.md` guide pages
+3. Generate the API reference from docstrings automatically
+4. Use one compact docstring template everywhere
+5. Link to guide pages instead of duplicating explanations
+6. Optimize the docstring for the rendered docs page, not just the source file
+
+The whole system stays readable in code, useful in the docs site, and much easier to keep in sync over time than a setup where the same parameter is described in three different places.
+
+For context on how this fits into the broader deployment strategy: [Versioned MkDocs Docs with Mike, GitHub Pages, and a Custom Domain](/notes/mkdocs-mike-versioned-docs-strategy).

@@ -1,0 +1,256 @@
+---
+title: Versioned MkDocs Docs with Mike, GitHub Pages, and a Custom Domain
+date: 2026-06-07
+tags:
+  - mkdocs
+  - documentation
+  - mike
+  - github-pages
+  - versioning
+type: guide
+summary: "A practical, opinionated walkthrough of the documentation strategy I use across my Python projects: versioned MkDocs output on a dedicated branch, Mike for release aliases, and GitHub Pages serving a custom domain."
+color: "#A2DFD7"
+cover: /images/notes/mkdocs-mike-versioned-docs-strategy.png
+---
+
+Most documentation problems are not writing problems. They're strategy problems.
+
+I've seen it in my own projects: docs that started clean, grew by addition, and ended up with the same install command in four files, the same parameter table in both the docstring and the guide page, and no one quite sure which version of anything was current. The documentation worked, technically. But it had no spine.
+
+This is the strategy I now use across everything I build that needs proper documentation, from [Mindoff Dataport](/projects/mindoff-dataport) to [Django Mindoff](/projects/django-mindoff) and beyond. It is not the only way to do it. It's my way, refined through the real friction of wiring MkDocs, Mike, and GitHub Pages together and watching what broke. If you're already using MkDocs without a defined structure and things have started to drift, or if you're starting fresh and want a setup that still makes sense six months later, this is the approach I'd recommend.
+
+## Why MkDocs
+
+Material for MkDocs gives me a documentation site I can shape into something that feels like it belongs to the project. The configuration is YAML-based, easy to version alongside the code, and approachable even for someone coming to documentation tooling for the first time. The theming system gives me control over structure, navigation, and visual treatment without requiring a separate build pipeline.
+
+The hooks system matters to me a lot. API references are generated from docstrings. Supported Python versions can come from `pyproject.toml`. Facts that live in the code stay in the code, and the docs build reads them at build time. That relationship keeps the documentation accurate without manual syncing.
+
+The UX matters just as much. I want someone coming to my documentation for the first time to find what they need without already knowing how documentation sites work. Material for MkDocs handles that baseline well and gives me the tools to tune from there.
+
+## Why a Custom Domain and Self-Managed Deployment
+
+I want the documentation to live at a domain I control, for example `dataport.mindoff.work` for Mindoff Dataport, rather than a subdomain tied to a third-party platform. That's partly about ownership and partly about the experience. A custom domain signals that the docs are a considered part of the project.
+
+More practically: I want full control over how the documentation looks, flows, and where it lives. That means a theme configured to match the project's feel, a navigation structure designed for the reader, and a deployment I manage inside the same workflow as the code. GitHub Pages paired with Material for MkDocs gives me that without depending on a third-party platform for the runtime.
+
+PyPI's documentation display is limited to a rendered README and basic metadata. It works for packages that need only a quick reference, but not for projects with workflows, architecture decisions, and multi-version support.
+
+## The Core Idea: Two Branches, One Job Each
+
+The whole deployment strategy rests on a clean split.
+
+These projects use `root` as the main development branch, not `main` or `master`. Source docs, MkDocs configuration, and project code all live on `root`. The `docs` branch holds nothing but generated HTML output.
+
+That separation matters more than it might seem. When the docs branch is disposable and reproducible, you stop worrying about it. You never hand-edit built output. You never wonder whether a file in the docs branch is source or artifact. The answer is always artifact.
+
+The key rule: never treat the `docs` branch as authored content. Anything written there by hand will be overwritten by the next deploy.
+
+### What lives where
+
+On `root`:
+- Source documentation (for example, `src/your_package/docs/`)
+- MkDocs configuration in `mkdocs.yml`
+- Python package code and docstrings
+- `pyproject.toml`
+
+On `docs`:
+- Generated static site output only
+
+GitHub Pages is pointed at the `docs` branch, root folder. The public site serves from there.
+
+## Single Source of Truth
+
+The deployment setup is one half of the strategy. The other half is deciding where each documented fact belongs, so updates don't drift across five files.
+
+The rule: keep facts closest to the thing that changes them.
+
+- **Public API behavior and parameters**: docstrings. The person changing the function is also the person who should update the docstring. Generated API reference pages stay correct automatically.
+- **Conceptual workflows and guides**: hand-written `.md` pages. Workflows span multiple functions and need sequencing, rationale, and examples. That context doesn't fit in a docstring.
+- **Navigation, version provider, site URL**: `mkdocs.yml`. These are configuration concerns. Duplicating them in prose invites drift.
+- **Policy and maintainer conventions**: dedicated `.md` pages. These are human rules, not API facts.
+
+When a guide page needs to reference an exact parameter, it links to the API reference instead of restating the table. When a page mentions versioning behavior, it describes the workflow and refers to config. No page owns a fact that another page already owns.
+
+The test I use before writing anything: if this fact changes, will the person who changes it remember to update it here? If the answer is probably not, it belongs somewhere else.
+
+## The Docstring Format
+
+The API reference is generated from docstrings. That only works if the docstrings follow a consistent format the build can parse and render cleanly.
+
+The style I use is Markdown-first: a one-line summary, a short explanation paragraph, a `**Usage**` block with a real example, a Markdown parameter table, and brief `**Returns:**` and `**Raises:**` lines. It's closest in spirit to Google style, but the rendering target is MkDocs, not a plain docstring viewer.
+
+The docstring owns the exact API contract. It answers: what is this function and how do I call it? The guide page builds on top of it. It answers: when should I use this and what should I watch out for? The two layers never duplicate each other.
+
+I've written up the full format, philosophy, and decision rules in a dedicated post: [Writing Python Docstrings for MkDocs: A Markdown-First House Style](/notes/python-docstrings-mkdocs-markdown-style).
+
+## Versioning with Mike
+
+Mike handles versioned deploys and the alias system. Two commands cover the full release flow.
+
+### Deploying a release
+
+```bash
+mike deploy --branch docs --push --update-aliases v0.6 latest-release
+mike set-default --branch docs --push latest-release
+```
+
+The first command builds the docs, publishes them to the `docs` branch, and updates the `latest-release` alias to point at `v0.6`.
+
+The second command sets the site root to redirect to `/latest-release/`. Without it, the versioned docs work at the versioned path but the root URL either 404s or serves stale content.
+
+Run both commands every release. It's one extra line and it prevents a class of confusing bugs.
+
+The relevant `mkdocs.yml` config:
+
+```yaml
+site_url: https://your-docs-domain.com
+
+extra:
+  version:
+    provider: mike
+    default: latest-release
+```
+
+`default: latest-release` controls the version selector in the navigation UI. The root redirect is a separate step handled by `mike set-default`.
+
+### Updating within an existing release
+
+If you're fixing documentation within the same release line without cutting a new version, the commands are the same:
+
+```bash
+mike deploy --branch docs --push --update-aliases v0.6 latest-release
+mike set-default --branch docs --push latest-release
+```
+
+The alias gets updated. The root redirect stays correct.
+
+## GitHub Pages and Custom Domain
+
+In the repository settings under `Settings -> Pages`:
+
+- Source: `Deploy from a branch`
+- Branch: `docs`
+- Folder: `/(root)`
+
+For a custom domain, set it in `Settings -> Pages` and add a `CNAME` record in DNS. For example:
+
+```text
+Host:   dataport
+Value:  mindoffwork.github.io
+```
+
+After each deploy, verify both URLs:
+
+- `https://your-docs-domain.com/`
+- `https://your-docs-domain.com/latest-release/`
+
+If the versioned path works but the root doesn't, the fix is almost always the command that gets skipped:
+
+```bash
+mike set-default --branch docs --push --allow-empty latest-release
+```
+
+## Automating Deploys with CI/CD
+
+The manual deploy flow works well for small projects and early-stage releases. At some point it makes sense to automate it.
+
+The alternative: trigger the docs build from a CI/CD pipeline on tag push or release push to `root`. When a new tag matching `v*` is pushed, the pipeline runs `mike deploy` and `mike set-default` automatically, no manual step needed.
+
+A minimal GitHub Actions workflow for this:
+
+```yaml
+name: Deploy Docs
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install mkdocs-material mike
+      - name: Configure Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Deploy docs
+        run: |
+          mike deploy --branch docs --push --update-aliases ${GITHUB_REF_NAME} latest-release
+          mike set-default --branch docs --push latest-release
+```
+
+Tag the release on `root`, and the docs follow automatically.
+
+One thing from experience: the Git identity configuration step is not optional. Mike writes commits. If Git doesn't know who it is, the deploy fails with a config error. That step must be in the pipeline.
+
+## A Note on MkDocs 2 and Material
+
+MkDocs 2.x is in active development and introduces changes to the plugin and extension system. If you're on a stable MkDocs 1.x setup with Material for MkDocs and everything works, there's no urgent reason to migrate today. The setup in this guide runs on 1.x.
+
+Before migrating to 2.x, it's worth checking plugin and theme compatibility for your specific setup and the plugins you depend on. I haven't migrated yet. When I do, I'll publish a follow-up note covering what changed and what to watch for. I'll link it here once it's up.
+
+## Problems I Actually Hit
+
+Setup documentation almost always skips this part. These are the things worth preserving.
+
+**Git identity was missing.** Mike writes commits to the `docs` branch. Without a configured Git identity, the deploy fails with `error getting config 'user.name'`. Fix it once:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+**Local branches named `docs/...` blocked creation of `docs`.** Git can't have both a branch named `docs` and branches under the `docs/` namespace. If you have branches like `docs/contributing` or `docs/update-readme`, Mike can't create the `docs` deployment branch. Delete or rename them first.
+
+**The versioned path worked but the root URL 404'd.** This is a two-step problem with a one-step solution most people skip: `mike set-default`. Deploy without setting the default and the versioned docs are live, but the root domain goes nowhere useful.
+
+**Windows locked the `site/` output folder.** A browser or preview tool had a file open under `site/`. Build into a temp folder to verify without touching the locked directory:
+
+```bash
+python -m mkdocs build --site-dir .tmp_mkdocs_verify
+```
+
+## Branch Protection
+
+`root` is the human branch. Protect it: require pull requests, require approvals, block force pushes, block deletion.
+
+`docs` is the machine branch. Lock it down differently: block deletion, block force pushes, restrict writes to the deploy actor only. Nothing should ever merge into `docs` from a human-authored branch. Only the deployment flow writes to it.
+
+GitHub doesn't make it easy to express "block merges based on source branch name," so the protection has to come from access restriction. Keep `docs` locked tight enough that the only thing writing to it is the deploy step.
+
+## The Day-to-Day Flow
+
+**Updating docs content:**
+
+1. Edit source docs on `root`
+2. Test locally with `mkdocs serve`
+3. Commit the source changes
+4. Deploy with `mike`
+
+**Publishing a new release line:**
+
+```bash
+mike deploy --branch docs --push --update-aliases v0.6 latest-release
+mike set-default --branch docs --push latest-release
+```
+
+**After every deploy, verify:**
+
+1. Root URL redirects correctly
+2. Versioned path loads the current docs
+3. GitHub Pages still points at `docs` and `/(root)`
+4. Custom domain is still configured in Pages settings
+
+This is the setup I trust now across everything I build that needs proper versioned documentation. It's not complicated once it's running. The hard part was understanding which pieces were load-bearing, which edge cases to expect, and what a branch naming conflict would cost me before I knew to look for it.
+
+If you're coming from no documentation strategy at all, this gives you one that's consistent, automatable, and easy to explain to a future version of yourself.
