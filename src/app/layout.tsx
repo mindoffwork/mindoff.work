@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poltawski_Nowy, Poppins } from "next/font/google";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { LoadingExperience } from "@/components/ui/loading-experience";
@@ -130,6 +131,8 @@ const poltawskiNowy = Poltawski_Nowy({
   weight: "variable",
 });
 
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   ...createPageMetadata({
@@ -181,6 +184,7 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav">
+        <GoogleAnalytics measurementId={gaMeasurementId} />
         <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-frame h-[var(--border-width-normal)] bg-rule" />
         <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 bottom-0 z-frame h-[var(--border-width-normal)] bg-rule" />
         <LoadingExperience />

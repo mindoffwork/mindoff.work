@@ -12,7 +12,7 @@ type PolicySection = {
   short: string;
 };
 
-const lastUpdated = "June 4, 2026";
+const lastUpdated = "June 7, 2026";
 const ccByLicenseUrl = "https://creativecommons.org/licenses/by/4.0/";
 const ccByBadgeUrl = "https://licensebuttons.net/l/by/4.0/88x31.png";
 
@@ -32,12 +32,14 @@ const policySections: PolicySection[] = [
       "mindoff.work is a small personal website, not an account-based product. You do not need to sign up, log in, leave a comment, join a newsletter, or send any personal information to read the projects and notes here.",
       "If you choose to contact mindoff.work by email, GitHub, or another external channel, I may receive the name, handle, email address, message, or attachment you decide to share. I use that only to understand the message, reply to you, and keep enough context to manage the conversation.",
       "For example: if you send a correction about a note, your email address is used to reply to that correction. It is not added to a marketing list or sold to anyone.",
+      "The site may also collect aggregated website usage information through Google Analytics, such as page views, approximate location, device category, browser, and referral source, to understand which notes and projects are useful and how the site is being discovered.",
       "You can ask for direct correspondence to be updated or deleted where it is practical. Some records may remain if they are needed for security, backup integrity, legal compliance, or ordinary record-keeping.",
     ],
     bullets: [
       "No visitor accounts are created here.",
       "No personal data is sold here.",
       "No contact details are used for mailing lists unless a separate opt-in is added later.",
+      "Aggregated traffic reporting may be collected through Google Analytics.",
     ],
     short:
       "Read freely. If you reach out, your details are used to reply, not to track you around.",
@@ -47,12 +49,13 @@ const policySections: PolicySection[] = [
     title: "2. Cookies and local storage",
     body: [
       "The site remembers your light or dark theme choice in browser local storage under the key mindoff-theme. That preference stays on your device so the page can open in the right theme the next time you visit.",
-      "mindoff.work does not currently set analytics, advertising, tracking, login, or affiliate cookies. There is no hidden dashboard trying to guess who you are. If that ever changes, this policy should be updated before those tools are enabled.",
+      "mindoff.work also uses Google Analytics for lightweight traffic measurement. Google Analytics may set cookies or use similar browser storage to measure visits, page views, engagement, and traffic sources across this site.",
+      "The site does not run advertising, login, or affiliate cookies of its own. If additional tracking tools are added later, this policy should be updated before those tools are enabled.",
       "Your browser, device, network provider, static hosting provider, font provider, and any external websites you open may still process basic technical information such as IP address, user agent, request time, referring page, or error logs under their own policies.",
       "You can clear local storage and cookies from your browser settings whenever you like. Clearing them may reset the theme preference, but it will not block access to the public content.",
     ],
     short:
-      "The site remembers your theme locally. It does not currently use analytics or ad cookies.",
+      "The site remembers your theme locally and uses Google Analytics for traffic reporting.",
   },
   {
     id: "license",
