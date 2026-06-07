@@ -163,7 +163,13 @@ function IndexLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-function NoteFeatureRow({ post }: { post: NotePost }) {
+function NoteFeatureRow({
+  eager = false,
+  post,
+}: {
+  eager?: boolean;
+  post: NotePost;
+}) {
   const surfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
@@ -187,6 +193,7 @@ function NoteFeatureRow({ post }: { post: NotePost }) {
               alt=""
               height={112}
               imageClassName="w-full rounded-lg object-cover sm:size-24"
+              loading={eager ? "eager" : "lazy"}
               placeholderClassName="rounded-lg"
               sizes="(max-width: 639px) calc(100vw - 2.5rem), 6rem"
               src={post.cover}
@@ -283,8 +290,8 @@ export default function Home() {
             Recent Notes
           </p>
           <div className="flex w-full flex-col gap-4">
-            {recentNotes.map((note) => (
-              <NoteFeatureRow key={note.slug} post={note} />
+            {recentNotes.map((note, index) => (
+              <NoteFeatureRow eager={index === 0} key={note.slug} post={note} />
             ))}
             <IndexLink href="/notes" label="See All Notes" />
           </div>

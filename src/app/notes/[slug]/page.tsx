@@ -113,12 +113,12 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
             height={1024}
             imageClassName="h-auto w-full max-w-media object-contain rounded-lg"
             loading="eager"
-            placeholderClassName="mx-auto max-w-media"
-            sizes="(max-width: 639px) calc(100vw - 2rem), 52rem"
+            placeholderClassName="mx-auto w-1/2 lg:w-1/4"
+            sizes="(max-width: 1023px) 50vw, 25vw"
             src={post.cover}
             unoptimized
             width={1536}
-            wrapperClassName="w-full max-w-media"
+            wrapperClassName="mx-auto w-1/2 lg:w-1/4"
           />
         </figure>
       ) : null}

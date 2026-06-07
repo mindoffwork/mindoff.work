@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { SiteLink } from "@/components/ui/site-link";
 import type { NotePost } from "@/lib/types";

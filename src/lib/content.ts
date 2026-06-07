@@ -34,6 +34,21 @@ function getSlugFromFilename(filename: string) {
   return filename.replace(/\.mdx$/, "");
 }
 
+function getOptimizedNoteCoverPath(cover?: string) {
+  if (!cover || !cover.startsWith("/images/notes/") || !cover.endsWith(".png")) {
+    return cover;
+  }
+
+  const optimizedCover = cover.replace(/\.png$/u, ".webp");
+  const optimizedCoverPath = path.join(process.cwd(), "public", optimizedCover);
+
+  if (fs.existsSync(optimizedCoverPath)) {
+    return optimizedCover;
+  }
+
+  return cover;
+}
+
 function sortByDateDesc<T extends { date: string }>(posts: T[]) {
   return posts.sort(
     (first, second) =>
@@ -200,7 +215,7 @@ function readContentFile<T extends ContentPost>(
   return {
     ...basePost,
     type: requireUnion(frontmatter, "type", noteTypeSet, filepath),
-    cover: optionalString(frontmatter, "cover", filepath),
+    cover: getOptimizedNoteCoverPath(optionalString(frontmatter, "cover", filepath)),
   } as T;
 }
 

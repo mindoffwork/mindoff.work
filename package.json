@@ -4,10 +4,14 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "predev": "node scripts/optimize-note-covers.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/optimize-note-covers.mjs",
     "build": "next build",
+    "postbuild": "node scripts/prune-exported-note-cover-pngs.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "optimize:note-covers": "node scripts/optimize-note-covers.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
