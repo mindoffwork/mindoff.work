@@ -1,5 +1,5 @@
 import { getAllNotes, getAllProjects } from "@/lib/content";
-import { siteUrl } from "@/lib/metadata";
+import { siteDescription, siteUrl } from "@/lib/metadata";
 
 export const dynamic = "force-static";
 
@@ -42,7 +42,7 @@ export function GET() {
       ].join("");
     })
     .join("");
-  const feed = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>mindoff.work</title><link>${siteUrl}</link><description>Projects, essays, and snapshots from mindoff.work.</description><language>en</language>${items}</channel></rss>`;
+  const feed = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>mindoff.work</title><link>${siteUrl}</link><description>${escapeXml(siteDescription)}</description><language>en</language>${items}</channel></rss>`;
 
   return new Response(feed, {
     headers: {

@@ -4,15 +4,14 @@ import { getActionButtonClassName } from "@/components/ui/action-button";
 import { ExpandableImage } from "@/components/ui/expandable-image";
 import { LoadingImage } from "@/components/ui/loading-image";
 import { SiteLink } from "@/components/ui/site-link";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteDescription } from "@/lib/metadata";
 import { getAllProjects, getAllNotes } from "@/lib/content";
 import type { ProjectPost, NotePost } from "@/lib/types";
 
 export function generateMetadata(): Metadata {
   return createPageMetadata({
     title: "Mind Off Work",
-    description:
-      "Tools, writings, and product experiments exploring quieter ways to design, build, automate, and think through work.",
+    description: siteDescription,
     path: "/",
   });
 }

@@ -10,6 +10,7 @@ import {
   absoluteUrl,
   createPageMetadata,
   organizationId,
+  siteDescription,
   siteUrl,
   websiteId,
 } from "@/lib/metadata";
@@ -147,7 +148,7 @@ const websiteJsonLd = {
       "@id": websiteId,
       url: siteUrl,
       name: "mindoff.work",
-      description: "Projects, essays, and snapshots from mindoff.work.",
+      description: siteDescription,
       inLanguage: "en",
       publisher: {
         "@id": organizationId,
@@ -171,7 +172,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   ...createPageMetadata({
     title: "mindoff.work",
-    description: "Projects, essays, and snapshots from mindoff.work.",
+    description: siteDescription,
     path: "/",
   }),
 };

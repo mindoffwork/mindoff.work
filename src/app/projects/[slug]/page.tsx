@@ -64,9 +64,9 @@ function getProjectJsonLd(post: NonNullable<ReturnType<typeof getProject>>) {
       ...baseSchema,
       "@type": "SoftwareSourceCode",
       codeRepository: post.github,
-      downloadUrl: post.productUrl,
       programmingLanguage: "Python",
       runtimePlatform: "Python",
+      ...(post.productUrl ? { sameAs: [post.productUrl] } : {}),
     };
   }
 

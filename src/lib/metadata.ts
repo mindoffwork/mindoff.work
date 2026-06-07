@@ -4,6 +4,8 @@ export const siteUrl = "https://mindoff.work";
 export const defaultOgImage = "/images/og-default.png";
 export const organizationId = `${siteUrl}#organization`;
 export const websiteId = `${siteUrl}#website`;
+export const siteDescription =
+  "Open-source tools, research notes, and product experiments for designing quieter, lighter, more useful ways to work.";
 
 type PageMetadataInput = {
   title: string;
