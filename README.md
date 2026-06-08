@@ -2,6 +2,8 @@
 
 _A personal website and weblog for projects, notes, and build records._
 
+![mindoff.work banner](public/images/og-default.png)
+
 `mindoff.work` is a static Next.js site built to publish a small body of personal work: project pages, written notes, lightweight snapshots, and supporting policy pages. This repository is public for transparency and exploration.
 
 **Website**: [https://mindoff.work](https://mindoff.work)
