@@ -1,4 +1,5 @@
 import { ErrorState } from "@/components/ui/error-state";
+import { siteTitle } from "@/lib/metadata";
 
 export default function NotFound() {
   return (
@@ -10,7 +11,7 @@ export default function NotFound() {
       code="404 / Not found"
       description="The page you were looking for does not exist or may have moved."
       heading="Page not found."
-      title="Page Not Found | mindoff.work"
+      title={`Page Not Found | ${siteTitle}`}
     />
   );
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { NoteCard } from "@/components/ui/note-card";
 import { getAllNotes } from "@/lib/content";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteTitle } from "@/lib/metadata";
 
 export function generateMetadata(): Metadata {
   return createPageMetadata({
-    title: "Notes | mindoff.work",
+    title: `Notes | ${siteTitle}`,
     description: "Essays and snapshots from mindoff.work.",
     path: "/notes",
   });

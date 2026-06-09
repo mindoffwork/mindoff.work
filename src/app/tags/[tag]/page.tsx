@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PostCard } from "@/components/ui/post-card";
 import { getAllNotes, getAllProjects, getAllTags } from "@/lib/content";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteTitle } from "@/lib/metadata";
 
 type TagPageProps = {
   params: Promise<{
@@ -24,7 +24,7 @@ export async function generateMetadata({
   const decodedTag = decodeURIComponent(tag);
 
   return createPageMetadata({
-    title: `${decodedTag} | mindoff.work`,
+    title: `${decodedTag} | ${siteTitle}`,
     description: `Posts tagged ${decodedTag} on mindoff.work.`,
     path: `/tags/${encodeURIComponent(decodedTag)}`,
   });

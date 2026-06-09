@@ -13,6 +13,7 @@ import {
   createPageMetadata,
   getPostOgImage,
   organizationId,
+  siteTitle,
   siteUrl,
 } from "@/lib/metadata";
 
@@ -56,7 +57,7 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: `${post.title} | mindoff.work`,
+    title: `${post.title} | ${siteTitle}`,
     description: post.summary,
     path: `/notes/${post.slug}`,
     image: getPostOgImage(post.cover),

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { ProjectCard } from "@/components/ui/project-card";
 import { getAllProjects } from "@/lib/content";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteTitle } from "@/lib/metadata";
 
 export function generateMetadata(): Metadata {
   return createPageMetadata({
-    title: "Projects | mindoff.work",
+    title: `Projects | ${siteTitle}`,
     description: "Software and hardware projects from mindoff.work.",
     path: "/projects",
   });

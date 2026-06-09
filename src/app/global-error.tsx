@@ -2,6 +2,7 @@
 
 import { Poltawski_Nowy, Poppins } from "next/font/google";
 import { ErrorState } from "@/components/ui/error-state";
+import { siteTitle } from "@/lib/metadata";
 import "../styles/globals.css";
 
 const poppins = Poppins({
@@ -31,7 +32,7 @@ export default function GlobalError({
             description="The site could not be displayed right now. Try again, or return to the homepage."
             heading="Something went wrong."
             onRetry={() => unstable_retry()}
-            title="Something Went Wrong | mindoff.work"
+            title={`Something Went Wrong | ${siteTitle}`}
           />
         </main>
       </body>

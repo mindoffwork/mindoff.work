@@ -1,6 +1,6 @@
 export const projectTypes = ["python package", "hardware"] as const;
 export const projectStatuses = ["active", "archived"] as const;
-export const noteTypes = ["field note", "guide", "snap"] as const;
+export const noteTypes = ["field note", "story", "guide", "snap"] as const;
 
 export type ProjectType = (typeof projectTypes)[number];
 export type ProjectStatus = (typeof projectStatuses)[number];

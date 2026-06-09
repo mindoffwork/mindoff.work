@@ -1,6 +1,7 @@
 "use client";
 
 import { ErrorState } from "@/components/ui/error-state";
+import { siteTitle } from "@/lib/metadata";
 
 export default function ErrorPage({
   unstable_retry,
@@ -14,7 +15,7 @@ export default function ErrorPage({
       description="This page could not be displayed right now. Try again, or return to the homepage."
       heading="Something went wrong."
       onRetry={() => unstable_retry()}
-      title="Something Went Wrong | mindoff.work"
+      title={`Something Went Wrong | ${siteTitle}`}
     />
   );
 }

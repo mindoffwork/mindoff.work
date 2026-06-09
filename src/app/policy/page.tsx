@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { HashLink } from "@/components/ui/hash-link";
 import { SiteLink } from "@/components/ui/site-link";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteTitle } from "@/lib/metadata";
 
 type PolicySection = {
   id: string;
@@ -133,7 +133,7 @@ const policySections: PolicySection[] = [
 
 export function generateMetadata(): Metadata {
   return createPageMetadata({
-    title: "Terms & Privacy | mindoff.work",
+    title: `Terms & Privacy | ${siteTitle}`,
     description:
       "Policy for terms of use, privacy, cookies, licensing, and disclaimers for mindoff.work.",
     path: "/policy",

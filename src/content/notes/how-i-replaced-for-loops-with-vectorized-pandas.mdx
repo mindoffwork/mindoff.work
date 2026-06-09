@@ -1,0 +1,200 @@
+---
+title: "How I Replaced For Loops with Vectorized Pandas"
+date: 2025-09-09
+tags:
+  - python
+  - pandas
+  - numpy
+  - vectorization
+  - data-processing
+  - performance
+type: story
+summary: "A hands-on account of replacing loop-based data processing with vectorized pandas operations across two financial calculation engines, and what that architectural shift actually looks like in code."
+color: "#FDF1DF"
+cover: /images/notes/how-i-replaced-for-loops-with-vectorized-pandas.png
+---
+
+The number that came back from our first benchmark was 1.5 seconds per record.
+
+That might sound manageable until you multiply it out. Twenty-five thousand employees for one client. Multiple clients running in the same window. Over a hundred thousand records at peak. At 1.5 seconds each, you're not building a processing engine. You're building a waiting room. 😬 That single benchmark told us the architecture was wrong before we'd shipped a single line to production.
+
+What followed wasn't a performance tuning session. It was a complete rethink of how data should move through a calculation pipeline. The lessons from that rethink ended up shaping not just one engine, but two. The second one, a tax calculation engine with significantly more complex calculation logic, put those lessons under harder pressure.
+
+## The architecture that produced 1.5 seconds per record
+
+The system being built was a financial calculation engine. For every employee in a payroll run, the engine had to pull records from several upstream tables: salary details, monthly attendance, leave history, overtime entries, fixation and revision history, and a set of client-specific rules governing how earnings and deductions interacted. Statutory components like provident fund had caps and rate rules. All of it had to reconcile to two decimal precision because rounding errors in financial data are a compliance problem.
+
+The natural way to write this is a loop. One record, gather its data, run the calculations, move to the next.
+
+```python
+results = []
+for _, emp in employees_df.iterrows():
+    attendance = attendance_df[
+        attendance_df['emp_id'] == emp['emp_id']
+    ].iloc[0]
+
+    rules = client_rules_df[
+        client_rules_df['client_id'] == emp['client_id']
+    ].iloc[0]
+
+    working_days = calendar_df.loc[
+        calendar_df['month_key'] == emp['month_key'], 'working_days'
+    ].values[0]
+
+    gross = emp['basic_salary'] * (attendance['days_present'] / working_days)
+    hra = emp['basic_salary'] * rules['hra_pct']
+    pf = min(gross, 15000) * rules['pf_rate']
+    tax = gross * rules['tax_rate']
+
+    results.append({
+        'emp_id': emp['emp_id'],
+        'gross': gross,
+        'hra': hra,
+        'pf': pf,
+        'tax': tax,
+        'net_pay': gross + hra - pf - tax,
+    })
+
+payroll_df = pd.DataFrame(results)
+```
+
+This is readable. It maps directly to how a human thinks about the problem. It also runs 1,000 filter operations against three different DataFrames for every 1,000 employees. Python's loop overhead combined with repeated full-table scans on unindexed frames is where the 1.5 seconds went. The logic was correct. The structure was the problem.
+
+## The decision to rebuild, not optimize
+
+The legacy application we were replacing took around 45 minutes for the same 1,000-employee dataset. Our MVP was at 30 minutes. Almost everyone was content to call that progress, and the stakeholders asked us to aim for 15 minutes through optimization.
+
+I had a different level of expectation in terms of performance. My colleague joined in to build a POC to demonstrate that pandas vectorization could work at this scale, a sensible approach: prove the concept and plan a migration, while I rewrote the entire calculation engine from scratch in parallel.
+
+Not out of impatience. I'd worked with pandas DataFrames and numpy in side projects long enough to see that the loop architecture wasn't something you could tune into something fundamentally different. Optimizing inside the loop gets you partway there. Changing what the loop is over changes the order of magnitude.
+
+## Thinking in columns, not records
+
+The shift is conceptual before it's technical. A loop treats data as a pile of records, each one processed in turn. Vectorized processing treats data as a set of columns, all computed simultaneously.
+
+Think of a factory floor versus a craftsman's workshop. The craftsman builds one chair at a time (measure, cut, join, finish) before starting the next. The factory cuts all the timber at once, joins all the frames at once, finishes all the surfaces at once. Same output. Incomparably different throughput. The craftsman's approach is easier to reason about for one chair. The factory wins at any meaningful scale.
+
+In pandas, the enabling tool is `merge`. Instead of filtering inside a loop to find each employee's matching attendance record, you join the full attendance table to the full employee table in one operation. The result is a wide DataFrame where every row already has everything it needs. Derived columns then compute across all rows at once.
+
+```python
+# Assemble the full working dataset once
+payroll = (
+    employees_df
+    .merge(attendance_df, on='emp_id')
+    .merge(client_rules_df, on='client_id')
+    .merge(calendar_df, on='month_key')
+)
+
+# Column-level earnings — all rows computed simultaneously
+payroll['gross'] = (
+    payroll['basic_salary'] * (payroll['days_present'] / payroll['working_days'])
+)
+payroll['hra'] = payroll['basic_salary'] * payroll['hra_pct']
+
+# Conditional cap via numpy — runs at C speed, no Python loop involved
+gross_arr = payroll['gross'].to_numpy()
+pf_rate_arr = payroll['pf_rate'].to_numpy()
+payroll['pf'] = np.minimum(gross_arr, 15000) * pf_rate_arr
+
+payroll['tax'] = gross_arr * payroll['tax_rate'].to_numpy()
+payroll['net_pay'] = (
+    payroll['gross'] + payroll['hra'] - payroll['pf'] - payroll['tax']
+)
+```
+
+The merge chain assembles the working dataset once. Every operation after that is a column operation: pandas hands it to numpy, which runs compiled C code across the entire column simultaneously. When calculations needed conditional branching or value capping, dropping into numpy arrays directly kept things fast. `np.minimum`, `np.maximum`, and `np.where` all operate on full arrays without touching a Python loop.
+
+Aggregations used the same pattern. Component-level earnings rows summed to employee-level figures through `groupby`, never through an accumulator:
+
+```python
+component_totals = (
+    earning_components_df
+    .groupby('emp_id')
+    .agg(
+        total_earnings=('amount', 'sum'),
+        component_count=('component_code', 'count'),
+    )
+    .reset_index()
+)
+```
+
+## The second benchmark
+
+1,000 employees. 10 seconds. ⚡ Including serialization and save.
+
+Thirty minutes to 10 seconds. Not the 50% improvement the stakeholders asked for. A 99.4% improvement. The POC my colleague built confirmed vectorization worked at scale. The full rewrite confirmed the architectural change, not just the operation, was what made the difference.
+
+## When the same approach met harder ground
+
+The income tax calculation engine came after the payroll engine, and it was a more demanding test of the same methodology. Tax calculations aren't a flat formula. They're a dependency chain: you can't compute surcharge until you have tax on income; you can't compute marginal relief until you have surcharge; and taxable income itself is the result of comparing gross income against multiple exemption categories, each with its own rules.
+
+The architecture that made sense here was modular: each stage of the calculation as a pure function that received a DataFrame, enriched it, and returned it. Each function composed into the next through pandas' `.pipe()` method.
+
+```python
+def calculate_taxable_income(df: pd.DataFrame) -> pd.DataFrame:
+    exemption_cols = ['hra_exemption', 'lta_exemption', 'standard_deduction', 'sec80c']
+    df['total_exemptions'] = df[exemption_cols].sum(axis=1)
+    df['taxable_income'] = np.maximum(
+        df['gross_income'].to_numpy() - df['total_exemptions'].to_numpy(), 0
+    )
+    return df
+
+def calculate_tax_on_income(df: pd.DataFrame) -> pd.DataFrame:
+    income = df['taxable_income'].to_numpy()
+    df['tax_on_income'] = np.where(
+        income <= 250_000, 0,
+        np.where(
+            income <= 500_000, (income - 250_000) * 0.05,
+            np.where(
+                income <= 1_000_000,
+                12_500 + (income - 500_000) * 0.20,
+                112_500 + (income - 1_000_000) * 0.30,
+            ),
+        ),
+    )
+    return df
+
+def calculate_surcharge(df: pd.DataFrame) -> pd.DataFrame:
+    income = df['taxable_income'].to_numpy()
+    tax = df['tax_on_income'].to_numpy()
+    df['surcharge'] = np.where(
+        income > 10_000_000, tax * 0.15,
+        np.where(income > 5_000_000, tax * 0.10, 0),
+    )
+    return df
+
+def apply_marginal_relief(df: pd.DataFrame) -> pd.DataFrame:
+    tax = df['tax_on_income'].to_numpy()
+    surcharge = df['surcharge'].to_numpy()
+    income = df['taxable_income'].to_numpy()
+    # Relief ensures combined tax + surcharge doesn't exceed the income above threshold
+    total = tax + surcharge
+    threshold_excess = np.maximum(income - 5_000_000, 0)
+    relief = np.maximum(total - threshold_excess, 0)
+    df['surcharge'] = np.maximum(surcharge - relief, 0)
+    df['marginal_relief'] = relief
+    return df
+
+# The full pipeline — every stage sees the same DataFrame, enriched progressively
+tax_result = (
+    employee_income_df
+    .pipe(calculate_taxable_income)
+    .pipe(calculate_tax_on_income)
+    .pipe(calculate_surcharge)
+    .pipe(apply_marginal_relief)
+)
+```
+
+The nested `np.where` handles the slab structure of India's income tax brackets without a single conditional loop. Each `.pipe()` stage is independently testable and replaceable. The modular structure made it possible to update one calculation rule (the surcharge threshold changed in a budget) without touching the rest of the pipeline. That kind of isolation is hard to achieve with a monolithic loop and nearly free when each calculation stage is a pure function over a column.
+
+The tax engine handled calculations that were genuinely harder to reason about than payroll. The architecture handled it without rethinking. That was the validation worth noting.
+
+## Teaching the team the method, not the library
+
+After both rewrites, the harder ongoing problem was making sure the team could maintain and extend the engines without me being the bottleneck.
+
+Teaching all of pandas at once leads to uneven application. What I taught instead was a deliberately narrow mental model: think in tables, not records. To get a value from another table, merge it in. To compute a new value, do it on the column. To group and aggregate, reduce. To model a multi-stage dependency, use `.pipe()`. Almost every financial calculation maps to one of those operations.
+
+That became the internal standard for both engines. I wrote it up with worked examples in [a separate post](/notes/4-pandas-operations-that-replace-most-for-loops) for anyone bringing new engineers into this kind of work.
+
+Speed without deployability is a different problem, and it arrived next. Concurrent clients, memory pressure, and the constraints of an 8GB server. [That's where this story continues.](/notes/solving-memory-pressure-in-a-python-data-pipeline)

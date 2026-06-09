@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 export const siteUrl = "https://mindoff.work";
+export const siteTitle = "Mind Off Work";
 export const defaultOgImage = "/images/og-default.png";
 export const organizationId = `${siteUrl}#organization`;
 export const websiteId = `${siteUrl}#website`;

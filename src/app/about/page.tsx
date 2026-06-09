@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { LoadingImage } from "@/components/ui/loading-image";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, siteTitle } from "@/lib/metadata";
 
 export function generateMetadata(): Metadata {
   return createPageMetadata({
-    title: "About | mindoff.work",
+    title: `About | ${siteTitle}`,
     description:
       "About the product engineer behind MindOff, sharing open source projects, research, notes, and ideas for simpler work and life.",
     path: "/about",

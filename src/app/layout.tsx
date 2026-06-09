@@ -11,6 +11,7 @@ import {
   createPageMetadata,
   organizationId,
   siteDescription,
+  siteTitle,
   siteUrl,
   websiteId,
 } from "@/lib/metadata";
@@ -171,7 +172,7 @@ const websiteJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   ...createPageMetadata({
-    title: "mindoff.work",
+    title: siteTitle,
     description: siteDescription,
     path: "/",
   }),
