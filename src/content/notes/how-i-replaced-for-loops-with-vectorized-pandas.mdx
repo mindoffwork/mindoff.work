@@ -195,6 +195,6 @@ After both rewrites, the harder ongoing problem was making sure the team could m
 
 Teaching all of pandas at once leads to uneven application. What I taught instead was a deliberately narrow mental model: think in tables, not records. To get a value from another table, merge it in. To compute a new value, do it on the column. To group and aggregate, reduce. To model a multi-stage dependency, use `.pipe()`. Almost every financial calculation maps to one of those operations.
 
-That became the internal standard for both engines. I wrote it up with worked examples in [a separate post](/notes/4-pandas-operations-that-replace-most-for-loops) for anyone bringing new engineers into this kind of work.
+That became the internal standard for both engines. I wrote it up with worked examples in [a separate post](/notes/five-pandas-operations-that-replace-most-for-loops) for anyone bringing new engineers into this kind of work.
 
 Speed without deployability is a different problem, and it arrived next. Concurrent clients, memory pressure, and the constraints of an 8GB server. [That's where this story continues.](/notes/solving-memory-pressure-in-a-python-data-pipeline)

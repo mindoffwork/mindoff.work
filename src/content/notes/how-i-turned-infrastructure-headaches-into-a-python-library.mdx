@@ -51,7 +51,7 @@ The library packages what two years of financial engine work made reusable. The 
 
 The goal was to remove the infrastructure tax as a problem. A team building a data-intensive Django application should start with the floor already present and spend their time on the logic that makes their product specific.
 
-[django-mindoff is on GitHub](https://github.com/your-org/django-mindoff). The documentation covers how to get started. This post, and the two before it, cover why it was built the way it was.
+[django-mindoff is on GitHub](https://github.com/mindoffwork/django-mindoff). The documentation covers how to get started. This post, and the two before it, cover why it was built the way it was.
 
 ## What I'd tell someone starting the same kind of project
 
@@ -59,4 +59,4 @@ The payroll and tax engines both worked, held up under production load, and were
 
 That methodology is the thing worth carrying forward. The specific tools will evolve. Pandas was the right choice at one point. Polars is the more defensible choice now. What doesn't change is the underlying thinking: data is a set of columns that transform in stages, and every part of your architecture should reflect that.
 
-If you're starting a project with similar requirements, the [technical walkthrough of the merge-and-reduce approach](/notes/4-pandas-operations-that-replace-most-for-loops) is the most practically useful place to begin. The two posts before this one give you the full story of where that approach was tested. What you build on top of it is up to you.
+If you're starting a project with similar requirements, the [technical walkthrough of the merge-and-reduce approach](/notes/five-pandas-operations-that-replace-most-for-loops) is the most practically useful place to begin. The two posts before this one give you the full story of where that approach was tested. What you build on top of it is up to you.
