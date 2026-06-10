@@ -63,6 +63,7 @@ jobs:
       - name: Create or update uptime issue
         if: steps.uptime.outputs.exit_code != '0'
         env:
+          GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
@@ -79,6 +80,7 @@ jobs:
       - name: Close uptime issue when healthy
         if: steps.uptime.outputs.exit_code == '0'
         env:
+          GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
