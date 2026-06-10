@@ -21,10 +21,10 @@ jobs:
           mkdir -p smoke-test
           cat > smoke-test/broken-links.md <<'EOF'
           # Link Check Smoke Test
-
+          
           This workflow intentionally includes a broken URL to verify the notification path.
-
-          - https://example.invalid/broken-test
+          
+          - https://example.com/mindoff-link-check-smoke-test-404
           EOF
 
       - name: Run Lychee smoke test
