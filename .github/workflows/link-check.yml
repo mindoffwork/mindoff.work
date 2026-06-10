@@ -55,8 +55,22 @@ jobs:
           output: lychee/out.md
           args: >
             --config .lychee.toml
+            --verbose
             --root-dir "${{ github.workspace }}/out"
             out
+
+      - name: Append run link to scheduled report
+        if: steps.lychee.outputs.exit_code != 0
+        shell: bash
+        run: |
+          {
+            echo
+            echo "---"
+            echo
+            echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo
+            echo "If the summary below is too compact, open the **Run Lychee** step in that run for the full per-link log."
+          } >> ./lychee/out.md
 
       - name: Create or update broken links issue
         if: steps.lychee.outputs.exit_code != 0
@@ -84,3 +98,11 @@ jobs:
             gh issue comment "$issue_number" --body "The scheduled broken-links check passed in run $GITHUB_RUN_ID, so this report is being closed automatically."
             gh issue close "$issue_number"
           fi
+
+      - name: Upload scheduled link-check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-daily-report
+          path: ./lychee/out.md
+          if-no-files-found: ignore
