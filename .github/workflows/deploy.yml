@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     tags:
-      - 'v[0-9]*'
+      - "v[0-9]*"
 
 permissions:
   contents: write
@@ -24,8 +24,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -54,52 +54,66 @@ jobs:
       - name: Run Lychee pre-deploy gate
         id: lychee
         continue-on-error: true
-        shell: bash
-        run: |
-          mkdir -p lychee
-          set +e
-          docker run --rm \
-            -v "$PWD:/work" \
-            -w /work \
-            ghcr.io/lycheeverse/lychee:latest \
-            --config .lychee.toml \
-            --verbose \
-            --root-dir /work/out \
-            out > ./lychee/predeploy-raw.txt 2>&1
-          status=$?
-          echo "status=$status" >> "$GITHUB_OUTPUT"
-          if [ "$status" -ne 0 ]; then
-            exit 1
-          fi
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail: true
+          format: markdown
+          output: lychee/predeploy-out.md
+          jobSummary: true
+          args: >
+            --config .lychee.toml
+            --verbose
+            --root-dir "${{ github.workspace }}/out"
+            out
 
       - name: Prepare release broken-links report
         if: steps.lychee.outcome == 'failure'
         shell: bash
         run: |
+          mkdir -p lychee
+          if [ ! -s ./lychee/predeploy-out.md ]; then
+            cat > ./lychee/predeploy-out.md <<'EOF'
+          # Link checker failed during release build
+
+          The Lychee step failed, but it did not produce a broken-links report file.
+          Open the linked Actions run and inspect the **Run Lychee pre-deploy gate** step for the exact tool error.
+          EOF
+          fi
+
           {
             echo "# Broken links detected during release build"
             echo
             echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
             echo
-            echo "Lychee exited with status `${{ steps.lychee.outputs.status }}`."
+            echo "If the report below looks incomplete, open the **Run Lychee pre-deploy gate** step in this run for full details."
             echo
-            echo "```text"
-            cat ./lychee/predeploy-raw.txt
-            echo "```"
-          } > ./lychee/predeploy-out.md
+            cat ./lychee/predeploy-out.md
+          } > ./lychee/predeploy-report.md
+
+      - name: Check whether release report has broken-link details
+        if: steps.lychee.outcome == 'failure'
+        id: release_report
+        shell: bash
+        run: |
+          if grep -q '\[ERROR\]' ./lychee/predeploy-out.md || grep -q '^| ' ./lychee/predeploy-out.md; then
+            echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Create or update broken links issue from release build
-        if: steps.lychee.outcome == 'failure'
+        if: steps.lychee.outcome == 'failure' && steps.release_report.outputs.has_broken_links == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report – v${{ steps.version.outputs.version }}"
+          title="Broken links report - v${{ steps.version.outputs.version }}"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
-            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/predeploy-out.md
+            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/predeploy-report.md
           else
-            gh issue create --title "$title" --body-file ./lychee/predeploy-out.md
+            gh issue create --title "$title" --body-file ./lychee/predeploy-report.md
           fi
 
       - name: Close broken links issue when release build is healthy
@@ -107,7 +121,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report – v${{ steps.version.outputs.version }}"
+          title="Broken links report - v${{ steps.version.outputs.version }}"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
@@ -122,13 +136,13 @@ jobs:
           name: lychee-release-report
           path: |
             ./lychee/predeploy-out.md
-            ./lychee/predeploy-raw.txt
+            ./lychee/predeploy-report.md
           if-no-files-found: ignore
 
       - name: Stop release when broken links are found
         if: steps.lychee.outcome == 'failure'
         run: |
-          echo "Broken links detected. Deployment has been stopped."
+          echo "Link check failed. Deployment has been stopped."
           exit 1
 
       - name: Deploy to gh-pages

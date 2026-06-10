@@ -47,53 +47,67 @@ jobs:
       - name: Run Lychee
         id: lychee
         continue-on-error: true
-        shell: bash
-        run: |
-          mkdir -p lychee
-          set +e
-          docker run --rm \
-            -v "$PWD:/work" \
-            -w /work \
-            ghcr.io/lycheeverse/lychee:latest \
-            --config .lychee.toml \
-            --verbose \
-            --root-dir /work/out \
-            out > ./lychee/out.txt 2>&1
-          status=$?
-          echo "status=$status" >> "$GITHUB_OUTPUT"
-          if [ "$status" -ne 0 ]; then
-            exit 1
-          fi
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail: true
+          format: markdown
+          output: lychee/out.md
+          jobSummary: true
+          args: >
+            --config .lychee.toml
+            --verbose
+            --root-dir "${{ github.workspace }}/out"
+            out
 
       - name: Prepare scheduled broken-links report
         if: steps.lychee.outcome == 'failure'
         shell: bash
         run: |
+          mkdir -p lychee
+          if [ ! -s ./lychee/out.md ]; then
+            cat > ./lychee/out.md <<'EOF'
+          # Link checker failed during scheduled check
+
+          The Lychee step failed, but it did not produce a broken-links report file.
+          Open the linked Actions run and inspect the **Run Lychee** step for the exact tool error.
+          EOF
+          fi
+
           {
             echo "# Broken links detected during scheduled check"
             echo
             echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
             echo "Checked at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             echo
-            echo "Lychee exited with status `${{ steps.lychee.outputs.status }}`."
+            echo "If the report below looks incomplete, open the **Run Lychee** step in this run for full details."
             echo
-            echo "```text"
-            cat ./lychee/out.txt
-            echo "```"
-          } > ./lychee/out.md
+            cat ./lychee/out.md
+          } > ./lychee/out-report.md
+
+      - name: Check whether scheduled report has broken-link details
+        if: steps.lychee.outcome == 'failure'
+        id: scheduled_report
+        shell: bash
+        run: |
+          if grep -q '\[ERROR\]' ./lychee/out.md || grep -q '^| ' ./lychee/out.md; then
+            echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Create or update broken links issue
-        if: steps.lychee.outcome == 'failure'
+        if: steps.lychee.outcome == 'failure' && steps.scheduled_report.outputs.has_broken_links == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report – scheduled"
+          title="Broken links report - scheduled"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
-            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/out.md
+            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/out-report.md
           else
-            gh issue create --title "$title" --body-file ./lychee/out.md
+            gh issue create --title "$title" --body-file ./lychee/out-report.md
           fi
 
       - name: Close broken links issue when healthy
@@ -101,7 +115,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report – scheduled"
+          title="Broken links report - scheduled"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
@@ -116,7 +130,7 @@ jobs:
           name: lychee-daily-report
           path: |
             ./lychee/out.md
-            ./lychee/out.txt
+            ./lychee/out-report.md
           if-no-files-found: ignore
 
       - name: Mark scheduled check failed when broken links are found
