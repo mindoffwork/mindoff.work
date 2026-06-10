@@ -10,8 +10,8 @@ const webpOptions = {
 
 async function loadSharp() {
   try {
-    const module = await import("sharp");
-    return module.default;
+    const sharpModule = await import("sharp");
+    return sharpModule.default;
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown sharp loading error.";

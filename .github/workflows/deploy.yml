@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  issues: write
 
 jobs:
   deploy:
@@ -82,6 +81,8 @@ jobs:
           EOF
           fi
 
+          sed "s|file://${GITHUB_WORKSPACE}/out|https://mindoff.work|g" ./lychee/predeploy-out.md > ./lychee/predeploy-public.md
+
           {
             echo "# Broken links detected during release build"
             echo
@@ -89,46 +90,8 @@ jobs:
             echo
             echo "If the report below looks incomplete, open the **Run Lychee pre-deploy gate** step in this run for full details."
             echo
-            cat ./lychee/predeploy-out.md
+            cat ./lychee/predeploy-public.md
           } > ./lychee/predeploy-report.md
-
-      - name: Check whether release report has broken-link details
-        if: steps.lychee.outcome == 'failure'
-        id: release_report
-        shell: bash
-        run: |
-          if grep -q '^### Errors in ' ./lychee/predeploy-out.md || grep -q '^\* \[[0-9A-Z]' ./lychee/predeploy-out.md; then
-            echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Create or update broken links issue from release build
-        if: steps.lychee.outcome == 'failure' && steps.release_report.outputs.has_broken_links == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          title="Broken links report - v${{ steps.version.outputs.version }}"
-          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
-
-          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
-            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/predeploy-report.md
-          else
-            gh issue create --title "$title" --body-file ./lychee/predeploy-report.md
-          fi
-
-      - name: Close broken links issue when release build is healthy
-        if: steps.lychee.outcome == 'success'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          title="Broken links report - v${{ steps.version.outputs.version }}"
-          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
-
-          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
-            gh issue comment "$issue_number" --body "The release-build link check passed in run $GITHUB_RUN_ID, so this report is being closed automatically."
-            gh issue close "$issue_number"
-          fi
 
       - name: Upload release link-check report
         if: always()
@@ -137,6 +100,7 @@ jobs:
           name: lychee-release-report
           path: |
             ./lychee/predeploy-out.md
+            ./lychee/predeploy-public.md
             ./lychee/predeploy-report.md
           if-no-files-found: ignore
 

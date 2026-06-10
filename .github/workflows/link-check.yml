@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       simulate_broken_link:
-        description: "Inject one intentional broken live URL to verify issue creation"
+        description: "Inject one intentional broken exported URL to verify issue creation"
         required: false
         default: false
         type: boolean
@@ -45,9 +45,12 @@ jobs:
         id: report_context
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.simulate_broken_link }}" = "true" ]; then
             echo "title=Broken links report - manual verification" >> "$GITHUB_OUTPUT"
             echo "mode=manual verification" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "title=Broken links report - on-demand" >> "$GITHUB_OUTPUT"
+            echo "mode=on-demand check" >> "$GITHUB_OUTPUT"
           else
             echo "title=Broken links report - scheduled" >> "$GITHUB_OUTPUT"
             echo "mode=scheduled check" >> "$GITHUB_OUTPUT"
@@ -67,7 +70,7 @@ jobs:
             </head>
             <body>
               <p>This page exists only to verify broken-link issue creation.</p>
-              <a href="https://mindoff.work/__link-check-verification__/missing-page/">
+              <a href="/__link-check-verification__/missing-page/">
                 Intentional broken link verification target
               </a>
             </body>
@@ -113,6 +116,8 @@ jobs:
           EOF
           fi
 
+          sed "s|file://${GITHUB_WORKSPACE}/out|https://mindoff.work|g" ./lychee/out.md > ./lychee/out-public.md
+
           {
             echo "# Broken links detected during ${{ steps.report_context.outputs.mode }}"
             echo
@@ -122,27 +127,16 @@ jobs:
             if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.simulate_broken_link }}" = "true" ]; then
               echo "Verification mode: enabled"
               echo
-              echo "This run intentionally injected one fake broken live URL so the GitHub issue path could be tested safely."
+              echo "This run intentionally injected one fake broken exported URL so the GitHub issue path could be tested safely."
               echo
             fi
             echo "If the report below looks incomplete, open the **Run Lychee** step in this run for full details."
             echo
-            cat ./lychee/out.md
+            cat ./lychee/out-public.md
           } > ./lychee/out-report.md
 
-      - name: Check whether report has broken-link details
-        if: steps.lychee.outcome == 'failure'
-        id: scheduled_report
-        shell: bash
-        run: |
-          if grep -Eq '\[(ERROR|TIMEOUT|UNKNOWN)\]' ./lychee/out.md; then
-            echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Create or update broken links issue
-        if: steps.lychee.outcome == 'failure' && steps.scheduled_report.outputs.has_broken_links == 'true'
+        if: steps.lychee.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -175,6 +169,7 @@ jobs:
           name: lychee-daily-report
           path: |
             ./lychee/out.md
+            ./lychee/out-public.md
             ./lychee/out-report.md
           if-no-files-found: ignore
 

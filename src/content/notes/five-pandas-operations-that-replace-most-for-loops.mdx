@@ -279,5 +279,3 @@ result = (
 The mental model doesn't change as complexity grows. More tables get merged in. More conditions get handled with `np.where`. More calculation stages get isolated into `.pipe()` functions. The operations compose, and composability is what makes this teachable beyond the person who built it.
 
 You don't need to master all of pandas to work this way. You need to understand how to think about tables, and to recognise that every for loop over rows is a question worth asking: is there a column operation that does this instead?
-
-The story behind where this methodology came from, and the production scale it was tested at, starts [here](/notes/how-i-replaced-for-loops-with-vectorized-pandas).
