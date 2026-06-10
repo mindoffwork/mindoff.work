@@ -5,6 +5,6 @@ max_cache_age = "1d"
 accept = ["200..=204", "429"]
 fallback_extensions = ["html"]
 index_files = ["index.html"]
-include_fragments = "full"
+include_fragments = true
 base_url = "https://mindoff.work"
 include_mail = false
