@@ -46,10 +46,11 @@ jobs:
 
       - name: Run Lychee
         id: lychee
+        continue-on-error: true
         uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fail: false
+          fail: true
           jobSummary: true
           format: markdown
           output: lychee/out.md
@@ -59,10 +60,20 @@ jobs:
             --root-dir "${{ github.workspace }}/out"
             out
 
-      - name: Append run link to scheduled report
-        if: steps.lychee.outputs.exit_code != 0
+      - name: Prepare scheduled broken-links report
+        if: steps.lychee.outcome == 'failure'
         shell: bash
         run: |
+          mkdir -p lychee
+          if [ ! -s ./lychee/out.md ]; then
+            cat > ./lychee/out.md <<'EOF'
+          # Broken links detected during scheduled check
+
+          Lychee reported a failure, but the generated markdown summary was empty.
+          Open the linked Actions run and inspect the **Run Lychee** step for the full per-link output.
+          EOF
+          fi
+
           {
             echo
             echo "---"
@@ -73,7 +84,7 @@ jobs:
           } >> ./lychee/out.md
 
       - name: Create or update broken links issue
-        if: steps.lychee.outputs.exit_code != 0
+        if: steps.lychee.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -87,7 +98,7 @@ jobs:
           fi
 
       - name: Close broken links issue when healthy
-        if: steps.lychee.outputs.exit_code == 0
+        if: steps.lychee.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -106,3 +117,9 @@ jobs:
           name: lychee-daily-report
           path: ./lychee/out.md
           if-no-files-found: ignore
+
+      - name: Mark scheduled check failed when broken links are found
+        if: steps.lychee.outcome == 'failure'
+        run: |
+          echo "Broken links detected in scheduled check."
+          exit 1
