@@ -79,6 +79,7 @@ jobs:
             echo "---"
             echo
             echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "Checked at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             echo
             echo "If the summary below is too compact, open the **Run Lychee** step in that run for the full per-link log."
           } >> ./lychee/out.md
@@ -88,7 +89,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Automated broken links report"
+          title="Broken links report – scheduled"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
@@ -102,7 +103,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Automated broken links report"
+          title="Broken links report – scheduled"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
