@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import sharp from "sharp";
 
 const noteCoversDirectory = path.join(process.cwd(), "public", "images", "notes");
 
@@ -9,6 +8,22 @@ const webpOptions = {
   quality: 82,
 };
 
+async function loadSharp() {
+  try {
+    const module = await import("sharp");
+    return module.default;
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown sharp loading error.";
+
+    console.warn(
+      `Skipping note-cover optimization because sharp is unavailable: ${message}`,
+    );
+
+    return null;
+  }
+}
+
 async function optimizeNoteCovers() {
   await fs.mkdir(noteCoversDirectory, { recursive: true });
 
@@ -16,6 +31,17 @@ async function optimizeNoteCovers() {
   const pngFiles = sourceFiles.filter(
     (file) => file.isFile() && file.name.endsWith(".png"),
   );
+
+  if (pngFiles.length === 0) {
+    console.log("Optimized 0 note cover(s) to WebP.");
+    return;
+  }
+
+  const sharp = await loadSharp();
+
+  if (!sharp) {
+    return;
+  }
 
   await Promise.all(
     pngFiles.map(async (file) => {
