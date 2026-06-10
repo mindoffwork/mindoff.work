@@ -15,8 +15,37 @@ type PageMetadataInput = {
   image?: string;
 };
 
+export function normalizePagePath(pathname: string) {
+  if (!pathname.startsWith("/")) {
+    pathname = `/${pathname}`;
+  }
+
+  if (pathname === "/") {
+    return pathname;
+  }
+
+  const [pathWithoutHash, hash = ""] = pathname.split("#", 2);
+  const [pathWithoutQuery, query = ""] = pathWithoutHash.split("?", 2);
+  const lastSegment = pathWithoutQuery.split("/").filter(Boolean).at(-1) ?? "";
+  const hasFileExtension = /\.[a-z0-9]+$/iu.test(lastSegment);
+
+  if (hasFileExtension || pathWithoutQuery.endsWith("/")) {
+    return pathname;
+  }
+
+  const normalizedPath = `${pathWithoutQuery}/`;
+  const querySuffix = query ? `?${query}` : "";
+  const hashSuffix = hash ? `#${hash}` : "";
+
+  return `${normalizedPath}${querySuffix}${hashSuffix}`;
+}
+
 export function absoluteUrl(pathname: string) {
   return new URL(pathname, siteUrl).toString();
+}
+
+export function absolutePageUrl(pathname: string) {
+  return absoluteUrl(normalizePagePath(pathname));
 }
 
 export function createPageMetadata({
@@ -25,7 +54,7 @@ export function createPageMetadata({
   path,
   image = defaultOgImage,
 }: PageMetadataInput): Metadata {
-  const url = absoluteUrl(path);
+  const url = absolutePageUrl(path);
   const imageUrl = absoluteUrl(image);
 
   return {

@@ -10,10 +10,10 @@ import { Tag } from "@/components/ui/tag";
 import { getAllProjects, getProject } from "@/lib/content";
 import {
   absoluteUrl,
+  absolutePageUrl,
   createPageMetadata,
   getPostOgImage,
   organizationId,
-  siteUrl,
 } from "@/lib/metadata";
 
 type ProjectPostPageProps = {
@@ -40,7 +40,7 @@ function formatProjectDate(date: string) {
 }
 
 function getProjectJsonLd(post: NonNullable<ReturnType<typeof getProject>>) {
-  const projectUrl = `${siteUrl}/projects/${post.slug}`;
+  const projectUrl = absolutePageUrl(`/projects/${post.slug}`);
   const projectImage = absoluteUrl(getPostOgImage(post.covers?.[0]));
   const baseSchema = {
     "@context": "https://schema.org",

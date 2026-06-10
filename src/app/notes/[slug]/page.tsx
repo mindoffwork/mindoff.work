@@ -10,11 +10,11 @@ import { Tag } from "@/components/ui/tag";
 import { getAllNotes, getNote } from "@/lib/content";
 import {
   absoluteUrl,
+  absolutePageUrl,
   createPageMetadata,
   getPostOgImage,
   organizationId,
   siteTitle,
-  siteUrl,
 } from "@/lib/metadata";
 
 type NotePostPageProps = {
@@ -74,7 +74,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   const publishedDate = formatPublishedDate(post.date);
   const readingMinutes = getReadingMinutes(post.content);
-  const noteUrl = `${siteUrl}/notes/${post.slug}`;
+  const noteUrl = absolutePageUrl(`/notes/${post.slug}`);
   const noteImage = absoluteUrl(getPostOgImage(post.cover));
   const noteSurfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"

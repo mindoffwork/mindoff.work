@@ -1,5 +1,5 @@
 import { getAllNotes, getAllProjects } from "@/lib/content";
-import { siteDescription, siteUrl } from "@/lib/metadata";
+import { absolutePageUrl, siteDescription, siteUrl } from "@/lib/metadata";
 
 export const dynamic = "force-static";
 
@@ -15,7 +15,7 @@ function escapeXml(value: string) {
 function getPostUrl(post: ReturnType<typeof getAllProjects>[number] | ReturnType<typeof getAllNotes>[number]) {
   const collection = "status" in post ? "projects" : "notes";
 
-  return `${siteUrl}/${collection}/${post.slug}`;
+  return absolutePageUrl(`/${collection}/${post.slug}`);
 }
 
 export function GET() {
