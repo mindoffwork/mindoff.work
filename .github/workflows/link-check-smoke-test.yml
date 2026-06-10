@@ -22,9 +22,9 @@ jobs:
           cat > smoke-test/broken-links.md <<'EOF'
           # Link Check Smoke Test
           
-          This workflow intentionally includes a broken URL to verify the notification path.
+          This workflow intentionally includes a broken local link to verify the notification path.
           
-          - https://example.com/mindoff-link-check-smoke-test-404
+          - [Broken local page](./missing-page.html)
           EOF
 
       - name: Run Lychee smoke test
@@ -38,6 +38,7 @@ jobs:
           output: lychee/smoke-test-out.md
           args: >
             --verbose
+            --root-dir smoke-test
             smoke-test/broken-links.md
 
       - name: Append run link to smoke-test report
