@@ -96,7 +96,7 @@ jobs:
         id: release_report
         shell: bash
         run: |
-          if grep -q '\[ERROR\]' ./lychee/predeploy-out.md || grep -q '^| ' ./lychee/predeploy-out.md; then
+          if grep -q '^### Errors in ' ./lychee/predeploy-out.md || grep -q '^\* \[[0-9A-Z]' ./lychee/predeploy-out.md; then
             echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
