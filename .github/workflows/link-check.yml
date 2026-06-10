@@ -47,42 +47,40 @@ jobs:
       - name: Run Lychee
         id: lychee
         continue-on-error: true
-        uses: lycheeverse/lychee-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fail: true
-          jobSummary: true
-          format: markdown
-          output: lychee/out.md
-          args: >
-            --config .lychee.toml
-            --verbose
-            --root-dir "${{ github.workspace }}/out"
-            out
+        shell: bash
+        run: |
+          mkdir -p lychee
+          set +e
+          docker run --rm \
+            -v "$PWD:/work" \
+            -w /work \
+            ghcr.io/lycheeverse/lychee:latest \
+            --config .lychee.toml \
+            --verbose \
+            --root-dir /work/out \
+            out > ./lychee/out.txt 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit 1
+          fi
 
       - name: Prepare scheduled broken-links report
         if: steps.lychee.outcome == 'failure'
         shell: bash
         run: |
-          mkdir -p lychee
-          if [ ! -s ./lychee/out.md ]; then
-            cat > ./lychee/out.md <<'EOF'
-          # Broken links detected during scheduled check
-
-          Lychee reported a failure, but the generated markdown summary was empty.
-          Open the linked Actions run and inspect the **Run Lychee** step for the full per-link output.
-          EOF
-          fi
-
           {
-            echo
-            echo "---"
+            echo "# Broken links detected during scheduled check"
             echo
             echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
             echo "Checked at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             echo
-            echo "If the summary below is too compact, open the **Run Lychee** step in that run for the full per-link log."
-          } >> ./lychee/out.md
+            echo "Lychee exited with status `${{ steps.lychee.outputs.status }}`."
+            echo
+            echo "```text"
+            cat ./lychee/out.txt
+            echo "```"
+          } > ./lychee/out.md
 
       - name: Create or update broken links issue
         if: steps.lychee.outcome == 'failure'
@@ -116,7 +114,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lychee-daily-report
-          path: ./lychee/out.md
+          path: |
+            ./lychee/out.md
+            ./lychee/out.txt
           if-no-files-found: ignore
 
       - name: Mark scheduled check failed when broken links are found
