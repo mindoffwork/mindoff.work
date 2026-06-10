@@ -83,7 +83,7 @@ function CodePre({ children, "data-language": language, ...props }: CodePreProps
       <pre
         {...props}
         data-language={language}
-        className="overflow-x-auto bg-panel p-4 text-size-sm text-ink [&_span]:text-[var(--shiki-light)] [[data-theme=dark]_&_span]:text-[var(--shiki-dark)]"
+        className="overflow-x-auto bg-panel p-4 text-size-sm text-ink [&_span]:text-(--shiki-light) [[data-theme=dark]_&_span]:text-(--shiki-dark)"
       >
         {children}
       </pre>
