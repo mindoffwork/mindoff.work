@@ -18,7 +18,7 @@ After [rebuilding calculation engines](/notes/how-i-replaced-for-loops-with-vect
 
 I needed a way to bring engineers into this way of thinking without overwhelming them with pandas' full surface area. The mental model I landed on was deliberately narrow. Four operations. It's held up across every data-heavy project I've used it on since.
 
-This post walks through all four with a neutral example that makes the pattern easy to see — the methodology generalises well beyond any specific domain.
+This post walks through all four with a neutral example that makes the pattern easy to see, the methodology generalises well beyond any specific domain.
 
 ## The mental model
 
@@ -67,7 +67,7 @@ products = pd.DataFrame({
 })
 ```
 
-Goal: final amount per order — line item totals summed, tier discount applied, shipping cost added based on total weight.
+Goal: final amount per order. Line item totals summed, tier discount applied, shipping cost added based on total weight.
 
 ## 1. Merge: replacing the per-row lookup
 
@@ -84,7 +84,7 @@ orders_full = (
 
 Four tables, one chain, no loop. Every row now carries customer tier, item quantity, unit price, and product weight alongside each other. From here, every calculation works on the assembled result rather than fetching data per row.
 
-If you've worked with SQL, this is a `JOIN`. If you haven't: for each row in the left table, find the row in the right table where the key matches and stitch them together. The default is an inner join, which keeps only rows with matches on both sides — usually what you want for lookups.
+If you've worked with SQL, this is a `JOIN`. If you haven't: for each row in the left table, find the row in the right table where the key matches and stitch them together. The default is an inner join, which keeps only rows with matches on both sides, which is usually what you want for lookups.
 
 ## 2. Column math: replacing per-row calculation
 
@@ -142,11 +142,11 @@ order_summary = (
 )
 ```
 
-`groupby` splits the DataFrame by the key columns. `agg` applies aggregation functions to each group simultaneously. The result has one row per order. This is the reduce: taking multiple rows down to fewer through aggregation. Multiple columns aggregate in the same pass — no second scan required.
+`groupby` splits the DataFrame by the key columns. `agg` applies aggregation functions to each group simultaneously. The result has one row per order. This is the reduce: taking multiple rows down to fewer through aggregation. Multiple columns aggregate in the same pass, no second scan required.
 
 ## 4. Pivot: reshaping rows into columns
 
-Sometimes you need a breakdown by category as separate columns rather than a summed total — useful when different categories drive different downstream logic. A loop would build a dictionary per order. Pivot does it in one operation.
+Sometimes you need a breakdown by category as separate columns rather than a summed total, particularly useful when different categories drive different downstream logic. A loop would build a dictionary per order. Pivot does it in one operation.
 
 ```python
 category_spend = (
@@ -168,9 +168,9 @@ category_spend.columns.name = None
 2     O103       0.0       29.98
 ```
 
-Each category becomes its own column. Merge this into `order_summary` and you can apply category-specific logic — different handling for heavy goods versus light items — as column operations rather than conditional loops.
+Each category becomes its own column. Merge this into `order_summary` and you can apply category-specific logic (different handling for heavy goods versus light items) as column operations rather than conditional loops.
 
-### 🧮 When calculations have multiple dependent stages 
+### 🧮 When calculations have multiple dependent stages
 
 Real pipelines often have stages that depend on previous ones: you can't compute shipping until you have the total weight; you can't compute the final amount until you have both the discounted subtotal and the shipping cost. The `.pipe()` method chains these stages cleanly. Each stage is a pure function that receives a DataFrame and returns it enriched.
 
@@ -208,7 +208,7 @@ result = (
 )
 ```
 
-Each function does one thing. Later stages can depend on columns added by earlier ones. When a business rule changes — a new tier added, a shipping threshold adjusted — only the relevant function changes. The rest of the pipeline is untouched. That kind of isolation is nearly free with `.pipe()` and hard to achieve cleanly inside a monolithic loop.
+Each function does one thing. Later stages can depend on columns added by earlier ones. When a business rule changes (a new tier added, a shipping threshold adjusted) only the relevant function changes. The rest of the pipeline is untouched. That kind of isolation is nearly free with `.pipe()` and hard to achieve cleanly inside a monolithic loop.
 
 ## 5. Filter: scoping before you compute
 
@@ -240,11 +240,11 @@ result['final_amount'] = result.apply(
 
 For anything expressible with column math, `apply` is significantly slower. At 1,000 rows the difference might not matter. At 100,000 rows it's the difference between a pipeline that ships and one that doesn't. Use it only when no column-math alternative exists, and treat those places as candidates for future replacement.
 
-Polars has the same escape hatch: `map_elements`. Same caution applies. Both are loops with better marketing. How to spot hidden loops in pandas and Polars — including ones that don't look like `apply` at all — is the subject of the next post in this series.
+Polars has the same escape hatch: `map_elements`. Same caution applies. Both are loops with better marketing. How to spot hidden loops in pandas and Polars (including ones that don't look like `apply` at all) is the subject of the next post in this series.
 
-## The four operations, assembled
+## The five operations, assembled
 
-With merge, groupby/aggregate, pivot, and column math, the full order calculation runs without a single Python loop over rows:
+With merge, groupby/aggregate, pivot, column math, and filter, the full order calculation runs without a single Python loop over rows:
 
 ```python
 # 1. Assemble

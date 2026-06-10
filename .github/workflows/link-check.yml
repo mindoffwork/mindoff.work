@@ -1,0 +1,86 @@
+name: Link Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 2 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: link-check
+  cancel-in-progress: false
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID || secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: link-check-lychee-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            link-check-lychee-${{ runner.os }}-${{ github.ref_name }}-
+            link-check-lychee-${{ runner.os }}-
+
+      - name: Run Lychee
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail: false
+          jobSummary: true
+          format: markdown
+          output: lychee/out.md
+          args: >
+            --config .lychee.toml
+            --root-dir "${{ github.workspace }}/out"
+            out
+
+      - name: Create or update broken links issue
+        if: steps.lychee.outputs.exit_code != 0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Automated broken links report"
+          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            gh issue edit "$issue_number" --title "$title" --body-file ./lychee/out.md
+          else
+            gh issue create --title "$title" --body-file ./lychee/out.md
+          fi
+
+      - name: Close broken links issue when healthy
+        if: steps.lychee.outputs.exit_code == 0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Automated broken links report"
+          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            gh issue comment "$issue_number" --body "The scheduled broken-links check passed in run $GITHUB_RUN_ID, so this report is being closed automatically."
+            gh issue close "$issue_number"
+          fi

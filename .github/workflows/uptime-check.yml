@@ -1,0 +1,95 @@
+name: Uptime Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 2 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: uptime-check
+  cancel-in-progress: false
+
+jobs:
+  uptime:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check production endpoints
+        id: uptime
+        shell: bash
+        run: |
+          set +e
+
+          endpoints=(
+            "https://mindoff.work/"
+            "https://mindoff.work/projects/"
+            "https://mindoff.work/notes/"
+            "https://mindoff.work/rss.xml"
+            "https://mindoff.work/sitemap.xml"
+            "https://mindoff.work/robots.txt"
+          )
+
+          report="## Uptime check failures"$'\n'
+          failures=0
+
+          for url in "${endpoints[@]}"; do
+            http_code="$(curl -L --silent --show-error --output /dev/null --write-out "%{http_code}" --max-time 30 "$url" || true)"
+
+            if [[ ! "$http_code" =~ ^[23] ]]; then
+              failures=$((failures + 1))
+              report+="- $url returned HTTP $http_code"$'\n'
+            fi
+          done
+
+          if [ "$failures" -gt 0 ]; then
+            {
+              echo "exit_code=1"
+              echo "report<<EOF"
+              echo "$report"
+              echo
+              echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+              echo "Checked at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "exit_code=0" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update uptime issue
+        if: steps.uptime.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          title="Automated uptime alert"
+          printf '%s\n' "${{ steps.uptime.outputs.report }}" > uptime-report.md
+          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            gh issue edit "$issue_number" --title "$title" --body-file uptime-report.md
+          else
+            gh issue create --title "$title" --body-file uptime-report.md
+          fi
+
+      - name: Close uptime issue when healthy
+        if: steps.uptime.outputs.exit_code == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          title="Automated uptime alert"
+          issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            gh issue comment "$issue_number" --body "The scheduled uptime check passed in run $GITHUB_RUN_ID, so this alert is being closed automatically."
+            gh issue close "$issue_number"
+          fi
+
+      - name: Fail workflow on uptime issue
+        if: steps.uptime.outputs.exit_code != '0'
+        run: exit 1

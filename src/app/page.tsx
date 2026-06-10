@@ -226,7 +226,7 @@ function NoteFeatureRow({
 
 export default function Home() {
   const featuredProjects = getAllProjects().slice(0, 2);
-  const recentNotes = getAllNotes().slice(0, 2);
+  const recentNotes = getAllNotes().slice(0, 4);
 
   return (
     <div className="flex flex-col">

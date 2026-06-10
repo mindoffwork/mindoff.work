@@ -23,7 +23,7 @@ After building a payroll calculation engine and then a tax calculation engine, b
 
 ## What both engines had in common
 
-The [payroll engine](/notes/how-i-replaced-for-loops-with-vectorized-pandas) required a vectorized calculation core, a batching layer to manage memory under concurrent load, a job queue with a concurrency semaphore, and a polling interface for long-running asynchronous jobs. The tax calculation engine, which handled income tax with slab-based calculations, surcharge, marginal relief, and exemption comparisons across multiple components, required all of the same infrastructure, plus a modular pipeline architecture where each calculation stage was isolated and composable.
+The payroll engine I developed required a [vectorized calculation core](/notes/how-i-replaced-for-loops-with-vectorized-pandas), a batching layer to manage memory under concurrent load, a job queue with a concurrency semaphore, and a polling interface for long-running asynchronous jobs. The tax calculation engine, which handled income tax with slab-based calculations, surcharge, marginal relief, and exemption comparisons across multiple components, required all of the same infrastructure, plus a modular pipeline architecture where each calculation stage was isolated and composable.
 
 The domain logic was different. The infrastructure underneath was nearly identical.
 
@@ -51,12 +51,12 @@ The library packages what two years of financial engine work made reusable. The 
 
 The goal was to remove the infrastructure tax as a problem. A team building a data-intensive Django application should start with the floor already present and spend their time on the logic that makes their product specific.
 
-[django-mindoff is on GitHub](https://github.com/mindoffwork/django-mindoff). The documentation covers how to get started. This post, and the two before it, cover why it was built the way it was.
+django-mindoff is open sourced on [GitHub](https://github.com/mindoffwork/django-mindoff). The [documentation](https://django.mindoff.work/latest-release/) covers how to get started.
 
 ## What I'd tell someone starting the same kind of project
 
 The payroll and tax engines both worked, held up under production load, and were maintained by teams who hadn't written any of the original code. None of that happened by accident. It happened because the methodology (think in columns not records, design for memory not just speed, make each calculation stage independently testable) held up at the scale and complexity those engines reached.
 
-That methodology is the thing worth carrying forward. The specific tools will evolve. Pandas was the right choice at one point. Polars is the more defensible choice now. What doesn't change is the underlying thinking: data is a set of columns that transform in stages, and every part of your architecture should reflect that.
+That methodology is the thing worth carrying forward. The specific tools will evolve. Pandas was the right choice at one point. Polars is the more defensible choice now. Something else will be a better choice in future. What doesn't change is the underlying thinking: data is a set of columns that transform in stages, and every part of your architecture should reflect that.
 
-If you're starting a project with similar requirements, the [technical walkthrough of the merge-and-reduce approach](/notes/five-pandas-operations-that-replace-most-for-loops) is the most practically useful place to begin. The two posts before this one give you the full story of where that approach was tested. What you build on top of it is up to you.
+If you're starting a project with similar requirements, the [technical walkthrough of the merge-and-reduce approach](/notes/five-pandas-operations-that-replace-most-for-loops) is the most practically useful place to begin. What you build on top of it is up to you.
