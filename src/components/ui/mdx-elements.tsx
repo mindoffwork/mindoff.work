@@ -147,7 +147,7 @@ export const mdxComponents: MDXComponents = {
   a: (props) => (
     <a
       {...props}
-      className="rounded-sm text-ink underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
+      className="rounded-sm text-ink underline decoration-muted underline-offset-4 transition-colors duration-fast ease-standard hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule"
     />
   ),
   code: ({ className, ...props }) =>

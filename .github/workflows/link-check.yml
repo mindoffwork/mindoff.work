@@ -2,6 +2,12 @@ name: Link Check
 
 on:
   workflow_dispatch:
+    inputs:
+      simulate_broken_link:
+        description: "Inject one intentional broken live URL to verify issue creation"
+        required: false
+        default: false
+        type: boolean
   schedule:
     - cron: "30 2 * * *"
 
@@ -34,6 +40,39 @@ jobs:
 
       - name: Build static export
         run: npm run build
+
+      - name: Set report context
+        id: report_context
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "title=Broken links report - manual verification" >> "$GITHUB_OUTPUT"
+            echo "mode=manual verification" >> "$GITHUB_OUTPUT"
+          else
+            echo "title=Broken links report - scheduled" >> "$GITHUB_OUTPUT"
+            echo "mode=scheduled check" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Inject verification broken link
+        if: github.event_name == 'workflow_dispatch' && inputs.simulate_broken_link == true
+        shell: bash
+        run: |
+          mkdir -p out/__link-check-verification__
+          cat > out/__link-check-verification__/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>Broken Link Verification</title>
+            </head>
+            <body>
+              <p>This page exists only to verify broken-link issue creation.</p>
+              <a href="https://mindoff.work/__link-check-verification__/missing-page/">
+                Intentional broken link verification target
+              </a>
+            </body>
+          </html>
+          EOF
 
       - name: Restore lychee cache
         uses: actions/cache@v4
@@ -75,22 +114,28 @@ jobs:
           fi
 
           {
-            echo "# Broken links detected during scheduled check"
+            echo "# Broken links detected during ${{ steps.report_context.outputs.mode }}"
             echo
             echo "Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
             echo "Checked at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
             echo
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.simulate_broken_link }}" = "true" ]; then
+              echo "Verification mode: enabled"
+              echo
+              echo "This run intentionally injected one fake broken live URL so the GitHub issue path could be tested safely."
+              echo
+            fi
             echo "If the report below looks incomplete, open the **Run Lychee** step in this run for full details."
             echo
             cat ./lychee/out.md
           } > ./lychee/out-report.md
 
-      - name: Check whether scheduled report has broken-link details
+      - name: Check whether report has broken-link details
         if: steps.lychee.outcome == 'failure'
         id: scheduled_report
         shell: bash
         run: |
-          if grep -q '^### Errors in ' ./lychee/out.md || grep -q '^\* \[[0-9A-Z]' ./lychee/out.md; then
+          if grep -Eq '\[(ERROR|TIMEOUT|UNKNOWN)\]' ./lychee/out.md; then
             echo "has_broken_links=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_broken_links=false" >> "$GITHUB_OUTPUT"
@@ -101,7 +146,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report - scheduled"
+          title="${{ steps.report_context.outputs.title }}"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
@@ -115,11 +160,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="Broken links report - scheduled"
+          title="${{ steps.report_context.outputs.title }}"
           issue_number="$(gh issue list --state open --search "\"$title\" in:title" --json number,title --jq "map(select(.title == \"$title\")) | .[0].number")"
 
           if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
-            gh issue comment "$issue_number" --body "The scheduled broken-links check passed in run $GITHUB_RUN_ID, so this report is being closed automatically."
+            gh issue comment "$issue_number" --body "The ${{ steps.report_context.outputs.mode }} passed in run $GITHUB_RUN_ID, so this report is being closed automatically."
             gh issue close "$issue_number"
           fi
 
