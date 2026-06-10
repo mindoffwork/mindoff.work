@@ -102,7 +102,7 @@
 <loc>https://mindoff.work/tags/open-source/</loc>
 </url>
 <url>
-<loc>https://mindoff.work/tags/django%20%26%20rest%20framework/</loc>
+<loc>https://mindoff.work/tags/django-rest-framework/</loc>
 </url>
 <url>
 <loc>https://mindoff.work/tags/docstrings/</loc>
@@ -162,7 +162,10 @@
 <loc>https://mindoff.work/tags/pytest/</loc>
 </url>
 <url>
-<loc>https://mindoff.work/tags/test%20driven%20development/</loc>
+<loc>https://mindoff.work/tags/tdd/</loc>
+</url>
+<url>
+<loc>https://mindoff.work/tags/test-driven-development/</loc>
 </url>
 <url>
 <loc>https://mindoff.work/tags/cheat-sheet/</loc>
