@@ -1,4 +1,4 @@
-export const projectTypes = ["python package", "hardware"] as const;
+export const projectTypes = ["python package", "web app", "hardware"] as const;
 export const projectStatuses = ["active", "archived"] as const;
 export const noteTypes = ["field note", "story", "guide", "snap"] as const;
 

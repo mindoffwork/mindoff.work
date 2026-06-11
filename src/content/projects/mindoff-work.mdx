@@ -1,0 +1,137 @@
+---
+title: Mindoff Weblog
+date: 2025-12-10
+tags:
+  - nextjs
+  - mdx
+  - web
+  - design
+type: web app
+summary: A personal publishing site rebuilt around static files, MDX, and GitHub Pages — designed to stay available and low-maintenance without a server or a database.
+purpose: >-
+  Most personal publishing setups either rely on third-party platforms that add
+  friction for readers, or on self-hosted systems that quietly accumulate
+  maintenance overhead. mindoff.work was rebuilt to sidestep both: a static,
+  open site where writing and project records can survive without tending.
+color: "#F7EC87"
+covers:
+  - /images/projects/mindoffwork_weblog/mindoffwork-weblog-cover1.png
+  - /images/projects/mindoffwork_weblog/mindoffwork-weblog-cover2.png
+github: "https://github.com/mindoffwork/mindoff.work"
+productUrl: "https://mindoff.work/"
+status: active
+---
+
+## Brief
+
+mindoff.work is a personal site for publishing projects, notes, and practical knowledge. It is a home for technical writing, project records, and field notes that do not belong inside social feeds or locked behind platform accounts. The site was rebuilt and redesigned in 2026 to be simpler, quieter, and sustainable without a running server or a deployment pipeline to tend. The [About page](/about) carries the human introduction behind the work.
+
+## The problem
+
+The previous version worked, but it asked for more attention than a blog should. It ran across two repositories: one for content storage, one for the Next.js webapp. A Python script called `spreadjsoninator.py` read post metadata from an Excel workbook, exported JSON files for every section of the site, and converted Markdown into component-aware HTML blocks. The webapp consumed those generated files through server functions, with GitHub API integration for project cards and a custom rendering system on top.
+
+The conversion pipeline ran in three stages. Raw Markdown was pre-processed first to replace any bare Gist URLs with `<script>` tags. The `markdown` library then rendered the modified text into HTML. BeautifulSoup walked that HTML element by element and classified each node into a typed JSON block: `text` for article content, `img` for standalone images, `script` for embedded Gists. The frontend mapped each block type to a matching React component rather than injecting raw HTML directly.
+
+```python
+def replace_gist_links(md_text):
+    return re.sub(r"^\s*(https://gist\.github\.com/[^\s]+)\s*$",
+                  lambda m: f'<script id="gist" src="{m.group(1).replace("https://gist.github.com/", "")}"></script>',
+                  md_text, flags=re.MULTILINE)
+
+def generate_json_from_html(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    elements = []
+    current_html_content = ""
+    for el in soup.contents:
+        if el.name == 'script':
+            if current_html_content:
+                elements.append({"name": "text", "content": current_html_content.strip()})
+                current_html_content = ""
+            elements.append({"name": "script", "content": "gist", "link": el.get('src', '')})
+        elif el.name == 'p' and len(el.contents) == 1 and el.img:
+            if current_html_content:
+                elements.append({"name": "text", "content": current_html_content.strip()})
+                current_html_content = ""
+            elements.append({"name": "img", "content": el.img.get('alt', ''), "link": el.img.get('src', '')})
+        else:
+            current_html_content += str(el).replace('\n', '').strip()
+    if current_html_content:
+        elements.append({"name": "text", "content": current_html_content.strip()})
+    return json.dumps(elements, indent=4)
+```
+
+The output was a JSON array where each block carried a `name` and `content`, and the React frontend rendered each name as a distinct component. It was a working abstraction for component-driven Markdown rendering before MDX made the same problem largely disappear. The full script is at [gist.github.com/mindoffwork/](https://gist.github.com/mindoffwork/fd856068cd113127432c43a79c7f6b57).
+
+That architecture made sense as a learning exercise. Treating content as structured data and rendering it through a controlled frontend was a technically sound idea. But it created a list of things to keep alive: two repos, generated JSON in sync, environment variables, GCP deployments running in Docker, and old URL paths that could not quietly break.
+
+None of that overhead was justified for a personal publishing space.
+
+## Approach
+
+### Collapsing the architecture
+
+The rebuild moved everything into a single Next.js repository. Content lives in `src/content` as MDX files with typed frontmatter. The site reads them at build time, generates static pages, emits a sitemap and RSS feed, and exports plain HTML files. GitHub Pages serves those files. No running server, no database, no cloud deployment.
+
+Switching from GCP with Docker to GitHub Pages cut hosting costs to the domain name alone. There is no runtime infrastructure to keep healthy.
+
+### Choosing MDX over a structured content pipeline
+
+The previous system paired `.md` files with `.json` metadata and a separate build script to tie them together. The rebuild replaced all of that with MDX files that carry both content and frontmatter in one place.
+
+The practical difference was immediate. Reviewing a post after months away no longer required opening a spreadsheet, checking a JSON file, and cross-referencing the Markdown. The content is just there, readable and editable in a single file. MDX provides enough structure for typed frontmatter and component embedding without any external tooling.
+
+### Redesigning alongside the rebuild
+
+![Original concept: mobile app interface with dark-outlined illustrations, colorful category tabs, and dense card grids](/images/projects/mindoffwork_weblog/mindoffwork-weblog-old-concept-mobile.png)
+![Original concept: desktop layout showing the same app-like visual language](/images/projects/mindoffwork_weblog/mindoffwork-weblog-old-concept-desktop.png)
+
+The original concept treated the site as a content app. Mobile layouts used bold, dark-outlined illustrations for post covers, vibrant category tabs, dense card grids, and section labels like "Popular Now" and "Featured for you." It was built around the logic of a publishing platform: pull readers in, give them filters, surface trending content. The visual language matched that intent: high contrast, defined edges, busy with color and structure.
+
+That direction was dropped not because it was poorly executed, but because it described the wrong thing. A content app is built to retain attention. A personal publishing space is built to offer something useful and then step aside.
+
+![Current design: desktop homepage with fawn background, minimal icon navigation, and large serif wordmark](/images/projects/mindoffwork_weblog/mindoffwork-weblog-new-design.png)
+
+The redesign moved in the opposite direction. Dark outlines gave way to open whitespace on a warm fawn surface. Colorful illustrated cards were replaced with typographic content surfaces. Category tabs and section labels disappeared; navigation collapsed into a minimal icon rail. The yellow accent carried forward from the original, but it now works more quietly: a highlight under "Off.work" in the wordmark and the background tile behind the "m" icon.
+
+The homepage moves directly into projects and notes without a landing page detour. Projects and notes follow separate rhythms: projects carry purpose statements, covers, tags, and build records; notes are lighter, suited to essays and observations. Both preserve context around the work rather than only showing polished surfaces.
+
+The color palette was chosen to hit three things at once: contrast, simplicity, and a specific mood. Fawn and black give strong readability without the clinical coldness of pure white backgrounds. The warm yellow does not soften that contrast so much as it warms the temperature of the whole surface. The reference point for that combination was the Loki series: a palette that reads as retrofuturist, pulling from the warmth of mid-century print while feeling sharp and intentional rather than nostalgic. The fawn surface feels aged in the best way, the yellow is slightly too saturated to feel vintage, and together they land somewhere between a 1960s design manual and a modern editorial publication. Retro in feeling, clean in execution.
+
+The shift can be stated simply: from defined to open. A defined style draws boundaries around everything. An open style trusts the content to occupy the space.
+
+### The logo
+
+The wordmark has a yellow block covering "MIN," a direct signal toward the site's core principle. Minimalism is not incidental to mindoff.work; it is the operating idea, and the logo encodes that without explanation.
+
+The icon is an abstract "M" rather than a pictorial mark, and that choice carries a specific intention. A pictorial icon requires building recognition around an invented image, which is the work of branding. This site is not a brand.
+
+The distinction is worth stating plainly. When you build a product, you brand it: you create a visual identity designed to compete for attention, build recall, and signal something about the category you occupy. The logo does market work. A contribution space has a different goal. It does not need to compete; it needs to be identifiable. Recognition should come through the writing and projects, not through a polished mark that asks to be remembered. Using a legible, familiar letter instead of an invented symbol keeps that hierarchy intact. The work is the identity. The logo is just the label.
+
+## Key challenges
+
+The harder part of this rebuild was recognizing the habit being broken.
+
+Working full-time in environments with proper databases, content pipelines, and multi-service architectures makes those patterns feel natural, even necessary. When building something for personal use, the instinct was to reach for the same scale. The old version reflected that: a genuinely structured publishing system, just one that was larger than the purpose needed.
+
+The shift to MDX forced a different question: what is the minimum structure that makes this easy to write for and easy to review over time? The answer turned out to be a frontmatter schema and a build step, nothing more. Getting there required consciously setting aside professional habits that were not relevant at this scope.
+
+## What was built
+
+- **Static publishing:** Next.js App Router with static export and trailing-slash routes, hosted on GitHub Pages
+- **Local content model:** MDX files with typed frontmatter for projects and notes, no external CMS
+- **Project records:** purpose statements, tinted project surfaces, covers, tags, statistics, and build notes
+- **Notes:** essays and snapshots with optional cover art, reading layouts, tags, RSS, and sitemap coverage
+- **Open access:** no platform lock-in, reader account gate, or pay-to-read layer
+- **Zero-runtime hosting:** static files at domain cost only, no server to maintain
+- **Operational checks:** build, link checking, uptime monitoring, and release automation
+- **Design system:** minimal navigation, fawn and yellow brand language, dark mode, and responsive reading surfaces
+
+## Outcome
+
+The site is live at [mindoff.work](https://mindoff.work). Hosting costs dropped to the domain name after removing GCP and Docker from the stack. Content is stored in source-controlled text files, so the site can remain available without active maintenance.
+
+The repository is public at [github.com/mindoffwork/mindoff.work](https://github.com/mindoffwork/mindoff.work). It is open for reference: the intended use is for developers to pull patterns and ideas into their own setups, not to clone and deploy it wholesale.
+
+## Learnings
+
+Professional habits are not always portable. At work, thinking in full environments, structured content pipelines, and multi-service boundaries makes sense because the problem genuinely has that scale. Applied to a personal blog, the same instincts create overhead that works against the purpose. Minimalism here was not about using fewer tools as an aesthetic choice. It was about matching the architecture to what the project actually needed, and being willing to recognize when the simpler path was the better one.
