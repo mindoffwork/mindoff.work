@@ -23,11 +23,14 @@ export async function generateMetadata({
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
 
-  return createPageMetadata({
-    title: `${decodedTag} | ${siteTitle}`,
-    description: `Posts tagged ${decodedTag} on mindoff.work.`,
-    path: `/tags/${encodeURIComponent(decodedTag)}`,
-  });
+  return {
+    ...createPageMetadata({
+      title: `${decodedTag} | ${siteTitle}`,
+      description: `Posts tagged ${decodedTag} on mindoff.work.`,
+      path: `/tags/${encodeURIComponent(decodedTag)}`,
+    }),
+    robots: { index: false, follow: false },
+  };
 }
 
 export default async function TagPage({ params }: TagPageProps) {
