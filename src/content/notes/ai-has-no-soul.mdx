@@ -1,0 +1,69 @@
+---
+title: AI Has No Soul
+date: 2026-04-01
+tags:
+  - ai
+  - quality
+  - engineering
+  - craft
+type: reflection
+summary: AI can write the code, generate the art, and pass the demo. What it cannot do is leave something of itself in the work. That gap shows up in the parts of a product users actually feel.
+color: "#E5D9E4"
+cover: /images/notes/ai-has-no-soul.png
+---
+
+A connection sent me a product to review earlier this year. Built entirely with AI, in two months, by a single developer. That alone was enough to take seriously.
+
+The demo was clean. The core flows worked. I could see the effort that went into shaping it.
+
+Then I ran branch coverage tests. 🫠
+
+## The Pen Analogy
+
+What I found wasn't an AI problem. It was a guidance problem. Multi-level code duplication that a single cleanup instruction to the agent would have eliminated. Edge cases that any senior developer would have caught sitting uncovered. An architecture that worked for the demo path and quietly unraveled everywhere else.
+
+This is not the AI's fault. A pen doesn't make handwriting bad. It carries the hand that holds it.
+
+The product reflected the developer's experience level, not an inherent limitation of AI-generated code. Someone with sharper engineering instincts, asking better questions of the same tools, would have produced a different outcome. The soul of what gets built still belongs to whoever is doing the building. AI just makes the gap between a careful builder and a careless one more visible, faster.
+
+That product would have failed in an enterprise environment. Not because it was AI-generated. Because the person directing the AI hadn't yet developed the instincts to know what they weren't asking for.
+
+## The Open World Problem
+
+Rockstar's open world games are smaller than some of their competitors' maps. Red Dead Redemption 2 is significantly outsized by games using procedurally generated or tiled assets. And yet it's the one people return to, the one they explore slowly, the one that still has active discussions years after release.
+
+The reason isn't technical. It's that every corner of that world was put there by someone who thought about it. A stranger you encounter on a trail has a reason to be there. A town has a history you can piece together if you look. The density isn't in the square kilometers. It's in the attention paid per square meter.
+
+Contrast that with an open world built by copying and tiling assets across a large map. For a game like PUBG, where the map is a backdrop for player-driven combat, this is completely fine. Exploration isn't the point. The map is a container. But for a game where the world itself is supposed to reward curiosity, a player who moves slowly will eventually feel the pattern. The emptiness doesn't come from the size. It comes from the absence of someone who cared about what you'd find there.
+
+AI-generated open worlds are already being built using procedural tools inside Unreal Engine. A first-time player might be genuinely impressed. A more experienced one will feel something is off before they can say what. That gap between impressive and alive is where the soul lives.
+
+## Naturally Imperfect
+
+Van Gogh painted the Starry Night in 1889, a year into his stay at a psychiatric hospital in southern France. The swirling motion in the sky, the texture of the brushwork, none of it was designed to look that way. It emerged from a specific person in a specific state at a specific moment in time.
+
+An AI model today can generate a visually similar image in seconds. Both might stop a stranger in a gallery. Only one is worth over $100 million, and it's not because the brushwork is technically superior. It's because one of them carries something from the person who made it, and the other doesn't.
+
+There's a useful distinction here between natural imperfection and deliberate imperfection. Human work is naturally imperfect. The irregularities weren't planned. They came from the reality of a hand, a state of mind, a choice made in real time under constraints no one designed. When AI produces irregular output, it's either an error or an engineered effect that simulates irregularity. The difference is fundamental. Simulated imperfection is still just precision in disguise. It can look the same. It doesn't feel the same, not to anyone paying close attention.
+
+This is the leather shoe versus the synthetic one. The leather shoe marks your foot, ages with you, develops a patina that reflects how you actually walk. The synthetic one is consistent and disposable. Both keep your feet off the ground. Only one is something you hold onto.
+
+There is a counter worth taking seriously. AI can be instructed to produce human-seeming imperfections: a layout with subtle asymmetry, a texture with engineered variation, a line with the slight tremor of a real hand. Some products already do this deliberately, and on certain surfaces it is technically indistinguishable from the real thing.
+
+The problem is not the imperfection. It is that there is no story behind it. A worn edge on a leather shoe marks a specific day, a long walk, a habit in how you move. A simulated worn edge was placed there by a prompt. Both look the same in a photograph. Only one carries memory. The human-made imperfection is a record of something that actually happened. The AI-made imperfection is a signal engineered to trigger the feeling that something happened. That distinction is subtle now. It may not stay subtle.
+
+## What This Means for Software
+
+Applications that humans interact with directly carry the developer's attention in ways that are hard to quantify but easy to feel.
+
+The smoothness of a transition. The way an error message talks to you instead of at you. The layout that never makes you think about where to look. These things come from a developer who imagined being on the other side of the screen and made a thousand small decisions based on that. They don't come from a generation pass.
+
+Code that no user ever touches is a different category. Internal tooling, data pipelines, test suites, batch jobs: these have a job to do and a measure of success that is binary. Did it run? Did it pass? Was the output correct? AI is well-suited to this work precisely because the work doesn't need to feel like anything. It just needs to be right.
+
+The split matters. AI-generated infrastructure behind a hand-crafted user-facing product is a reasonable combination. An entirely generated product that a real person is supposed to feel something using is the synthetic shoe: functional, forgettable, and replaceable the moment something better comes along.
+
+> What you hand-craft, you own. What you generate, you deploy.
+
+The products people return to, the ones they trust with their time or their money, are the ones where someone was clearly present in the making of them. AI can accomplish the task. It can make money if that's the only requirement. But it cannot leave itself behind in the work. Only you can do that.
+
+Where this ultimately lands is not something anyone can call. Every product earns its place through the market that accepts it and the users willing to stay. Whether humanity will broadly recognize and reward the soul in hand-crafted work, or gradually accept a convincing simulation as close enough, is genuinely open. The market majority hasn't decided yet. That verdict is still being written.

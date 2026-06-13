@@ -78,7 +78,7 @@ export default function AboutPage() {
           <p>
             I share it in the open because ideas are more useful when others
             can learn from them and take them further. If something here helps
-            you build something of your own, that is enough for me.
+            you create something of your own, I am happy for you.
           </p>
           <div
             aria-label="Contact details"

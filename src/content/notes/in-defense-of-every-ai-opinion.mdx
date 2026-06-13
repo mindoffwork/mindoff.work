@@ -1,0 +1,48 @@
+---
+title: In Defense of Every AI Opinion
+date: 2026-06-13
+tags:
+  - ai
+  - software-development
+  - engineering
+type: reflection
+summary: Every position on AI in software development has valid ground. The thing that separates good outcomes from bad ones isn't the position itself. It's whether your product can handle that position's assumptions.
+color: "#D6C8AE"
+cover: /images/notes/in-defense-of-every-ai-opinion.png
+---
+
+A company head posted recently that his developers now write zero lines of code. Half the engineering team had already been let go. He was proud of both facts.
+
+I don't think he's wrong. I also don't think he's right. The more I follow this conversation in tech, the more I notice that being right about AI is almost always a statement about context, not principle.
+
+## The Three Camps
+
+There are roughly three positions people stake out on this.
+
+The first camp believes AI should handle all the code. From a cost lens, this is defensible arithmetic: a $50/month AI tool doing the work of a $5,000/month engineer is a real number. Some companies have shipped entire products this way and it worked. The maximalists aren't delusional. They're optimizing for a metric that sometimes aligns with reality.
+
+The second camp treats AI like a capable but junior developer: useful for execution, not trusted with decisions. The developer defines the architecture, sets the direction, reviews the output. AI handles the known patterns, the boilerplate, the test stubs. This camp tends to produce the most stable results in complex environments because the human still owns the outcome.
+
+The third camp pushes back on AI adoption in development entirely. This gets dismissed as luddism, which undersells it. There are real reasons to refuse. Classified systems with air-gapped infrastructure can't send context to an external model. Critical engineering, where a miscalculation has physical consequences, needs every line understood and owned by a person who can stand behind it in a post-mortem. And there's a craft argument worth taking seriously: hand-crafted goods carry a premium that factory-made equivalents don't, not because they're more efficient, but because the human attention inside them is visible. Software is heading the same direction. A product built line by line by someone who cared will eventually distinguish itself from one that was generated.
+
+## Where Each Camp Breaks Down
+
+The maximalist approach fails when applied to a product that can't absorb the risk. Consider two examples at opposite ends of the spectrum.
+
+A drive-thru ordering system run entirely by AI makes sense. The menu is fixed. The inputs are bounded. If the AI mishears an order, the worst outcome is a wrong burger. No disclosure forms required. Someone hands it back and you try again.
+
+A banking platform is the opposite. The calculations touch real money. Edge cases cascade in ways that aren't always visible in testing. When something goes wrong, someone has to answer for it, not a terms-of-service paragraph but a person. Would you put your savings in a bank that told you the ledger was maintained entirely by AI with no human oversight? The discomfort that question produces is the answer.
+
+The pattern in companies that learn this the hard way is consistent: aggressive AI adoption, workforce reduction, quality slips, emergency re-hiring. The savings weren't savings. They were deferred costs with interest.
+
+The cautious camp rarely fails in principle. It tends to fail in discipline. Developers who have a framework for AI usage but apply it inconsistently end up with the worst of both worlds: manual bottlenecks where AI would save real hours, and unchecked AI output in places it shouldn't be unsupervised.
+
+The no-AI camp risks tipping into performance. Refusing to automate a repetitive internal data pipeline on principle, with no quality argument behind the refusal, is just slower software. "AI-free" as a badge makes sense in specific contexts. As a blanket stance, it's usually more identity than engineering.
+
+## What Actually Decides This
+
+The useful question isn't which camp you belong to. It's: does the AI exposure in this product match the stakes of what's being built?
+
+A system that books appointments can be entirely AI-generated and it's fine. A system that routes emergency calls needs a human at the center, with AI augmenting speed and awareness, not replacing the judgment. An internal data pipeline no customer ever sees can be built by an agent in an afternoon. The user-facing flow that shapes someone's first impression of your product is a different category of decision entirely.
+
+No AI policy captures this cleanly. It requires judgment about which parts of a product can absorb the risk of imperfection and which parts can't. That's harder to write down in a job description. But it's what separates the companies that get this right from the ones quietly trying to re-hire the people they let go.

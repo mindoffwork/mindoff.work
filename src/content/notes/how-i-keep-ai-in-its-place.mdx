@@ -1,0 +1,63 @@
+---
+title: How I Keep AI in Its Place
+date: 2026-04-29
+tags:
+  - ai
+  - workflow
+  - process
+  - software-development
+type: guide
+summary: Not every part of a software build should be handed to AI. Here is the framework I use to decide which parts should, and why getting that line wrong is harder to notice than it sounds.
+color: "#819774"
+cover: /images/notes/how-i-keep-ai-in-its-place.png
+---
+
+Imagine a train network connecting dozens of stations. You decide which trains run, on which routes, at what frequency. The track switching that routes each train to the right platform at the right moment is complex, time-sensitive, and entirely rule-driven. Automating the switches makes obvious sense.
+
+Now remove the people who designed the network. Remove the ones who decided which trains go where and why. Let the AI figure that out too.
+
+That's the version that makes you nervous. And it should.
+
+## The Core Split
+
+My rule for AI in a build fits in one sentence: the parts users touch, I build by hand. The parts users never see, AI can handle.
+
+User-facing code carries attention in ways that show up without announcing themselves. A button that responds exactly right. An error message that doesn't make the user feel stupid. A layout that never requires a second look. These things come from a developer who imagined being on the other side of the screen and made hundreds of small decisions based on that. That imagination isn't something you can prompt into existence. It requires staying present in the build.
+
+Internal code operates on a different contract. A data pipeline, a background job, a test suite, a migration script: these have a job to do and a measure of success that is binary. Did it run? Did it pass? Was the output correct? AI is well-suited to this work because the work itself doesn't need to feel like anything. It just needs to be right.
+
+The inversion I see most often is developers hand-crafting internal tooling no one will notice while letting AI generate the flows that define how real people experience the product. That's not a workflow. It's a mismatch.
+
+## Three Buildings, Three Answers
+
+The right level of AI involvement isn't the same for every build. Here's how I think about it.
+
+If you're building a workshop, a functional space you need but don't need to be proud of, define your requirements, let AI design and build it, test whether it holds up, and move in. The aesthetic doesn't matter. Function does. If it collapses, you rebuild.
+
+If you're building a house to live in, structure matters but not every decision has to be yours. Define where the walls go. Decide the room heights. Then let AI handle the repetitive work: laying out the sections, filling in the known patterns, handling surfaces you won't think about again. Take back control for the finish. You paint. You choose what goes on the walls.
+
+If you're building an art gallery inside that house, you lay it brick by brick. ✋ The time it takes isn't a cost. It's the point. When you move in, the memory of building it comes with it.
+
+Most software products contain all three of these. The skill is knowing which room you're in at any given moment.
+
+## What I Actually Automate
+
+The practical version of this is narrower than it sounds. I automate the repetitive and the boring. That's mostly it.
+
+Boilerplate that follows a known pattern. Test stubs for happy paths. Internal utilities that transform data from one shape to another. Seed scripts. Migration drafts I then review and adjust. Any code where the measure of success is passing a check rather than creating an experience.
+
+What I don't hand to AI: the architecture of a new system, the structure of a component a user will interact with daily, anything where the shape of the decision will constrain everything built downstream. Those get my full attention. Not because AI couldn't generate something that looks right, but because if I didn't make the decision, I don't actually own the system. That gap shows up in production at the worst possible moment.
+
+## The Confidence Test
+
+Before I automate something, I ask one question: would I be comfortable running this in production without reviewing it line by line?
+
+If yes, I let AI build it and I review the output. If no, I build it myself and use AI to check my work.
+
+Back to the train network. Automating the track switching is reasonable if you understand the switching logic well enough to audit what the automation is doing. Automating the network design is reasonable if you have enough domain knowledge to review the design before the trains start running. The automation is only as reliable as the person who commissioned it and understood what they were commissioning.
+
+The goal isn't to use AI as little as possible. It's to use it where you'd catch its mistakes if it made them, and to stay present in the places where a mistake costs more than you can absorb.
+
+> AI amplifies what you bring to it. If you bring clarity, it returns speed. If you bring vagueness, it returns plausible-looking problems.
+
+That's the version I run with. Not a rule about AI. A rule about where my attention is irreplaceable and where it isn't.
