@@ -1,0 +1,55 @@
+name: URL Indexing
+
+on:
+  workflow_run:
+    workflows:
+      - "Deploy to GitHub Pages"
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout root branch
+        uses: actions/checkout@v4
+        with:
+          ref: root
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests google-auth
+
+      - name: Run indexing script
+        env:
+          GOOGLE_INDEXING_SA_KEY: ${{ secrets.GOOGLE_INDEXING_SA_KEY }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          SITE_URL: "https://mindoff.work"
+          SITEMAP_URL: "https://mindoff.work/sitemap.xml"
+          SNAPSHOT_PATH: ".github/snapshots/sitemap-snapshot.json"
+          INDEXING_API_URL: "https://indexing.googleapis.com/v3/urlNotifications:publish"
+          INDEXNOW_API_URL: "https://api.indexnow.org/indexnow"
+          MAX_URLS_PER_RUN: "200"
+        run: python .github/scripts/submit_indexing.py
+
+      - name: Commit updated snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/snapshots/sitemap-snapshot.json
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged — nothing to commit."
+          else
+            git commit -m ":robot: Update sitemap indexing snapshot"
+            git push origin root
+          fi
