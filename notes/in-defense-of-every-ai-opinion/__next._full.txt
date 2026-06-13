@@ -1,0 +1,162 @@
+1:"$Sreact.fragment"
+d:I[63491,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0ev0qm~8f~zhj.js"],"default"]
+:HL["/_next/static/chunks/046co3xzof773.css","style"]
+:HL["/_next/static/chunks/0971r8bh8u~6q.css","style"]
+:HL["/_next/static/media/0072ffd3d40bb4ad-s.p.0reyfjuhygv9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/47fe1b7cd6e6ed85-s.p.0~mcdl10zdfb3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/4b766aa38fdaaae3-s.p.0cbnlo4n.czwi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/829ba4228c966254-s.p.0ub.k0om~_-xi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/8e6fa89aa22d24ec-s.p.0uvzar8hswo3p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/a218039a3287bcfd-s.p.17-1enzs_j91b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/c875c6f5d3e977ac-s.p.0g_ng0t~d_b9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/e2334d715941921e-s.p.12skym0rqknxy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+2:T51a,
+try {
+  var root = document.documentElement;
+  var storedTheme = window.localStorage.getItem("mindoff-theme");
+  var selectedThemeColor = storedTheme === "dark" ? "#080808" : "#faf5ee";
+  var navigationEntry = window.performance
+    ? window.performance.getEntriesByType("navigation")[0]
+    : null;
+
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  if (navigationEntry && navigationEntry.type === "back_forward") {
+    window.location.reload();
+  }
+
+  if (storedTheme === "dark") {
+    root.dataset.theme = "dark";
+    root.style.backgroundColor = "#080808";
+    root.style.colorScheme = "dark";
+  } else if (storedTheme === "light") {
+    delete root.dataset.theme;
+    root.style.backgroundColor = "#faf5ee";
+    root.style.colorScheme = "light";
+  }
+
+  var themeColorElements = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (!themeColorElements.length) {
+    var themeColorElement = document.createElement("meta");
+    themeColorElement.name = "theme-color";
+    document.head.appendChild(themeColorElement);
+    themeColorElements = [themeColorElement];
+  }
+
+  themeColorElements.forEach(function (themeColorElement) {
+    themeColorElement.setAttribute("content", selectedThemeColor);
+  });
+} catch {}
+3:T487,
+html {
+  background: #faf5ee;
+  color-scheme: light;
+}
+
+html[data-fresh-load="true"] body {
+  overflow: hidden;
+}
+
+html[data-theme="dark"] {
+  background: #080808;
+  color-scheme: dark;
+}
+
+html[data-fresh-load="true"] [data-site-shell] {
+  visibility: hidden;
+}
+
+[data-loading-splash] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--color-background, #faf5ee);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash] {
+  background: var(--color-background, #080808);
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash-logo] {
+  background: var(--color-yellow, #f7ec87);
+  border-radius: 2rem;
+}
+
+html[data-fresh-load="true"] [data-loading-splash] {
+  opacity: 1;
+}
+
+[data-loading-splash-logo] {
+  padding: 0.75rem 1rem;
+}
+
+[data-loading-splash] img {
+  width: min(11rem, 45vw);
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  [data-loading-splash-logo] {
+    padding: 1rem 1.25rem;
+  }
+
+  [data-loading-splash] img {
+    width: 12rem;
+  }
+}
+0:{"P":null,"c":["","notes","in-defense-of-every-ai-opinion",""],"q":"","i":false,"f":[[["",{"children":["notes",{"children":[["slug","in-defense-of-every-ai-opinion","d",null],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0971r8bh8u~6q.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0.a7yu7~3gd-z.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0d3shmwh5_nmn.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0vtyzkjy14utb.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"data-fresh-load":"true","lang":"en","className":"poppins_fbdf13a6-module__mgWXbG__variable poltawski_nowy_e84063e9-module__bTqKbW__variable","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","style",null,{"dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}]]}],{"children":["$L8",{"children":["$L9",{"children":["$La",{},null,false,null]},null,false,"$@b"]},null,false,"$@b"]},null,false,null],"$Lc",false]],"m":"$undefined","G":["$d",["$Le","$Lf"]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"zQBiu2w2eKUFfn2BPx9t6"}
+11:I[79520,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],""]
+12:I[26234,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"LoadingExperience"]
+13:I[91976,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"Navbar"]
+14:I[69414,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"ThemeToggle"]
+15:I[39756,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"default"]
+16:I[58298,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/027fp10iced-9.js"],"default"]
+17:I[37457,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"default"]
+18:I[85053,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"SiteLink"]
+1c:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"OutletBoundary"]
+1d:"$Sreact.suspense"
+20:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"ViewportBoundary"]
+22:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"MetadataBoundary"]
+:HL["https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","style"]
+10:["$","style",null,{"children":"\n            html[data-fresh-load=\"true\"] [data-site-shell] {\n              visibility: visible;\n            }\n\n            html[data-fresh-load=\"true\"] [data-loading-splash] {\n              display: none;\n            }\n          "}]
+4:["$","noscript",null,{"children":"$10"}]
+5:["$","link",null,{"href":"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","rel":"stylesheet"}]
+6:["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebSite\",\"@id\":\"https://mindoff.work#website\",\"url\":\"https://mindoff.work\",\"name\":\"mindoff.work\",\"description\":\"Open-source tools, research notes, and product experiments for designing quieter, lighter, more useful ways to work.\",\"inLanguage\":\"en\",\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}},{\"@type\":\"Organization\",\"@id\":\"https://mindoff.work#organization\",\"name\":\"mindoff.work\",\"url\":\"https://mindoff.work\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://mindoff.work/images/brand/MindOff_Logo_Full.png\"},\"sameAs\":[\"https://github.com/mindoffwork\"]}]}"}}]
+7:["$","body",null,{"className":"flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav","children":[[["$","$L11",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-BV9NBRVCEH","strategy":"afterInteractive"}],["$","$L11",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n          window.dataLayer = window.dataLayer || [];\n          function gtag(){dataLayer.push(arguments);}\n          gtag('js', new Date());\n          gtag('config', 'G-BV9NBRVCEH');\n        "}]],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 top-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 bottom-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","$L12",null,{}],["$","div",null,{"className":"flex min-h-screen flex-col pb-nav-mobile lg:pb-0","data-site-shell":"","children":[["$","$L13",null,{}],["$","div",null,{"className":"flex h-nav-logo-mobile items-center justify-end bg-[var(--mobile-theme-control-background,var(--color-canvas))] pr-4 [[data-theme=dark]_&]:bg-[var(--mobile-theme-control-background-dark,var(--color-canvas))] lg:hidden","children":["$","$L14",null,{}]}],["$","main",null,{"className":"flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100","children":["$","$L15",null,{"parallelRouterKey":"children","error":"$16","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/027fp10iced-9.js","async":true}]],"template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"Page Not Found | Mind Off Work"}],["$","section",null,{"aria-labelledby":"error-title","className":"mx-auto flex w-full max-w-reading flex-col items-start gap-10 px-8 py-16 sm:px-6 sm:py-24 lg:py-32","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-muted","children":"404 / Not found"}],["$","div",null,{"className":"flex flex-col gap-5","children":[["$","h1",null,{"className":"font-heading text-size-4xl font-black tracking-title text-ink sm:text-size-5xl","id":"error-title","children":"Page not found."}],["$","p",null,{"className":"max-w-reading font-body text-size-base text-ink","children":"The page you were looking for does not exist or may have moved."}]]}],["$","nav",null,{"aria-label":"Recovery options","className":"flex flex-wrap gap-4 font-heading text-size-sm font-semibold","children":[null,[["$","$L18","/",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-brand text-brand-ink","href":"/","children":"Return home"}],["$","$L18","/projects",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-[var(--color-action-background)] text-ink","href":"/projects","children":"Browse projects"}]]]}]]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"border-t-normal border-rule font-heading text-muted","children":["$","div",null,{"className":"mx-auto flex w-full max-w-shell flex-col gap-8 px-8 py-10 sm:px-6 sm:py-12","children":["$L19","$L1a"]}]}]]}]]}]
+8:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+9:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+a:["$","$1","c",{"children":["$L1b",[["$","script","script-0",{"src":"/_next/static/chunks/0jvrmm.0~joq6.js","async":true,"nonce":"$undefined"}]],["$","$L1c",null,{"children":["$","$1d",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]]}]
+1f:[]
+b:"$W1f"
+c:["$","$1","h",{"children":[null,["$","$L20",null,{"children":"$L21"}],["$","div",null,{"hidden":true,"children":["$","$L22",null,{"children":["$","$1d",null,{"name":"Next.Metadata","children":"$L23"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]
+e:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+f:["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0971r8bh8u~6q.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+24:I[5500,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"Image"]
+19:["$","$L18",null,{"aria-label":"mindoff.work home","className":"mx-auto inline-flex rounded-sm opacity-50 transition-opacity duration-fast ease-standard hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/","children":["$","$L24",null,{"alt":"","className":"h-auto w-28 object-contain grayscale [[data-theme=dark]_&]:invert sm:w-32","height":731,"loading":"eager","sizes":"(min-width: 640px) 8rem, 7rem","src":"/images/brand/MindOff_Logo_Full.png","unoptimized":true,"width":1921}]}]
+1a:["$","div",null,{"className":"flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-size-xs font-medium uppercase tracking-kicker","children":[["$","p",null,{"children":["© ",2026," mindoff.work"]}],["$","nav",null,{"aria-label":"Site information","className":"contents","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/policy","children":"Terms & Privacy"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/rss.xml","children":"RSS"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"https://github.com/mindoffwork","rel":"noreferrer","target":"_blank","children":"GitHub"}]]}]]}]
+25:I[79282,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"LoadingImage"]
+1b:["$","article",null,{"className":"flex w-full flex-col","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"In Defense of Every AI Opinion\",\"description\":\"Every position on AI in software development has valid ground. The thing that separates good outcomes from bad ones isn't the position itself. It's whether your product can handle that position's assumptions.\",\"datePublished\":\"2026-06-13\",\"dateModified\":\"2026-06-13\",\"url\":\"https://mindoff.work/notes/in-defense-of-every-ai-opinion/\",\"mainEntityOfPage\":\"https://mindoff.work/notes/in-defense-of-every-ai-opinion/\",\"image\":\"https://mindoff.work/images/notes/in-defense-of-every-ai-opinion.webp\",\"keywords\":\"ai, software-development, engineering\",\"articleSection\":\"reflection\",\"timeRequired\":\"PT4M\",\"author\":{\"@id\":\"https://mindoff.work#organization\"},\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}}"}}],null,["$","header",null,{"className":"flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-20","style":"$undefined","children":["$","div",null,{"className":"flex w-full max-w-reading flex-col gap-8","children":[["$","div",null,{"className":"flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/notes","children":"Notes"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","time",null,{"dateTime":"2026-06-13","children":"Jun 13, 2026"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","span",null,{"children":[4," min read"]}]]}],["$","h1",null,{"className":"font-heading text-size-5xl font-black tracking-title text-ink","children":"In Defense of Every AI Opinion"}]]}]}],["$","figure",null,{"className":"flex justify-center border-t-normal border-b-normal border-rule px-4 py-12 sm:px-6 sm:py-16 bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]","style":{"--post-color":"#D6C8AE"},"children":["$","$L25",null,{"alt":"","height":1024,"imageClassName":"h-auto w-full max-w-media object-contain rounded-lg","loading":"eager","placeholderClassName":"mx-auto w-1/2 lg:w-1/4","sizes":"(max-width: 1023px) 50vw, 25vw","src":"/images/notes/in-defense-of-every-ai-opinion.webp","unoptimized":true,"width":1536,"wrapperClassName":"mx-auto w-1/2 lg:w-1/4"}]}],["$","div",null,{"className":"mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light","children":["$L26",["$","footer",null,{"className":"mt-12 flex flex-col gap-4 pt-6","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle","children":"Topics Covered"}],["$","div",null,{"className":"flex flex-wrap gap-2","aria-label":"Note tags","children":[["$","span","ai",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"ai"}],["$","span","software-development",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"software-development"}],["$","span","engineering",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"engineering"}]]}]]}]]}]]}]
+21:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#faf5ee","media":"(prefers-color-scheme: light)"}],["$","meta","3",{"name":"theme-color","content":"#080808","media":"(prefers-color-scheme: dark)"}],["$","meta","4",{"name":"color-scheme","content":"light dark"}]]
+27:I[27201,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"IconMark"]
+1e:null
+23:[["$","title","0",{"children":"In Defense of Every AI Opinion | Mind Off Work"}],["$","meta","1",{"name":"description","content":"Every position on AI in software development has valid ground. The thing that separates good outcomes from bad ones isn't the position itself. It's whether your product can handle that position's assumptions."}],["$","link","2",{"rel":"canonical","href":"https://mindoff.work/notes/in-defense-of-every-ai-opinion/"}],["$","link","3",{"rel":"alternate","type":"application/rss+xml","href":"https://mindoff.work/rss.xml"}],["$","meta","4",{"property":"og:title","content":"In Defense of Every AI Opinion | Mind Off Work"}],["$","meta","5",{"property":"og:description","content":"Every position on AI in software development has valid ground. The thing that separates good outcomes from bad ones isn't the position itself. It's whether your product can handle that position's assumptions."}],["$","meta","6",{"property":"og:url","content":"https://mindoff.work/notes/in-defense-of-every-ai-opinion/"}],["$","meta","7",{"property":"og:site_name","content":"mindoff.work"}],["$","meta","8",{"property":"og:image","content":"https://mindoff.work/images/notes/in-defense-of-every-ai-opinion.webp"}],["$","meta","9",{"property":"og:image:width","content":"1200"}],["$","meta","10",{"property":"og:image:height","content":"630"}],["$","meta","11",{"property":"og:image:alt","content":"In Defense of Every AI Opinion | Mind Off Work"}],["$","meta","12",{"property":"og:type","content":"website"}],["$","meta","13",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","14",{"name":"twitter:title","content":"In Defense of Every AI Opinion | Mind Off Work"}],["$","meta","15",{"name":"twitter:description","content":"Every position on AI in software development has valid ground. The thing that separates good outcomes from bad ones isn't the position itself. It's whether your product can handle that position's assumptions."}],["$","meta","16",{"name":"twitter:image","content":"https://mindoff.work/images/notes/in-defense-of-every-ai-opinion.webp"}],["$","meta","17",{"name":"twitter:image:alt","content":"In Defense of Every AI Opinion | Mind Off Work"}],["$","meta","18",{"name":"twitter:image:width","content":"1200"}],["$","meta","19",{"name":"twitter:image:height","content":"630"}],["$","link","20",{"rel":"icon","href":"/favicon.ico?favicon.0qhvdkgcp4.wg.ico","sizes":"48x48","type":"image/x-icon"}],["$","link","21",{"rel":"icon","href":"/icon1.png?icon1.0v.ehyl630u0g.png","sizes":"16x16","type":"image/png"}],["$","link","22",{"rel":"icon","href":"/icon2.png?icon2.0cxqlcr-zwdpc.png","sizes":"32x32","type":"image/png"}],["$","link","23",{"rel":"apple-touch-icon","href":"/apple-icon.png?apple-icon.0q6h-ppk9zc7p.png","sizes":"180x180","type":"image/png"}],["$","$L27","24",{}]]
+26:[["$","p",null,{"children":"A company head posted recently that his developers now write zero lines of code. Half the engineering team had already been let go. He was proud of both facts.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"I don't think he's wrong. I also don't think he's right. The more I follow this conversation in tech, the more I notice that being right about AI is almost always a statement about context, not principle.","className":"my-4 text-size-base text-ink"}],"\n",["$","h2",null,{"children":"The Three Camps","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}],"\n",["$","p",null,{"children":"There are roughly three positions people stake out on this.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The first camp believes AI should handle all the code. From a cost lens, this is defensible arithmetic: a $50/month AI tool doing the work of a $5,000/month engineer is a real number. Some companies have shipped entire products this way and it worked. The maximalists aren't delusional. They're optimizing for a metric that sometimes aligns with reality.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The second camp treats AI like a capable but junior developer: useful for execution, not trusted with decisions. The developer defines the architecture, sets the direction, reviews the output. AI handles the known patterns, the boilerplate, the test stubs. This camp tends to produce the most stable results in complex environments because the human still owns the outcome.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The third camp pushes back on AI adoption in development entirely. This gets dismissed as luddism, which undersells it. There are real reasons to refuse. Classified systems with air-gapped infrastructure can't send context to an external model. Critical engineering, where a miscalculation has physical consequences, needs every line understood and owned by a person who can stand behind it in a post-mortem. And there's a craft argument worth taking seriously: hand-crafted goods carry a premium that factory-made equivalents don't, not because they're more efficient, but because the human attention inside them is visible. Software is heading the same direction. A product built line by line by someone who cared will eventually distinguish itself from one that was generated.","className":"my-4 text-size-base text-ink"}],"\n",["$","h2",null,{"children":"Where Each Camp Breaks Down","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}],"\n",["$","p",null,{"children":"The maximalist approach fails when applied to a product that can't absorb the risk. Consider two examples at opposite ends of the spectrum.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"A drive-thru ordering system run entirely by AI makes sense. The menu is fixed. The inputs are bounded. If the AI mishears an order, the worst outcome is a wrong burger. No disclosure forms required. Someone hands it back and you try again.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"A banking platform is the opposite. The calculations touch real money. Edge cases cascade in ways that aren't always visible in testing. When something goes wrong, someone has to answer for it, not a terms-of-service paragraph but a person. Would you put your savings in a bank that told you the ledger was maintained entirely by AI with no human oversight? The discomfort that question produces is the answer.","className":"my-4 text-size-base text-ink"}],"\n","$L28","\n","$L29","\n","$L2a","\n","$L2b","\n","$L2c","\n","$L2d","\n","$L2e"]
+28:["$","p",null,{"children":"The pattern in companies that learn this the hard way is consistent: aggressive AI adoption, workforce reduction, quality slips, emergency re-hiring. The savings weren't savings. They were deferred costs with interest.","className":"my-4 text-size-base text-ink"}]
+29:["$","p",null,{"children":"The cautious camp rarely fails in principle. It tends to fail in discipline. Developers who have a framework for AI usage but apply it inconsistently end up with the worst of both worlds: manual bottlenecks where AI would save real hours, and unchecked AI output in places it shouldn't be unsupervised.","className":"my-4 text-size-base text-ink"}]
+2a:["$","p",null,{"children":"The no-AI camp risks tipping into performance. Refusing to automate a repetitive internal data pipeline on principle, with no quality argument behind the refusal, is just slower software. \"AI-free\" as a badge makes sense in specific contexts. As a blanket stance, it's usually more identity than engineering.","className":"my-4 text-size-base text-ink"}]
+2b:["$","h2",null,{"children":"What Actually Decides This","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+2c:["$","p",null,{"children":"The useful question isn't which camp you belong to. It's: does the AI exposure in this product match the stakes of what's being built?","className":"my-4 text-size-base text-ink"}]
+2d:["$","p",null,{"children":"A system that books appointments can be entirely AI-generated and it's fine. A system that routes emergency calls needs a human at the center, with AI augmenting speed and awareness, not replacing the judgment. An internal data pipeline no customer ever sees can be built by an agent in an afternoon. The user-facing flow that shapes someone's first impression of your product is a different category of decision entirely.","className":"my-4 text-size-base text-ink"}]
+2e:["$","p",null,{"children":"No AI policy captures this cleanly. It requires judgment about which parts of a product can absorb the risk of imperfection and which parts can't. That's harder to write down in a job description. But it's what separates the companies that get this right from the ones quietly trying to re-hire the people they let go.","className":"my-4 text-size-base text-ink"}]
