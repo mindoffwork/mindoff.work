@@ -116,7 +116,17 @@ export default async function ProjectPostPage({
 
   const projectDate = formatProjectDate(post.date);
   const covers = post.covers ?? [];
+  const projectUrl = absolutePageUrl(`/projects/${post.slug}`);
   const projectJsonLd = getProjectJsonLd(post);
+  const projectBreadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolutePageUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Projects", item: absolutePageUrl("/projects") },
+      { "@type": "ListItem", position: 3, name: post.title, item: projectUrl },
+    ],
+  };
   const projectSurfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
@@ -125,6 +135,7 @@ export default async function ProjectPostPage({
     : getActionButtonClassName("primary");
   return (
     <article className="flex w-full flex-col">
+      <JsonLd data={projectBreadcrumbJsonLd} />
       <JsonLd data={projectJsonLd} />
       <header className="flex justify-center px-8 py-10 sm:px-6 lg:pt-28 lg:pb-24">
         <div className="flex max-w-reading flex-col items-center gap-6 text-center">

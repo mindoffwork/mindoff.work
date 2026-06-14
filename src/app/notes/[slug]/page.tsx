@@ -79,6 +79,15 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
   const noteSurfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
+  const noteBreadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolutePageUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Notes", item: absolutePageUrl("/notes") },
+      { "@type": "ListItem", position: 3, name: post.title, item: noteUrl },
+    ],
+  };
   const noteJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -102,6 +111,7 @@ export default async function NotePostPage({ params }: NotePostPageProps) {
 
   return (
     <article className="flex w-full flex-col">
+      <JsonLd data={noteBreadcrumbJsonLd} />
       <JsonLd data={noteJsonLd} />
       {!post.cover && post.color ? (
         <MobileThemeControlSurface color={post.color} />
