@@ -1,0 +1,30 @@
+---
+title: An Interruption UX Worth Noticing
+date: 2026-06-17
+tags:
+  - ux
+  - product-design
+  - claude-code
+  - developer-tools
+type: snap
+summary: Claude Code's VS Code extension waits until you stop typing before surfacing a permission dialog, then restores your input exactly as you left it. A snap note on what that small decision reveals about interruption UX and user state preservation.
+color: "#C9DED7"
+---
+
+There's a small thing Claude Code does in VS Code that I keep thinking about.
+
+When a long task is running and a permission dialog needs your input, it doesn't just pop up. If you're mid-sentence in the chat input, it waits. It watches for you to stop typing, holds a beat, then surfaces the dialog. When you dismiss it, your text is exactly where you left it: content, cursor position, undo history intact.
+
+![Claude Code dialog appearing after a typing pause, with input preserved on dismiss](/gif/notes/claude_dialog_box_ux_in_action.gif)
+
+*Watch for two things: the dialog holding off while typing is active, and the input box restoring exactly as-is after you answer.*
+
+Nobody required that.
+
+The easy call was to surface the dialog immediately and let whatever you were typing get displaced. Or keep the text but discard the history, which is what most tools do when they bother at all. The harder call was to ask a question most product decisions never reach: *what is the user in the middle of doing, and what do we owe that state?*
+
+The choice to hide the input box when a dialog appears was already justified on its own terms. A variable-height text area plus a dynamic questionnaire with typeable answers in a constrained vertical layout is clutter. Two active input surfaces creates confusion: press Enter and you don't know if you're sending or confirming. Once you commit to hiding the input, you've created an interruption problem. How you answer that problem is where the thoughtfulness shows.
+
+It doesn't cover every edge case. Keyboard shortcuts, cursor movement mid-selection: the behavior doesn't account for all of those. But that's beside the point. Someone asked the question, decided the answer mattered, and shipped something that handles the common case well.
+
+That's most of what attention to detail actually is. Not exhaustive coverage of every possible state. The willingness to notice an edge case, take it seriously, and go one step further than the easy implementation. The UX problem here was created by a design decision that was itself correct. The thoughtful answer to that self-created problem is what makes this worth noticing.

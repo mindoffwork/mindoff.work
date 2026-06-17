@@ -41,17 +41,16 @@ function ProjectTextCard({ post }: { post: ProjectPost }) {
       href={`/projects/${post.slug}`}
     >
       <article
-        className={`flex w-full flex-col justify-between gap-8 p-6 sm:p-8 ${surfaceClassName}`}
+        className={`flex w-full min-h-64 flex-col justify-between gap-10 p-7 sm:min-h-72 sm:p-10 ${surfaceClassName}`}
         style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
-        <div className="flex w-full flex-col gap-4">
-
-          <p className="font-body text-size-sm text-size leading-relaxed text-ink">
+        <div className="flex w-full flex-col gap-5">
+          <p className="max-w-xl font-body text-size-sm leading-relaxed text-ink">
             {post.summary}
           </p>
         </div>
-        <div className="flex items-center justify-between gap-6">
-          <h3 className="font-heading text-size-base font-extrabold leading-tight tracking-title text-ink">
+        <div className="flex items-end justify-between gap-8">
+          <h3 className="font-heading text-size-base font-extrabold leading-snug tracking-title text-ink">
             {post.title}
           </h3>
           <span
@@ -88,7 +87,7 @@ function ProjectImageCard({
     : "bg-canvas";
 
   return (
-    <div className="relative h-full min-h-56 overflow-hidden rounded-lg border-normal border-transparent focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-rule">
+    <div className="relative h-full min-h-64 overflow-hidden rounded-lg border-normal border-transparent focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-rule sm:min-h-72">
       <ExpandableImage
         alt={`Project preview for ${post.title}`}
         buttonLabel={`Expand project image for ${post.title}`}
@@ -137,7 +136,7 @@ function ProjectFeatureRow({
 }) {
   return (
     <div
-      className={`grid gap-4 ${imageFirst ? "md:grid-cols-[7fr_3fr]" : "md:grid-cols-[3fr_7fr]"}`}
+      className={`grid gap-5 sm:gap-6 ${imageFirst ? "md:grid-cols-[7fr_3fr]" : "md:grid-cols-[3fr_7fr]"}`}
     >
       <div className={imageFirst ? "" : "md:order-2"}>
         <ProjectImageCard eager={imageFirst} post={post} />
@@ -176,8 +175,6 @@ function NoteFeatureRow({
   const surfaceClassName = post.color
     ? "bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]"
     : "bg-panel";
-  const hasCover = Boolean(post.cover);
-
   return (
     <SiteLink
       aria-label={`Read note: ${post.title}`}
@@ -185,33 +182,42 @@ function NoteFeatureRow({
       href={`/notes/${post.slug}`}
     >
       <article
-        className={`flex flex-col gap-4 p-5 sm:grid sm:min-h-32 sm:items-center sm:gap-8 sm:p-6 ${
-          hasCover ? "sm:grid-cols-[7rem_1fr_auto]" : "sm:grid-cols-[1fr_auto]"
+        className={`flex flex-col gap-5 p-6 sm:grid sm:min-h-44 sm:items-center sm:gap-x-10 sm:gap-y-5 sm:p-8 ${
+          post.cover
+            ? "sm:grid-cols-[15rem_minmax(0,1fr)_auto]"
+            : "sm:grid-cols-[minmax(0,1fr)_auto] lg:min-h-56 lg:px-10 lg:py-10"
         } ${surfaceClassName}`}
         style={post.color ? { '--post-color': post.color } as CSSProperties : undefined}
       >
-        <div className="flex flex-col gap-3 sm:contents">
-          {post.cover ? (
-            <LoadingImage
-              alt=""
-              height={112}
-              imageClassName="w-full rounded-lg object-cover sm:size-24"
-              loading={eager ? "eager" : "lazy"}
-              placeholderClassName="rounded-lg"
-              sizes="(max-width: 639px) calc(100vw - 2.5rem), 6rem"
-              src={post.cover}
-              unoptimized
-              width={112}
-              wrapperClassName="w-full rounded-lg sm:size-24 sm:shrink-0"
-            />
-          ) : null}
-          <h3 className="font-heading text-size-base sm:text-size-lg font-bold leading-tight tracking-title text-ink">
-            {post.title}
-          </h3>
+        {post.cover ? (
+          <LoadingImage
+            alt=""
+            height={240}
+            imageClassName="w-full rounded-lg object-cover sm:h-60 sm:w-60"
+            loading={eager ? "eager" : "lazy"}
+            placeholderClassName="rounded-lg"
+            sizes="(max-width: 639px) calc(100vw - 3rem), 15rem"
+            src={post.cover}
+            unoptimized
+            width={240}
+            wrapperClassName="w-full rounded-lg sm:h-60 sm:w-60 sm:shrink-0"
+          />
+        ) : null}
+        <div className={`min-w-0 self-center ${post.cover ? "" : "lg:mx-auto lg:max-w-2xl"}`}>
+          <div className="flex min-w-0 flex-col gap-3 sm:gap-4">
+            <h3 className="font-heading text-size-base sm:text-size-lg font-bold leading-snug tracking-title text-ink">
+              {post.title}
+            </h3>
+            <p className="line-clamp-2 max-w-2xl font-body text-size-sm leading-relaxed text-ink/80">
+              {post.summary}
+            </p>
+            <div className="flex items-center gap-4 pt-1 font-heading text-size-xs text-muted">
+              <span className="capitalize">{post.type}</span>
+              <time dateTime={post.date}>{formatNoteDate(post.date)}</time>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center justify-between gap-5 font-body text-size-sm text-ink sm:justify-end">
-          <span className="capitalize">{post.type}</span>
-          <time dateTime={post.date}>{formatNoteDate(post.date)}</time>
+        <div className="flex items-center justify-end pt-1 sm:self-center sm:pt-0">
           <span
             aria-hidden="true"
             className="material-symbols-outlined text-size-2xl leading-none transition-transform duration-fast ease-standard group-hover:translate-x-2"
@@ -230,7 +236,7 @@ function NoteFeatureRow({
 
 export default function Home() {
   const featuredProjects = getAllProjects().slice(0, 2);
-  const recentNotes = getAllNotes().slice(0, 4);
+  const recentNotes = getAllNotes().slice(0, 6);
 
   return (
     <div className="flex flex-col">
