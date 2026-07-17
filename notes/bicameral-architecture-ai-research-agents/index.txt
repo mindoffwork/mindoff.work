@@ -1,0 +1,171 @@
+1:"$Sreact.fragment"
+d:I[63491,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0v~e-fc55mire.js"],"default"]
+:HL["/_next/static/chunks/046co3xzof773.css","style"]
+:HL["/_next/static/chunks/0wjrzpmu7fg7t.css","style"]
+:HL["/_next/static/media/0072ffd3d40bb4ad-s.p.0reyfjuhygv9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/47fe1b7cd6e6ed85-s.p.0~mcdl10zdfb3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/4b766aa38fdaaae3-s.p.0cbnlo4n.czwi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/829ba4228c966254-s.p.0ub.k0om~_-xi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/8e6fa89aa22d24ec-s.p.0uvzar8hswo3p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/a218039a3287bcfd-s.p.17-1enzs_j91b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/c875c6f5d3e977ac-s.p.0g_ng0t~d_b9n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/e2334d715941921e-s.p.12skym0rqknxy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+2:T51a,
+try {
+  var root = document.documentElement;
+  var storedTheme = window.localStorage.getItem("mindoff-theme");
+  var selectedThemeColor = storedTheme === "dark" ? "#080808" : "#faf5ee";
+  var navigationEntry = window.performance
+    ? window.performance.getEntriesByType("navigation")[0]
+    : null;
+
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  if (navigationEntry && navigationEntry.type === "back_forward") {
+    window.location.reload();
+  }
+
+  if (storedTheme === "dark") {
+    root.dataset.theme = "dark";
+    root.style.backgroundColor = "#080808";
+    root.style.colorScheme = "dark";
+  } else if (storedTheme === "light") {
+    delete root.dataset.theme;
+    root.style.backgroundColor = "#faf5ee";
+    root.style.colorScheme = "light";
+  }
+
+  var themeColorElements = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (!themeColorElements.length) {
+    var themeColorElement = document.createElement("meta");
+    themeColorElement.name = "theme-color";
+    document.head.appendChild(themeColorElement);
+    themeColorElements = [themeColorElement];
+  }
+
+  themeColorElements.forEach(function (themeColorElement) {
+    themeColorElement.setAttribute("content", selectedThemeColor);
+  });
+} catch {}
+3:T487,
+html {
+  background: #faf5ee;
+  color-scheme: light;
+}
+
+html[data-fresh-load="true"] body {
+  overflow: hidden;
+}
+
+html[data-theme="dark"] {
+  background: #080808;
+  color-scheme: dark;
+}
+
+html[data-fresh-load="true"] [data-site-shell] {
+  visibility: hidden;
+}
+
+[data-loading-splash] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--color-background, #faf5ee);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash] {
+  background: var(--color-background, #080808);
+}
+
+html[data-theme="dark"][data-fresh-load="true"] [data-loading-splash-logo] {
+  background: var(--color-yellow, #f7ec87);
+  border-radius: 2rem;
+}
+
+html[data-fresh-load="true"] [data-loading-splash] {
+  opacity: 1;
+}
+
+[data-loading-splash-logo] {
+  padding: 0.75rem 1rem;
+}
+
+[data-loading-splash] img {
+  width: min(11rem, 45vw);
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  [data-loading-splash-logo] {
+    padding: 1rem 1.25rem;
+  }
+
+  [data-loading-splash] img {
+    width: 12rem;
+  }
+}
+0:{"P":null,"c":["","notes","bicameral-architecture-ai-research-agents",""],"q":"","i":false,"f":[[["",{"children":["notes",{"children":[["slug","bicameral-architecture-ai-research-agents","d",null],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0wjrzpmu7fg7t.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0.a7yu7~3gd-z.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0d3shmwh5_nmn.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0vtyzkjy14utb.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"data-fresh-load":"true","lang":"en","className":"poppins_fbdf13a6-module__mgWXbG__variable poltawski_nowy_e84063e9-module__bTqKbW__variable","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","style",null,{"dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}]]}],{"children":["$L8",{"children":["$L9",{"children":["$La",{},null,false,null]},null,false,"$@b"]},null,false,"$@b"]},null,false,null],"$Lc",false]],"m":"$undefined","G":["$d",["$Le","$Lf"]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"hKGjf3evTpvFky8aC7hGZ"}
+11:I[79520,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],""]
+12:I[26234,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"LoadingExperience"]
+13:I[91976,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"Navbar"]
+14:I[69414,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"ThemeToggle"]
+15:I[39756,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"default"]
+16:I[58298,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0.t0ht_dpt8ne.js"],"default"]
+17:I[37457,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"default"]
+18:I[85053,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"SiteLink"]
+1c:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"OutletBoundary"]
+1d:"$Sreact.suspense"
+20:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"ViewportBoundary"]
+22:I[97367,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"MetadataBoundary"]
+:HL["https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","style"]
+10:["$","style",null,{"children":"\n            html[data-fresh-load=\"true\"] [data-site-shell] {\n              visibility: visible;\n            }\n\n            html[data-fresh-load=\"true\"] [data-loading-splash] {\n              display: none;\n            }\n          "}]
+4:["$","noscript",null,{"children":"$10"}]
+5:["$","link",null,{"href":"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,0&display=block","rel":"stylesheet"}]
+6:["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebSite\",\"@id\":\"https://mindoff.work#website\",\"url\":\"https://mindoff.work\",\"name\":\"mindoff.work\",\"description\":\"Open-source tools, research notes, and product experiments for designing quieter, lighter, more useful ways to work.\",\"inLanguage\":\"en\",\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}},{\"@type\":\"Organization\",\"@id\":\"https://mindoff.work#organization\",\"name\":\"mindoff.work\",\"url\":\"https://mindoff.work\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://mindoff.work/images/brand/MindOff_Logo_Full.png\"},\"sameAs\":[\"https://github.com/mindoffwork\"]}]}"}}]
+7:["$","body",null,{"className":"flex min-h-screen flex-col bg-canvas pb-nav-mobile font-body text-ink antialiased lg:pb-0 lg:pl-nav","children":[[["$","$L11",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-BV9NBRVCEH","strategy":"afterInteractive"}],["$","$L11",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n          window.dataLayer = window.dataLayer || [];\n          function gtag(){dataLayer.push(arguments);}\n          gtag('js', new Date());\n          gtag('config', 'G-BV9NBRVCEH');\n        "}]],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 top-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","div",null,{"aria-hidden":"true","className":"pointer-events-none fixed inset-x-0 bottom-0 z-frame h-[var(--border-width-normal)] bg-rule"}],["$","$L12",null,{}],["$","div",null,{"className":"flex min-h-screen flex-col pb-nav-mobile lg:pb-0","data-site-shell":"","children":[["$","$L13",null,{}],["$","div",null,{"className":"flex h-nav-logo-mobile items-center justify-end bg-[var(--mobile-theme-control-background,var(--color-canvas))] pr-4 [[data-theme=dark]_&]:bg-[var(--mobile-theme-control-background-dark,var(--color-canvas))] lg:hidden","children":["$","$L14",null,{}]}],["$","main",null,{"className":"flex-1 transition-[opacity,transform] duration-[220ms] ease-standard motion-reduce:transition-none [[data-route-transition=active]_&]:translate-y-1 [[data-route-transition=active]_&]:opacity-90 [[data-route-transition=active]_&]:motion-reduce:translate-y-0 [[data-route-transition=active]_&]:motion-reduce:opacity-100","children":["$","$L15",null,{"parallelRouterKey":"children","error":"$16","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/0.t0ht_dpt8ne.js","async":true}]],"template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"Page Not Found | MindOff"}],["$","section",null,{"aria-labelledby":"error-title","className":"mx-auto flex w-full max-w-reading flex-col items-start gap-10 px-8 py-16 sm:px-6 sm:py-24 lg:py-32","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-muted","children":"404 / Not found"}],["$","div",null,{"className":"flex flex-col gap-5","children":[["$","h1",null,{"className":"font-heading text-size-4xl font-black tracking-title text-ink sm:text-size-5xl","id":"error-title","children":"Page not found."}],["$","p",null,{"className":"max-w-reading font-body text-size-base text-ink","children":"The page you were looking for does not exist or may have moved."}]]}],["$","nav",null,{"aria-label":"Recovery options","className":"flex flex-wrap gap-4 font-heading text-size-sm font-semibold","children":[null,[["$","$L18","/",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-brand text-brand-ink","href":"/","children":"Return home"}],["$","$L18","/projects",{"className":"inline-flex items-center rounded-lg px-5 py-3 font-heading text-size-sm font-semibold transition-shadow duration-fast ease-standard hover:shadow-[inset_0_0_0_9999px_color-mix(in_srgb,var(--color-ink)_6%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule bg-[var(--color-action-background)] text-ink","href":"/projects","children":"Browse projects"}]]]}]]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"border-t-normal border-rule font-heading text-muted","children":["$","div",null,{"className":"mx-auto flex w-full max-w-shell flex-col gap-8 px-8 py-10 sm:px-6 sm:py-12","children":["$L19","$L1a"]}]}]]}]]}]
+8:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+9:["$","$1","c",{"children":[null,["$","$L15",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L17",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+a:["$","$1","c",{"children":["$L1b",[["$","script","script-0",{"src":"/_next/static/chunks/0jvrmm.0~joq6.js","async":true,"nonce":"$undefined"}]],["$","$L1c",null,{"children":["$","$1d",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]]}]
+1f:[]
+b:"$W1f"
+c:["$","$1","h",{"children":[null,["$","$L20",null,{"children":"$L21"}],["$","div",null,{"hidden":true,"children":["$","$L22",null,{"children":["$","$1d",null,{"name":"Next.Metadata","children":"$L23"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]
+e:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/046co3xzof773.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+f:["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0wjrzpmu7fg7t.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+24:I[5500,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"Image"]
+19:["$","$L18",null,{"aria-label":"mindoff.work home","className":"mx-auto inline-flex rounded-sm opacity-50 transition-opacity duration-fast ease-standard hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/","children":["$","$L24",null,{"alt":"","className":"h-auto w-28 object-contain grayscale [[data-theme=dark]_&]:invert sm:w-32","height":731,"loading":"eager","sizes":"(min-width: 640px) 8rem, 7rem","src":"/images/brand/MindOff_Logo_Full.png","unoptimized":true,"width":1921}]}]
+1a:["$","div",null,{"className":"flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-size-xs font-medium uppercase tracking-kicker","children":[["$","p",null,{"children":["© ",2026," mindoff.work"]}],["$","nav",null,{"aria-label":"Site information","className":"contents","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/policy","children":"Terms & Privacy"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/rss.xml","children":"RSS"}],["$","a",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:bg-nav-selection hover:text-ink focus-visible:bg-nav-selection focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"https://github.com/mindoffwork","rel":"noreferrer","target":"_blank","children":"GitHub"}]]}]]}]
+25:I[75852,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"MobileThemeControlSurface"]
+1b:["$","article",null,{"className":"flex w-full flex-col","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https://mindoff.work/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Notes\",\"item\":\"https://mindoff.work/notes/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"The Bicameral Architecture for AI Research Agents\",\"item\":\"https://mindoff.work/notes/bicameral-architecture-ai-research-agents/\"}]}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"The Bicameral Architecture for AI Research Agents\",\"description\":\"An architectural pattern for AI research agents that separates reasoning from arithmetic, so a language model can decide what to look up and how to explain it, but never touches a calculation.\",\"datePublished\":\"2026-07-17\",\"dateModified\":\"2026-07-17\",\"url\":\"https://mindoff.work/notes/bicameral-architecture-ai-research-agents/\",\"mainEntityOfPage\":\"https://mindoff.work/notes/bicameral-architecture-ai-research-agents/\",\"image\":\"https://mindoff.work/images/og-default.png\",\"keywords\":\"ai-agents, system-design, llm, langgraph\",\"articleSection\":\"field note\",\"timeRequired\":\"PT6M\",\"author\":{\"@id\":\"https://mindoff.work#organization\"},\"publisher\":{\"@id\":\"https://mindoff.work#organization\"}}"}}],["$","$L25",null,{"color":"#E4E0D4"}],["$","header",null,{"className":"flex justify-center px-8 py-12 sm:px-6 sm:py-16 lg:pt-24 lg:pb-16 border-b-normal border-rule bg-[var(--post-color)] [[data-theme=dark]_&]:bg-[color-mix(in_oklch,var(--post-color)_var(--surface-tint-dark-weight),var(--color-background))]","style":{"--post-color":"#E4E0D4"},"children":["$","div",null,{"className":"flex w-full max-w-reading flex-col gap-8","children":[["$","div",null,{"className":"flex flex-wrap items-center gap-3 font-heading text-size-sm text-subtle","children":[["$","$L18",null,{"className":"rounded-sm underline decoration-rule underline-offset-4 transition-colors duration-fast ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rule","href":"/notes","children":"Notes"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","time",null,{"dateTime":"2026-07-17","children":"Jul 17, 2026"}],["$","span",null,{"aria-hidden":"true","children":"/"}],["$","span",null,{"children":[6," min read"]}]]}],["$","h1",null,{"className":"font-heading text-size-5xl font-black tracking-title text-ink","children":"The Bicameral Architecture for AI Research Agents"}]]}]}],null,["$","div",null,{"className":"mx-auto w-full max-w-reading px-8 py-12 sm:px-6 sm:py-16 lg:py-20 [&>p:first-child]:mt-0 [&>p:first-child]:mb-12 [&>p:first-child]:font-heading [&>p:first-child]:text-size-lg [&>p:first-child]:font-light","children":["$L26",["$","footer",null,{"className":"mt-12 flex flex-col gap-4 pt-6","children":[["$","p",null,{"className":"font-heading text-size-xs font-semibold uppercase tracking-kicker text-subtle","children":"Topics Covered"}],["$","div",null,{"className":"flex flex-wrap gap-2","aria-label":"Note tags","children":[["$","span","ai-agents",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"ai-agents"}],["$","span","system-design",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"system-design"}],["$","span","llm",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"llm"}],"$L27"]}]]}]]}]]}]
+27:["$","span","langgraph",{"className":"font- inline-flex items-center rounded-full border-normal border-rule bg-panel px-3 py-1 text-size-sm text-muted","children":"langgraph"}]
+21:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#faf5ee","media":"(prefers-color-scheme: light)"}],["$","meta","3",{"name":"theme-color","content":"#080808","media":"(prefers-color-scheme: dark)"}],["$","meta","4",{"name":"color-scheme","content":"light dark"}]]
+28:I[27201,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js"],"IconMark"]
+1e:null
+23:[["$","title","0",{"children":"The Bicameral Architecture for AI Research Agents | MindOff"}],["$","meta","1",{"name":"description","content":"An architectural pattern for AI research agents that separates reasoning from arithmetic, so a language model can decide what to look up and how to explain it, but never touches a calculation."}],["$","link","2",{"rel":"canonical","href":"https://mindoff.work/notes/bicameral-architecture-ai-research-agents/"}],["$","link","3",{"rel":"alternate","type":"application/rss+xml","href":"https://mindoff.work/rss.xml"}],["$","meta","4",{"property":"og:title","content":"The Bicameral Architecture for AI Research Agents | MindOff"}],["$","meta","5",{"property":"og:description","content":"An architectural pattern for AI research agents that separates reasoning from arithmetic, so a language model can decide what to look up and how to explain it, but never touches a calculation."}],["$","meta","6",{"property":"og:url","content":"https://mindoff.work/notes/bicameral-architecture-ai-research-agents/"}],["$","meta","7",{"property":"og:site_name","content":"mindoff.work"}],["$","meta","8",{"property":"og:image","content":"https://mindoff.work/images/og-default.png"}],["$","meta","9",{"property":"og:image:width","content":"1200"}],["$","meta","10",{"property":"og:image:height","content":"630"}],["$","meta","11",{"property":"og:image:alt","content":"The Bicameral Architecture for AI Research Agents | MindOff"}],["$","meta","12",{"property":"og:type","content":"website"}],["$","meta","13",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","14",{"name":"twitter:title","content":"The Bicameral Architecture for AI Research Agents | MindOff"}],["$","meta","15",{"name":"twitter:description","content":"An architectural pattern for AI research agents that separates reasoning from arithmetic, so a language model can decide what to look up and how to explain it, but never touches a calculation."}],["$","meta","16",{"name":"twitter:image","content":"https://mindoff.work/images/og-default.png"}],["$","link","17",{"rel":"icon","href":"/favicon.ico?favicon.0qhvdkgcp4.wg.ico","sizes":"48x48","type":"image/x-icon"}],["$","link","18",{"rel":"icon","href":"/icon1.png?icon1.0v.ehyl630u0g.png","sizes":"16x16","type":"image/png"}],["$","link","19",{"rel":"icon","href":"/icon2.png?icon2.0cxqlcr-zwdpc.png","sizes":"32x32","type":"image/png"}],["$","link","20",{"rel":"apple-touch-icon","href":"/apple-icon.png?apple-icon.0q6h-ppk9zc7p.png","sizes":"180x180","type":"image/png"}],["$","$L28","21",{}]]
+29:I[99873,["/_next/static/chunks/0.a7yu7~3gd-z.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0vtyzkjy14utb.js","/_next/static/chunks/0jvrmm.0~joq6.js"],"MDXImage"]
+26:[["$","p",null,{"children":"Most AI research agents ask you to trust two very different things at once, without ever telling you they're different. One is the model's judgment about what matters: which document to open, which figure to pull, which comparison is relevant. The other is the model's arithmetic about what those figures actually say once you do something with them. Those aren't the same kind of trust, and collapsing them into one is where a lot of otherwise impressive research agents quietly fall apart.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The failure doesn't look like a failure. A language model that gets a CAGR wrong doesn't crash or hedge. It writes the wrong number in a perfectly confident sentence, cited correctly, formatted cleanly, and indistinguishable from a right answer unless someone checks. A confident paragraph with a wrong number in it is worse than no paragraph at all, because it's the version of \"wrong\" that gets acted on.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":"The Bicameral Architecture is a pattern for avoiding that specific failure, built around one rule that everything else in the design exists to enforce: a language model can decide what to look up and how to explain it, but it never does the math.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":["$","$L29",null,{"alt":"Full process flow of the Bicameral Deep Research Engine, showing the orchestration, planning, execution, calculation, and verification layers","height":675,"sizes":"100vw","src":"/images/notes/bicameral-deep-research-hero.jpeg","width":1200}],"className":"my-4 text-size-base text-ink"}],"\n",["$","h2",null,{"children":"Three branches, one government","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}],"\n",["$","p",null,{"children":"The cleanest way to describe this pattern is to borrow the separation-of-powers metaphor directly. Once you see the system as three branches with distinct authority, the rest of the design follows almost mechanically.","className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"The legislative branch drafts the plan.","className":"font-bold text-ink"}]," An orchestration layer and a planning layer turn a raw query into a concrete, reviewable plan before anything expensive runs. This is where a human checkpoint belongs, if you want one. Nothing downstream gets to execute against a plan nobody approved."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"The executive branch carries the plan out.","className":"font-bold text-ink"}]," The research agent itself never gathers evidence directly. It delegates to a bench of specialists, each implementing the same basic contract: take a query, return structured evidence. Web search, document retrieval, page retrieval, API retrieval, internal knowledge stores, image interpretation, whatever the domain calls for. The agent doesn't need to know how any one specialist works internally, only that it answers in the expected shape."],"className":"my-4 text-size-base text-ink"}],"\n",["$","p",null,{"children":[["$","strong",null,{"children":"The judicial branch checks the work.","className":"font-bold text-ink"}]," Nothing reaches a reader until a verification layer has confirmed the sources are real, the links resolve, and the claims are actually supported by what was retrieved. This branch needs real veto power to matter. A failed check should send the work back for correction, not pass it through with a disclaimer attached. A disclaimer is not a fix."],"className":"my-4 text-size-base text-ink"}],"\n","$L2a","\n","$L2b","\n","$L2c","\n","$L2d","\n","$L2e","\n","$L2f","\n","$L30","\n","$L31","\n","$L32","\n","$L33","\n","$L34","\n","$L35","\n","$L36","\n","$L37"]
+2a:["$","h2",null,{"children":"The wall between evidence and arithmetic","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+2b:["$","p",null,{"children":"The piece that makes this pattern more than a nice diagram is what sits between the executive and judicial branches: a calculation layer that is deterministic, testable, and completely separate from the language model.","className":"my-4 text-size-base text-ink"}]
+2c:["$","p",null,{"children":"The mechanism is simple to state and does a lot of work. The research agent never writes a literal number into its output. It writes a placeholder instead, a reference to a value that still needs to be computed. A calculation engine, built on ordinary deterministic operations rather than a model's arithmetic, resolves every placeholder before any synthesis step turns the result into prose. Only after every number is finalized does the model get to write sentences around them.","className":"my-4 text-size-base text-ink"}]
+2d:["$","p",null,{"children":"This is the boundary that lets the architecture make a promise most research agents can't credibly make: every figure in the final output traces back to a documented, repeatable calculation, not a model's best guess at multiplication. It's worth building this as an actual wall rather than a prompt instruction. Telling a model \"don't do math, just describe results\" in a system prompt is a request. A placeholder syntax the model has no other way to satisfy is a constraint. Constraints hold up on bad days. Requests don't.","className":"my-4 text-size-base text-ink"}]
+2e:["$","h2",null,{"children":"Why the specialist-bench pattern matters more than it looks","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+2f:["$","p",null,{"children":"The uniform contract across specialists, take a query, return structured evidence, is easy to treat as a minor implementation detail. It isn't. It's what makes the system modular in a way that actually survives contact with a changing domain.","className":"my-4 text-size-base text-ink"}]
+30:["$","p",null,{"children":"Swap one search provider for another, or add an entirely new capability for a data source nobody anticipated at design time, and nothing else in the system has to change. The research agent and its orchestration layer don't know or care which specific tool answered a given call, only that the answer arrived in the expected shape. New capabilities plug in without a rewrite. Broken ones unplug without taking anything else down. That property doesn't come for free. It comes specifically from refusing to let any specialist have a bespoke interface, even when a bespoke interface would be marginally more convenient for that one specialist.","className":"my-4 text-size-base text-ink"}]
+31:["$","h2",null,{"children":"Where this pattern tends to break if you cut corners","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+32:["$","p",null,{"children":"Two specific failure modes are worth naming, because they're the ones that show up even when the high-level architecture looks right on a diagram.","className":"my-4 text-size-base text-ink"}]
+33:["$","p",null,{"children":"The first is entity contamination. When a system pulls from multiple knowledge stores concurrently, facts about two similarly named entities can bleed into each other, especially under vector-similarity retrieval where \"close enough\" is exactly the property you asked for. The fix is to explicitly anchor one entity per research thread and require anything else to be classified before it's allowed to contribute evidence. Similarity search will happily hand you the wrong company if you don't force that distinction somewhere in the pipeline.","className":"my-4 text-size-base text-ink"}]
+34:["$","p",null,{"children":"The second is the placeholder boundary getting bypassed rather than respected. Even with a calculation wall in place, a model will sometimes find a way to write a plausible-sounding number outside the intended syntax, one that fits the shape of a sentence without ever passing through the calculation engine. The wall stops most fabrication by construction, but it's not automatically airtight. A verification pass that specifically scans finished output for numbers that didn't come through a placeholder is the second layer that catches what the first layer's boundary alone doesn't.","className":"my-4 text-size-base text-ink"}]
+35:["$","h2",null,{"children":"Why the pieces holding this together aren't exotic","className":"mb-4 mt-10 font-heading text-size-xl font-extrabold tracking-title text-ink"}]
+36:["$","p",null,{"children":"Nothing in this pattern is individually novel. Approve a plan before you spend money executing it. Keep facts in durable storage instead of trusting a single conversation's context to remember them correctly. Wall calculation off from generation. Verify independently, at the end, instead of assuming earlier stages caught everything.","className":"my-4 text-size-base text-ink"}]
+37:["$","p",null,{"children":"What makes the combination reliable is that none of these boundaries depend on the model behaving well on any given day. A plan-approval gate doesn't care whether the model is having a good reasoning day. A calculation wall doesn't care whether the model is confident or hedging. A verification pass doesn't trust the model's own account of its work, it checks. That's the actual property worth building toward in any agent architecture that has to be trusted with something real: not a model that never makes mistakes, but a system that stays correct even on the days it does.","className":"my-4 text-size-base text-ink"}]
