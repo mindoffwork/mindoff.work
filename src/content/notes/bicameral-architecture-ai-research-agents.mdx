@@ -1,0 +1,58 @@
+---
+title: "The Bicameral Architecture for AI Research Agents"
+date: 2026-07-17
+tags:
+  - ai-agents
+  - system-design
+  - llm
+  - langgraph
+type: field note
+summary: "An architectural pattern for AI research agents that separates reasoning from arithmetic, so a language model can decide what to look up and how to explain it, but never touches a calculation."
+color: "#E4E0D4"
+---
+
+Most AI research agents ask you to trust two very different things at once, without ever telling you they're different. One is the model's judgment about what matters: which document to open, which figure to pull, which comparison is relevant. The other is the model's arithmetic about what those figures actually say once you do something with them. Those aren't the same kind of trust, and collapsing them into one is where a lot of otherwise impressive research agents quietly fall apart.
+
+The failure doesn't look like a failure. A language model that gets a CAGR wrong doesn't crash or hedge. It writes the wrong number in a perfectly confident sentence, cited correctly, formatted cleanly, and indistinguishable from a right answer unless someone checks. A confident paragraph with a wrong number in it is worse than no paragraph at all, because it's the version of "wrong" that gets acted on.
+
+The Bicameral Architecture is a pattern for avoiding that specific failure, built around one rule that everything else in the design exists to enforce: a language model can decide what to look up and how to explain it, but it never does the math.
+
+![Full process flow of the Bicameral Deep Research Engine, showing the orchestration, planning, execution, calculation, and verification layers](/images/notes/bicameral-deep-research-hero.jpeg)
+
+## Three branches, one government
+
+The cleanest way to describe this pattern is to borrow the separation-of-powers metaphor directly. Once you see the system as three branches with distinct authority, the rest of the design follows almost mechanically.
+
+**The legislative branch drafts the plan.** An orchestration layer and a planning layer turn a raw query into a concrete, reviewable plan before anything expensive runs. This is where a human checkpoint belongs, if you want one. Nothing downstream gets to execute against a plan nobody approved.
+
+**The executive branch carries the plan out.** The research agent itself never gathers evidence directly. It delegates to a bench of specialists, each implementing the same basic contract: take a query, return structured evidence. Web search, document retrieval, page retrieval, API retrieval, internal knowledge stores, image interpretation, whatever the domain calls for. The agent doesn't need to know how any one specialist works internally, only that it answers in the expected shape.
+
+**The judicial branch checks the work.** Nothing reaches a reader until a verification layer has confirmed the sources are real, the links resolve, and the claims are actually supported by what was retrieved. This branch needs real veto power to matter. A failed check should send the work back for correction, not pass it through with a disclaimer attached. A disclaimer is not a fix.
+
+## The wall between evidence and arithmetic
+
+The piece that makes this pattern more than a nice diagram is what sits between the executive and judicial branches: a calculation layer that is deterministic, testable, and completely separate from the language model.
+
+The mechanism is simple to state and does a lot of work. The research agent never writes a literal number into its output. It writes a placeholder instead, a reference to a value that still needs to be computed. A calculation engine, built on ordinary deterministic operations rather than a model's arithmetic, resolves every placeholder before any synthesis step turns the result into prose. Only after every number is finalized does the model get to write sentences around them.
+
+This is the boundary that lets the architecture make a promise most research agents can't credibly make: every figure in the final output traces back to a documented, repeatable calculation, not a model's best guess at multiplication. It's worth building this as an actual wall rather than a prompt instruction. Telling a model "don't do math, just describe results" in a system prompt is a request. A placeholder syntax the model has no other way to satisfy is a constraint. Constraints hold up on bad days. Requests don't.
+
+## Why the specialist-bench pattern matters more than it looks
+
+The uniform contract across specialists, take a query, return structured evidence, is easy to treat as a minor implementation detail. It isn't. It's what makes the system modular in a way that actually survives contact with a changing domain.
+
+Swap one search provider for another, or add an entirely new capability for a data source nobody anticipated at design time, and nothing else in the system has to change. The research agent and its orchestration layer don't know or care which specific tool answered a given call, only that the answer arrived in the expected shape. New capabilities plug in without a rewrite. Broken ones unplug without taking anything else down. That property doesn't come for free. It comes specifically from refusing to let any specialist have a bespoke interface, even when a bespoke interface would be marginally more convenient for that one specialist.
+
+## Where this pattern tends to break if you cut corners
+
+Two specific failure modes are worth naming, because they're the ones that show up even when the high-level architecture looks right on a diagram.
+
+The first is entity contamination. When a system pulls from multiple knowledge stores concurrently, facts about two similarly named entities can bleed into each other, especially under vector-similarity retrieval where "close enough" is exactly the property you asked for. The fix is to explicitly anchor one entity per research thread and require anything else to be classified before it's allowed to contribute evidence. Similarity search will happily hand you the wrong company if you don't force that distinction somewhere in the pipeline.
+
+The second is the placeholder boundary getting bypassed rather than respected. Even with a calculation wall in place, a model will sometimes find a way to write a plausible-sounding number outside the intended syntax, one that fits the shape of a sentence without ever passing through the calculation engine. The wall stops most fabrication by construction, but it's not automatically airtight. A verification pass that specifically scans finished output for numbers that didn't come through a placeholder is the second layer that catches what the first layer's boundary alone doesn't.
+
+## Why the pieces holding this together aren't exotic
+
+Nothing in this pattern is individually novel. Approve a plan before you spend money executing it. Keep facts in durable storage instead of trusting a single conversation's context to remember them correctly. Wall calculation off from generation. Verify independently, at the end, instead of assuming earlier stages caught everything.
+
+What makes the combination reliable is that none of these boundaries depend on the model behaving well on any given day. A plan-approval gate doesn't care whether the model is having a good reasoning day. A calculation wall doesn't care whether the model is confident or hedging. A verification pass doesn't trust the model's own account of its work, it checks. That's the actual property worth building toward in any agent architecture that has to be trusted with something real: not a model that never makes mistakes, but a system that stays correct even on the days it does.
